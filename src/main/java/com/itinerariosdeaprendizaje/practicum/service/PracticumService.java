@@ -23,12 +23,9 @@ public class PracticumService {
 
     public Practicum getPracticum(Integer id) {
         Optional<Practicum> opt = practicumRepository.findById(id);
-        System.out.println(opt);
         if(opt.isPresent()){
-            System.out.println("El practicum no es nulo");
             return opt.get();
         }else{
-            System.out.println("El practicum sí es nulo");
             return null;
         }
     }
@@ -42,15 +39,13 @@ public class PracticumService {
     }
 
     public Practicum modificarItinerariosPracticum(Practicum pract, Itinerario primero, Itinerario ultimo){
-        Practicum practicum = practicumRepository.getReferenceById(pract.getId());
+        Practicum practicum = this.getPracticum(pract.getId());
         if(primero!=null){
-            System.out.println("caso primero != null"+": "+primero);
-            practicum.setPrimerItinerario(primero);}
-        System.out.println("pasamos a comprobar valor de ultimo itinerario");
+            practicum.setPrimerItinerario(primero);
+        }
         if(ultimo!=null){
-            System.out.println("caso primero != null");
-            practicum.setUltimoItinerario(ultimo);}
-        System.out.println("guardamos praticum modificado en BD");
+            practicum.setUltimoItinerario(ultimo);
+        }
         return practicum;
     }
     

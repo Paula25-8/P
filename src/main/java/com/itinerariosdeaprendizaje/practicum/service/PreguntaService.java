@@ -15,7 +15,7 @@ public class PreguntaService {
     @Autowired
     private PreguntaRepository preguntaRepository;
 
-    public List<PreguntaGeneral> getEstacionesPorCurso (String curso){
+    public List<PreguntaGeneral> getPreguntasPorCurso (String curso){
         List<PreguntaGeneral> estaciones=preguntaRepository.findByCurso(curso);
         if(!estaciones.isEmpty()){
             return estaciones;
