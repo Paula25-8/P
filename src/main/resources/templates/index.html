@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" class="h-100" lang="es">
+<head>
+    <title>Inicio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="author" content="Universidad de La Rioja" />
+
+    <!-- Colocamos el favicon a nuestra web -->
+    <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <!-- Material Icons CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+
+</head>
+<body class="d-flex flex-column" >
+    <header th:replace="~{general/header :: cabecera}"></header>
+      <div class="container-fluid d-flex flex-nowrap">
+          <nav th:replace="~{general/sidebar :: menu-lateral}"></nav>
+            <main class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0">
+                <div class="row-auto row-xl-10">
+                    <div class="col-auto px-sm-2 px-2">
+                        <h2 th:text="'Itinerarios de Aprendizaje en el prácticum del grado de '+${grado}" class="fw-bold my-4 mx-1align-items-center text-center"></h2>
+                    </div>
+                </div>
+                <div class="row-auto row-xl-10">
+                    <div class="col-auto px-sm-1 px-2 d-flex justify-content-center">
+                         <img src="images/metroPropio2.png" id="modelItinerario" class="img-fluid mb-5" title="Esta aplicación web facilita los recursos necesarios para la realización y entrega del informe final de prácticas.">
+                    </div>
+                </div>
+            </main>
+      </div>
+    <footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<script src="js/expandir_menu.js"></script>
+</html>
+

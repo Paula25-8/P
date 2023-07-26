@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" class="h-100" lang="es">
+<head>
+  <title>Preguntas generales</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Universidad de La Rioja" />
+
+  <!-- Colocamos el favicon a nuestra web -->
+  <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  <!-- Material Icons CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+  <!-- Hojas de estilo CSS -->
+  <link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+</head>
+<body class="d-flex flex-column">
+  <header th:replace="~{general/header :: cabecera}"></header>
+  <main class="row flex-nowrap container-fluid">
+      <div th:replace="~{general/sidebar :: menu-lateral}"></div>
+      <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0">
+        <div class="row" id="divPreguntas">
+            <!-- Columna preguntas-->
+          <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 px-1 my-3 d-flex flex-column" id="contenedorIconoYPreguntas">
+            <div class="row flex-nowrap container-fluid">
+              <div class="col-12 px-auto d-flex justify-content-center" id="div_M">
+                <img src="images/M-metro.jpg" class="M_metro" >
+              </div>
+            </div>
+            <!-- Subcolumna pregunta 1 y 2-->
+            <div class="row flex-nowrap d-flex align-items-center container-fluid my-1">
+              <div class="col-6" id="colPreg1">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta1">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen1.png" class="rounded float-left" alt="Imagen de pregunta general 1" id="img1">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center border border-info rounded border-3" id="enun1">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[0].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg1}"></div>
+              </div>
+              <div class="col-6" id="colPreg2">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta2">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen2.png" class="rounded" alt="Imagen de pregunta general 2" id="img2">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center border border-danger rounded border-3" id="enun2">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[1].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg2}"></div>
+              </div>
+            </div>
+            <!-- Subcolumna pregunta 3 y 4-->
+            <div class="row flex-nowrap d-flex align-items-center container-fluid my-1">
+              <div class="col-6" id="colPreg3">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta3">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen3.png" class="rounded" alt="Imagen de pregunta general 3" id="img3">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center border border-warning rounded border-3" id="enun3">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[2].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg3}"></div>
+              </div>
+              <div class="col-6" id="colPreg4">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta4">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen4.png" class="rounded" alt="Imagen de pregunta general 4" id="img4">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center" id="enun4">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[4].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg4}"></div>
+              </div>
+            </div>
+            <!-- Subcolumna pregunta 5 y 6-->
+            <div class="row flex-nowrap d-flex align-items-center container-fluid my-1">
+              <div class="col-6" id="colPreg5">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta5">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen5.png" class="rounded" alt="Imagen de pregunta general 5" id="img5">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center" id="enun5">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[4].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg5}"></div>
+              </div>
+              <div class="col-6" id="colPreg6">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta6">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen6.png" class="rounded" alt="Imagen de pregunta general 6" id="img6">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center" id="enun6">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[5].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg6}"></div>
+                <div th:replace="~{popUps/popUps :: popUpSello}"></div>
+              </div>
+            </div>
+            <!-- Subcolumna pregunta 7 y 8-->
+            <div class="row flex-nowrap d-flex align-items-center container-fluid my-1 pb-1">
+              <div class="col-6" id="colPreg7">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta7">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen7.png" class="rounded" alt="Imagen de pregunta general 7" id="img7">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center" id="enun7">
+                    <h5 class="text-center tituloPregunta lh-1"><i th:text="${preguntas[6].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg7}"></div>
+              </div>
+              <div class="col-6 flex-shrink-1" id="colPreg8">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#modalPregunta8">
+                <div class="row">
+                  <div class="col-5 d-flex justify-content-center align-items-center">
+                    <img src="images/imagen8.png" class="rounded" alt="Imagen de pregunta general 8" id="img8">
+                  </div>
+                  <div class="col-7 d-flex justify-content-center align-items-center" id="enun8">
+                    <h5 class="text-center lh-1 tituloPregunta"><i th:text="${preguntas[7].enunciado}"></i></h5>
+                  </div>
+                </div>
+                </button>
+                <div th:replace="~{popUps/popUps :: popUPsImg8}"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Columna foto colores-->
+          <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 d-flex pr-2 justify-content-center" id="divMetroColores">
+              <img src="images/metro_colores.png" class="img-fluid" id="metroColores">
+          </div>
+        </div>
+      </div>
+  </main>
+  <footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<script src="js/popUpsPreguntas.js"></script>
+<script src="js/expandir_menu.js"></script>
+</html>
+

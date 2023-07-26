@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" class="h-100" lang="es">
+<head>
+  <title>Inicio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Universidad de La Rioja" />
+
+  <!-- Colocamos el favicon a nuestra web -->
+  <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  <!-- Material Icons CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+</head>
+<body class="d-flex flex-column h-100">
+<header th:replace="~{general/header :: cabecera}"></header>
+<div class="row flex-nowrap">
+  <div th:replace="~{general/sidebarPrueba :: menu-lateral}"></div>
+  <main class="container h-100"> <!-- overflow-hidden -->
+    <div class="row">
+      <div class="col-auto col-md-11 col-xl-10 px-sm-10 px-10 text-center">
+        <h2 class="fw-bold my-4">Practicum de Grado a través de Itinerarios de Aprendizaje</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md">
+        <p>Ejemplo de página con botones de acceso según roles</p>
+        <nav class="d-grid gap-5 d-sm-flex justify-content-sm-center py-5">
+          <a sec:authorize="hasRole('USER')" th:href="@{/indexprueba}" class="btn btn-primary btn-lg px-4" role="button">
+            Acceso a zona de administración<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">manage_accounts</span>
+          </a>
+          <a sec:authorize="hasAnyAuthority('USER','ADMIN')" th:href="@{/pruebaBootstrap}" class="btn btn-primary btn-lg px-4" role="button">
+            Acceso a zona de gestores<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">manage_accounts</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </main>
+</div>
+<footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+</html>
+

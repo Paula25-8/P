@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" class="h-100" lang="es">
+<head>
+  <title>Modificación de itinerario</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Universidad de La Rioja" />
+
+  <!-- Colocamos el favicon a nuestra web -->
+  <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  <!-- Material Icons CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+  <!-- Hojas de estilo CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+
+</head>
+<body class="d-flex flex-column">
+<header th:replace="~{general/header :: cabecera}"></header>
+<main class="row flex-nowrap container-fluid">
+  <div th:replace="~{general/sidebar :: menu-lateral}"></div>
+  <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0 d-flex justify-content-center">
+    <div class="row flex-nowrap flex-column align-items-center">
+      <div class="col-auto px-sm-2 px-2">
+        <h2 class="fw-bold my-4 mx-1align-items-center text-center">Modificación de itinerario de aprendizaje</h2>
+      </div>
+      <div class="col-12 blockquote">
+        <p class="text-center">Cambia las estaciones de las líneas que quieres modificar de tu itinerario anterior.</p>
+      </div>
+      <form th:action="@{/itinerariosPropios/modificarItinerario/{id}(id=${idItinerario})}" method="POST">
+        <!-- APARTADO DE SELECCION ESTACION DE LINEA 1 -->
+        <div class="col-12">
+          <div class="row d-flex flex-column align-items-start container-fluid my-1 pb-1">
+            <div class="col-12 lineaAprendizaje">
+              <div class="row d-flex flex-nowrap align-items-center">
+                <div th:class="'titulolinea'+${lineas[0].numeroLinea}+'CreacionItir col-11'">
+                  <h4><i class="text-white" th:text="'Línea '+${lineas[0].numeroLinea}+' - '+${lineas[0].titulo}"></i></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-11 px-2 d-flex flex-nowrap container-fluid">
+              <div class="row flex-nowrap container-fluid">
+                <div class="col-6 text-center">
+                  <label th:attr="for='estacionLinea'+${lineas[0].numeroLinea}" class="blockquote">Estación: </label>
+                </div>
+                <div class="col-6 seleccionEstacion">
+                  <select th:attr="name='estacionLinea'+${lineas[0].numeroLinea}" class="form-select selectLineaCreacionItinerario" th:id="'estacionLinea'+${lineas[0].numeroLinea}">
+                    <option selected th:each="estacionPrevia:${estacionesPrevias}" th:if="${estacionPrevia.linea.id==lineas[0].id}" th:readonly="true" th:value="${estacionPrevia.id}" th:text="${estacionPrevia.titulo}" th:class="text-muted"></option>
+                    <option th:each="estacion:${estaciones}" th:if="${estacion.linea.id==lineas[0].id}" th:value="${estacion.id}" th:text="${estacion.titulo}"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row px-5 d-flex flex-nowrap container-fluid align-items-center">
+            <hr class="hr hr-blurry"/>
+          </div>
+        </div>
+        <!-- APARTADO DE SELECCION ESTACION DE LINEA 2 -->
+        <div class="col-12">
+          <div class="row d-flex flex-column align-items-start container-fluid my-1 pb-1">
+            <div class="col-12 lineaAprendizaje">
+              <div class="row d-flex flex-nowrap align-items-center">
+                <div th:class="'titulolinea'+${lineas[1].numeroLinea}+'CreacionItir col-11'">
+                  <h4><i class="text-white" th:text="'Línea '+${lineas[1].numeroLinea}+' - '+${lineas[1].titulo}"></i></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-11 px-2 d-flex flex-nowrap container-fluid">
+              <div class="row flex-nowrap container-fluid">
+                <div class="col-6 text-center">
+                  <label th:attr="for='estacionLinea'+${lineas[1].numeroLinea}" class="blockquote">Estación: </label>
+                </div>
+                <div class="col-6 seleccionEstacion">
+                  <label class="blockquote">Unidad de programación</label>
+                  <select th:attr="name='estacionLinea'+${lineas[1].numeroLinea}" class="form-select selectLineaCreacionItinerario" th:id="'estacionLinea'+${lineas[1].numeroLinea}">
+                    <option selected th:each="estacionPrevia:${estacionesPrevias}" th:if="${estacionPrevia.linea.id==lineas[1].id} and ${!estacionPrevia.titulo.equals('Unidad de programación')}" th:readonly="true" th:value="${estacionPrevia.id}" th:text="${estacionPrevia.titulo}" th:class="text-muted"></option>
+                    <option th:each="estacion:${estaciones}" th:if="${estacion.linea.id==lineas[1].id}" th:value="${estacion.id}" th:text="${estacion.titulo}"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row px-5 d-flex flex-nowrap container-fluid align-items-center">
+            <hr class="hr hr-blurry"/>
+          </div>
+        </div>
+        <!-- APARTADO DE SELECCION ESTACION DE LINEA 3 -->
+        <div class="col-12">
+          <div class="row d-flex flex-column align-items-start container-fluid my-1 pb-1">
+            <div class="col-12 lineaAprendizaje">
+              <div class="row d-flex flex-nowrap align-items-center">
+                <div th:class="'titulolinea'+${lineas[2].numeroLinea}+'CreacionItir col-11'">
+                  <h4><i class="text-white" th:text="'Línea '+${lineas[2].numeroLinea}+' - '+${lineas[2].titulo}"></i></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-11 px-2 d-flex flex-nowrap container-fluid">
+              <div class="row flex-nowrap container-fluid">
+                <div class="col-6 text-center">
+                  <label th:attr="for='estacionLinea'+${lineas[2].numeroLinea}" class="blockquote">Estación: </label>
+                </div>
+                <div class="col-6 seleccionEstacion">
+                  <select th:attr="name='estacionLinea'+${lineas[2].numeroLinea}" class="form-select selectLineaCreacionItinerario" th:id="'estacionLinea'+${lineas[2].numeroLinea}">
+                    <option selected th:each="estacionPrevia:${estacionesPrevias}" th:if="${estacionPrevia.linea.id==lineas[2].id}" th:readonly="true" th:value="${estacionPrevia.id}" th:text="${estacionPrevia.titulo}" th:class="text-muted"></option>
+                    <option th:each="estacion:${estaciones}" th:if="${estacion.linea.id==lineas[2].id}" th:value="${estacion.id}" th:text="${estacion.titulo}"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row px-5 d-flex flex-nowrap container-fluid align-items-center">
+            <hr class="hr hr-blurry"/>
+          </div>
+        </div>
+        <!-- APARTADO DE SELECCION ESTACION DE LINEA 4 -->
+        <div class="col-12">
+          <div class="row d-flex flex-column align-items-start container-fluid my-1 pb-1">
+            <div class="col-12 lineaAprendizaje">
+              <div class="row d-flex flex-nowrap align-items-center">
+                <div th:class="'titulolinea'+${lineas[3].numeroLinea}+'CreacionItir col-11'">
+                  <h4><i class="text-white" th:text="'Línea '+${lineas[3].numeroLinea}+' - '+${lineas[3].titulo}"></i></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-11 px-2 d-flex flex-nowrap container-fluid">
+              <div class="row flex-nowrap container-fluid">
+                <div class="col-6 text-center">
+                  <label th:attr="for='estacionLinea'+${lineas[3].numeroLinea}" class="blockquote">Estación: </label>
+                </div>
+                <div class="col-6 seleccionEstacion">
+                  <select th:attr="name='estacionLinea'+${lineas[3].numeroLinea}" class="form-select selectLineaCreacionItinerario" th:id="'estacionLinea'+${lineas[3].numeroLinea}">
+                    <option th:each="estacionPrevia:${estacionesPrevias}" th:if="${estacionPrevia.linea.id==lineas[3].id}" th:readonly="true" th:value="${estacionPrevia.id}" th:text="${estacionPrevia.titulo}" th:class="text-muted"></option>
+                    <option th:each="estacion:${estaciones}" th:if="${estacion.linea.id==lineas[3].id}" th:value="${estacion.id}" th:text="${estacion.titulo}"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row px-5 d-flex flex-nowrap container-fluid align-items-center">
+            <hr class="hr hr-blurry"/>
+          </div>
+        </div>
+        <div class=" gap-4 d-sm-flex justify-content-sm-center">
+          <button type="submit" class="btn btn-primary mt-2 mb-2">Modificar itinerario</button>
+          <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+        </div>
+      </form>
+    </div>
+    <br>
+  </div>
+</main>
+<footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<script src="/js/expandir_menu.js"></script>
+</html>
+

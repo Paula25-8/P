@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="es">
+    <head>
+        <title>Acceso a la aplicación de Itinerarios de Aprendizaje</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="author" content="Universidad de La Rioja" />
+        <meta name="description" content="Acceso a la aplicación de Contratación del PDI de la Universidad de La Rioja" />
+        <link rel="icon" type="image/x-icon" th:href="@{favicon.ico}" />
+
+        <!-- JQuery (necesario para los plugins con javascript de bootstrap y llamadas ajax -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+        <!-- Colocamos el favicon a nuestra web -->
+        <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+        <!-- Bootstrap CSS and JS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sign-in/signin.css" />
+
+        <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+        <script type="text/javascript" charset="utf-8">
+            //$(document).ready(function () {
+                // Evita que al perder la sesión se pierda la estructura de la página
+              //  if (window.top.location.href.indexOf("[${#httpServletRequest.getContextPath()}]/") === -1) {
+                //    window.top.location.href = window.top.location.href.replace("#", "");
+               // }
+            //});
+
+            // pasamos el username a minúsculas ya que la SpringSecurity es case-insensitive
+            // pero en Principal arrastramos las posibles mayúsculas que puedan haber introducido en el login
+            function usernameToLowerCase() {
+                $("#username").val($("#username").val().toLowerCase());
+            }
+            ;
+        </script>
+    </head>
+    <body class="text-center acceso">
+        <main class="container text-center">
+            <h1 class="mb-3 form-signin-heading">Prácticum de grado</h1>
+            <img th:src="@{/images/logo_ur_portada.png}" alt="Logotipo Universidad de La Rioja" />
+
+            <form class="form-signin" th:action="@{/login}" method="post" onsubmit="javascript:usernameToLowerCase()">
+                <div th:if="${param.error}" class="alert alert-danger">Usuario o contraseña incorrectos</div>
+                <div th:if="${param.accessdenied}" class="alert alert-danger" role="alert">No tiene permisos para acceder a esta página</div>
+                <div th:if="${param.logout} and not ${param.accessdenied}" class="alert alert-success" role="alert">Se ha cerrado sesión correctamente</div>
+
+                <p class="mb-3 form-signin-heading text-start">Utiliza tu cuenta de acceso (CUASI) para acceder al servicio.</p>
+                <p>
+                    <label class="visually-hidden" for="username">Usuario</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" required>
+                </p>
+                <p>
+                    <label class="visually-hidden" for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required>
+                </p>
+                <div class=" gap-4 d-sm-flex justify-content-sm-center">
+                    <button class="w-100 btn btn-primary mt-3" type="submit">Aceptar</button>
+                    <a href="https://www.unirioja.es" class="btn btn-outline-primary w-100 mt-3" role="button">Cancelar</a>
+                </div>
+            </form>
+
+        </main>
+    </body>
+</html>

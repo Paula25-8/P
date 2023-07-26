@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" class="h-100" lang="es">
+<head>
+  <title>Rúbrica de evaluación</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Universidad de La Rioja" />
+
+  <!-- Colocamos el favicon a nuestra web -->
+  <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  <!-- Material Icons CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+  <!-- Hojas de estilo CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+
+  <!-- Importamos JQuery en archivo y debajo el js en el que se va a usar -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="js/mapaMetro.js"></script>
+
+</head>
+<body class="d-flex flex-column">
+<header th:replace="~{general/header :: cabecera}"></header>
+<main class="row flex-nowrap container-fluid">
+  <div th:replace="~{general/sidebar :: menu-lateral}"></div>
+  <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center"> <!-- d-flex -->
+    <div class="row-auto row-xl-10">
+      <div class="col-auto px-sm-2 px-2">
+        <h2 th:text="'Rúbrica de evaluación del '+${tipoTutor}" class="fw-bold my-4 mx-1 align-items-center text-center"></h2>
+      </div>
+    </div>
+      <form method="post"> <!-- AQUI HABRA QUE PROGRAMARLO PARA TUTORES -->
+        <div th:if="${valorarRubrica}" class="d-flex flex-nowrap flex-row justify-content-center my-3">
+          <div class="col-3 px-2">
+            <label for="nombreAlum">Nombre alumno : </label>
+            <input type="text" class="form-control cajaTextoForm" id="nombreAlum">
+          </div>
+          <div class="col-3 px-2">
+            <label for="grado">Grado : </label>
+            <input type="text" class="form-control cajaTextoForm" id="grado">
+          </div>
+          <div class="col-3 px-2">
+            <label for="mencion">Mención : </label>
+            <input type="text" class="form-control cajaTextoForm" id="mencion">
+          </div>
+        </div>
+        <div class="row d-flex justify-content-start">
+           <div class="col-10" id="cajaRubrica">
+            <table class="table" id="tabla_rubrica">
+              <thead class="thead-dark">
+              <tr>
+                <th rowspan="2" width="10%" style="background-color: white; color: black;" valign="middle" class="cajaBlancaRubrica">
+                  <p class="parrafoCelda text-center" align="center">ACTITUD PERSONAL</p></th>
+                <th colspan="5" width="90%" align="center">
+                  <h6 align="center" class="tituloCeldaRubrica">CALIFICACIÓN</h6>
+                </th>
+              </tr>
+              <tr>
+                <th class="celdaGrisRubrica" width="22%" valign="center" th:text="${nivel1}"></th>
+                <th class="celdaGrisRubrica" width="22%" valign="center" th:text="${nivel2}"></th>
+                <th class="celdaGrisRubrica" width="22%" valign="center" th:text="${nivel3}"></th>
+                <th class="celdaGrisRubrica" width="22%" valign="center" th:text="${nivel4}"></th>
+                <th class="celdaGrisRubrica" width="2%" rowspan="2" text-align="center" valign="middle">Calificación (0 a 10)</th>
+              </tr>
+              <tr>
+                <th>
+                  <h6 align="center" class="tituloCeldaRubrica">CRITERIOS EVALUABLES</h6>
+                </th>
+                <th colspan="4" valign="middle">
+                  <h6 align="center" class="tituloCeldaRubrica">INDICADORES</h6>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="criterio,iterador : ${criterios}">
+                <td style="background-color: #990000; color: white;" width="10%"  valign="middle" align="center" th:text="${criterio.nombre}+' ('+${pesosCriterios[iterador.index].porcentaje}+'%)'"></td>
+                <td style="background-color: white" th:each="indicador : ${criterio.indicadores}" width="22%" align="center" class="tdIndicador" th:text="${indicador.descripcion}"></td>
+                <td class="tdIndicador" width="2%"  valign="middle">
+                  <input th:if="${valorarRubrica}" type="text" class="inputNota" size="6" th:name="'nota_'+${criterio.id}">
+                </td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td width="79%" colspan="4" style="border-color: white 1px solid;"></td>
+                <td width="19%" align="center" class="celdaGrisRubrica tdIndicador"><strong>NOTA MEDIA</strong></td>
+                <td width="2%" class="celdaGrisRubrica tdIndicador">
+                  <input th:if="${valorarRubrica}" class="inputNotaMedia" type="text" size="6" name="notaMedia">
+                </td>
+               </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div th:if="${valorarRubrica}"  class=" gap-4 d-sm-flex justify-content-sm-center">
+          <button type="submit" class="btn btn-primary mt-2 mb-2">Confirmar evaluación</button>
+          <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+        </div>
+        </br>
+      </form>
+  </div>
+</main>
+<footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<script src="js/expandir_menu.js"></script>
+</html>
+

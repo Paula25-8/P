@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<div th:fragment="menu-lateral" class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-sm-2 px-0 bg-dark" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+           <div class="d-flex flex-column align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none text-white min-vh-100">
+               <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                   <!-- MODELO DE ITINERARIOS -->
+                   <li class="nav-item">
+                       <a th:href="@{/}" class="nav-link align-middle px-0" title="Consulta modelo de itinerarios">
+                           <div class="d-flex flex-row flex-nowrap ">
+                               <div class="col-2 align-items-center">
+                                   <span class="material-icons text-secondary" aria-hidden="true">home</span>
+                               </div>
+                               <div class="col-10">
+                                   <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" id="opt1Menu">Modelo de itinerarios</span>
+                               </div>
+                           </div>
+                       </a>
+                   </li>
+                   <!-- INFOR. GENERAL -->
+                   <li class="nav-item">
+                       <a th:href="@{/preguntas}" class="nav-link align-middle px-0" title="Consulta de información general">
+                           <div class="d-flex flex-row flex-nowrap ">
+                               <div class="col-2">
+                                   <span class="material-icons text-secondary" aria-hidden="true">info</span>
+                               </div>
+                               <div class="col-10">
+                                   <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" id="opt2Menu">Información</span>
+                               </div>
+                           </div>
+                       </a>
+                   </li>
+                   <!-- INFORME DE PRÁCTICAS -->
+                   <li class="nav-item">
+                       <a href="#submenuItinerarios" data-bs-toggle="collapse" role="button" class="nav-link align-middle px-0" title="Gestión informe de prácticas">
+                           <div class="d-flex flex-row flex-nowrap ">
+                               <div class="col-2">
+                                   <span class="material-icons text-secondary" aria-hidden="true">subway</span>
+                               </div>
+                               <div class="col-10">
+                                   <span class="ms-1 d-none d-sm-inline text-uppercase fw-bold text-white" id="opt3Menu">Informe de prácticas</span>
+                               </div>
+                           </div>
+                       </a>
+                       <!-- OPCIONES DE SUBLISTAS EN FUNCION DEL ROL -->
+                       <ul class="collapse nav flex-column ms-sm-2" aria-expanded="false" id="submenuItinerarios" data-bs-parent="#menu"> <!-- class="show" si queremos dejarlo desplegado por defecto -->
+                           <li>
+                               <a th:href="@{/lineasAprendizaje}" class="nav-link px-1 ms-sm-1" title="Consulta líneas de aprendizaje">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">train</span>
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Líneas de Aprendizaje</span>
+                               </a>
+                           </li>
+                           <li sec:authorize="hasAuthority('ROL_ESTUDIANTE')">
+                               <a th:href="@{/itinerariosPropios}" class="nav-link px-1 ms-sm-1" title="Consulta itinerarios propios">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">wysiwyg</span>
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Mis itinerarios</span>
+                               </a>
+                           </li>
+                           <li sec:authorize="hasAnyAuthority('ROL_TUTOR_UR', 'ROL_COORDINADOR')">
+                               <a th:href="@{/itinerariosAlumnado}" class="nav-link px-1 ms-sm-1" title="Consulta itinerarios del alumnado">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">wysiwyg</span>
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Itinerarios alumnado</span>
+                               </a>
+                           </li>
+                           <li sec:authorize="hasAuthority('ROL_ESTUDIANTE')">
+                               <a th:href="@{/dossierFinal}" class="nav-link px-1 ms-sm-1" title="Entrega y consulta dossier final">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">library_add_check</span>
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Dossier final</span>
+                               </a>
+                           </li>
+                           <li sec:authorize="hasAuthority('ROL_TUTOR_UR')">
+                               <a th:href="@{/}" class="nav-link px-1 ms-sm-1" title="Consulta dossier final del alumnado">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">library_add_check</span>
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Dossier final</span>
+                               </a>
+                           </li>
+                       </ul>
+                   </li>
+                   <!-- EVALUACIÓN -->
+                   <li class="nav-item">
+                       <a href="#submenuItinerarios2" data-bs-toggle="collapse" role="button" class="nav-link align-middle px-0" title="Evaluación prácticum de grado">
+                           <div class="d-flex flex-row flex-nowrap ">
+                               <div class="col-2">
+                                   <span class="material-icons text-secondary" aria-hidden="true">rate_review</span>
+                               </div>
+                               <div class="col-10">
+                                   <span class="ms-1 d-none d-sm-inline text-uppercase fw-bold text-white" id="opt4Menu">Evaluación</span>
+                               </div>
+                           </div>
+                       </a>
+                       <!-- OPCIONES DE SUBLISTAS EN FUNCION DEL ROL PARA CONSULTA DE RUBRICAS-->
+                       <ul class="collapse nav flex-column ms-sm-2" aria-expanded="false" id="submenuItinerarios2" data-bs-parent="#menu"> <!-- class="show" si queremos dejarlo desplegado por defecto -->
+                           <li>
+                               <a href="#submenuRubricas" data-bs-toggle="collapse" role="button" class="nav-link px-0 align-middle" title="Consulta rúbricas de evaluación">
+                                   <div class="d-flex flex-row flex-nowrap">
+                                       <div class="col-2">
+                                           <span class="material-icons text-secondary iconos" aria-hidden="true">list</span>
+                                       </div>
+                                       <div class="col-10">
+                                           <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Rúbricas</span>
+                                       </div>
+                                   </div>
+                               </a>
+                               <!-- Subopciones para ver las rúbricas de los tutores -->
+                               <ul class="collapse flex-column ms-sm-3" id="submenuRubricas" aria-expanded="false" data-bs-parent="#submenuItinerarios2"> <!-- class="show" si queremos dejarlo desplegado por defecto -->
+                                   <li>
+                                       <a th:href="@{/rubricaTutorUR}" class="nav-link px-1 ml-1 ms-sm-1" title="Rúbrica tutor UR">
+                                           <span class="d-none d-sm-inline text-white">Tutor UR</span>
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <a th:href="@{/rubricaTutorCentro}" class="nav-link px-1 ml-1 ms-sm-1" title="Rúbrica tutor centro">
+                                           <span class="d-none d-sm-inline text-white">Tutor Centro</span>
+                                       </a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                               <a th:href="@{/calificacion}" class="nav-link px-1 ms-sm-1" title="Consulta calificaciones prácticum">
+                                   <span class="material-icons text-secondary iconos" aria-hidden="true">check_box</span> <!-- Topic -->
+                                   <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Calificación</span>
+                               </a>
+                           </li>
+                       </ul>
+                   </li>
+                   <!-- CERRAR SESIÓN -->
+                   <li class="nav-item pt-5">
+                       <form th:action="@{/logout}" method="post">
+                           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                           <button type="submit" id="logout" class="btn px-3 pb-0 mb-2 text-secondary boton-sin-sombra" title="Salir y cerrar sesión">
+                               <div class="d-flex flex-row flex-nowrap ">
+                                   <div class="col-2">
+                                       <span class="material-icons text-secondary" aria-hidden="true">logout</span>
+                                   </div>
+                                   <div class="col-10">
+                                       <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" title="Cerrar sesión" id="opt5Menu">Cerrar sesión</span>
+                                   </div>
+                               </div>
+                           </button>
+                       </form>
+                   </li>
+               </ul>
+            </div>
+       </div>
+

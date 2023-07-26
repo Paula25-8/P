@@ -1,0 +1,148 @@
+<div th:fragment="popUPsImg1" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" >
+      <div class="modal-content">
+        <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+          <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[0].codigo}+'. '+${preguntas[0].enunciado}"></em></h5>
+          <button type="button" class="close btn-primary bg-gradient shadow-none text-align-center" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div th:text="${preguntas[0].respuesta}" class="modal-body respuesta"></div>
+      </div>
+    </div>
+</div>
+
+<div th:fragment="popUPsImg2" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[1].codigo}+'. '+${preguntas[1].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none text-align-center" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[1].respuesta}" class="modal-body respuesta"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg3" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta3" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[2].codigo}+'. '+${preguntas[2].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[2].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg4" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta4" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[3].codigo}+'. '+${preguntas[3].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[3].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg5" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta5" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[4].codigo}+'. '+${preguntas[4].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[4].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg6" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta6" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white"><em th:text="${preguntas[5].codigo}+'. '+${preguntas[5].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[5].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUpSello" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalSelloCalidad" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white"><em>¿Qué características debe tener una situación de aprendizaje según el sello de calidad?</em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr th:each="caract:${caracteristicas}">
+            <td><b th:text="${caract.nombre}+'.'"></b></td>
+            <td th:text="${caract.descripcion}"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg7" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta7" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[6].codigo}+'. '+${preguntas[6].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[6].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="popUPsImg8" xmlns:th="http://www.w3.org/1999/xhtml" class="modal fade" id="modalPregunta8" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white lh-sm"><em th:text="${preguntas[7].codigo}+'. '+${preguntas[7].enunciado}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${preguntas[7].respuesta}" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PopUp correspondiente a líneas de aprendizaje -->
+<div th:fragment="lineaAprend" xmlns:th="http://www.w3.org/1999/xhtml" th:attr="id='modalLinea'+${linea.numeroLinea}" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" >
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient bg-opacity-75">
+        <h5 class="modal-title text-white text-uppercase lh-sm"><em th:text="${linea.titulo}"></em></h5>
+        <button type="button" class="close btn-primary bg-gradient shadow-none" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div th:text="${linea.descripcion}" class="modal-body"></div>
+    </div>
+  </div>
+</div>

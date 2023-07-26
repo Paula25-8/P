@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" class="h-100" lang="es">
+<head>
+  <title>Líneas de aprendizaje</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Universidad de La Rioja" />
+
+  <!-- Colocamos el favicon a nuestra web -->
+  <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  <!-- Material Icons CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+  <!-- Hojas de estilo CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+
+</head>
+<body class="d-flex flex-column">
+<header th:replace="~{general/header :: cabecera}"></header>
+<main class="row flex-nowrap container-fluid">
+  <div th:replace="~{general/sidebar :: menu-lateral}"></div>
+  <div class="col-10 col-sm-9 col-md-9 col-xl-10" id="divLineas">
+    <div class="row" th:each="linea : ${lineas}">
+      <div class="row flex-nowrap d-flex align-items-center container-fluid my-1 pb-1">
+        <div class="col-7 lineaAprendizaje">
+          <div class="row d-flex flex-nowrap align-items-center">
+            <div class="col-11">
+              <h4 th:text="'Línea '+${linea.numeroLinea}+' - '+${linea.titulo}" class="tituloLinea"></h4>
+            </div>
+            <div class="col-1 p-2">
+              <!-- Este enlace será una ventana emergente con info de linea -->
+              <div class="d-flex align-items-center">
+                <button type="button" class="btn shadow-none botonInfoLinea" data-bs-toggle="modal" th:attr="data-bs-target='#modalLinea'+${linea.numeroLinea}">
+                  <span class="material-icons" aria-hidden="true" id="infoLinea">info</span>
+                </button>
+              </div>
+            </div>
+            <div th:replace="~{popUps/popUps :: lineaAprend}"></div>
+          </div>
+          <div class="row">
+            <img th:attr="src='images/Linea'+${linea.numeroLinea}+'sinletra.jpg',id='linea'+${linea.numeroLinea}" class="linea"> <!--class="img-fluid"-->
+          </div>
+        </div>
+        <div class="col-5 px-3 mx-2 d-flex flex-nowrap container-fluid align-items-center">
+          <select class="form-select selectLinea">
+            <option selected value="#" class="opcionPreseleccionada">Elige una estación para consultar</option>
+            <option th:each="estacion:${estaciones}" th:if="${estacion.linea.id}==${linea.id}" th:value="@{/infoEstacion/{id}(id=${estacion.id})}"  th:text="${estacion.titulo}">
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row px-5 d-flex flex-nowrap container-fluid align-items-center">
+        <hr class="hr hr-blurry"/>
+      </div>
+    </div>
+    </br>
+    <!-- Seccion que solo aparecera a Estudiante si no ha creado aun ningun itinerario -->
+    <div sec:authorize="hasAuthority('ROL_ESTUDIANTE')" th:if="${tieneItinerarioCreado != null && tieneItinerarioCreado==false}" class="row flex-nowrap container-fluid justify-content-center align-items-center divCrearIterEnLineas">
+      <div class="col-5 divTextoCreacionIter">
+        <p class="lead text-center parrafos"><strong>Para poder crear tu primer itinerario es necesario leer previamente la información de las distintas líneas y estaciones de aprendizaje.</strong></p>
+      </div>
+      <div class="col-3 botonCrearItinerario">
+        <a th:href="@{/crearItinerario}" class="btn btn-primary w-100 textoBoton" role="button">Crear primer itinerario</a>
+      </div>
+    </div>
+    </br>
+  </div>
+</main>
+<footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<script src="js/popUpsLineas.js"></script>
+<script src="js/expandir_menu.js"></script>
+</html>
+

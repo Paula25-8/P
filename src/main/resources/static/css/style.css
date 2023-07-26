@@ -1,0 +1,2000 @@
+/*@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');*/
+
+/* COLORES
+* #cc0000 rojo ur. Uso recomendado: enlaces, botones muy visibles e iconos destacados.
+* #990000 matiz oscuro 1. Uso recomendado: enlaces, botones muy visibles e iconos destacados. (botones y enlaces)
+* #660000 matiz oscuro 2. Uso recomendado: enlaces, botones muy visibles e iconos destacados.
+* #c1002c matiz cabecera
+* #e68080 botones deshabilitados
+* #a5d7d2 verde secundario. Uso: fondos destacados.
+* #c0e2e0 matiz claro verde secundario. Uso: fondos destacados.
+* #a5d7d2 matiz oscuro verde secundario
+* #59aca3 matiz oscuro mensajes destacados
+* #ff3232 texto error
+* #2d373c gris oscuro. Uso: texto, líneas finas y fondos.
+* #46505a gris medio. Uso: texto, líneas y fondos.
+* #6b737b gris intermedio
+* #eaebec gris claro. Uso: líneas y fondos.
+* #f6f6f6 gris muy claro Uso: líneas y fondos. Fondo mensajes error y cabecera de fichas
+* #129fea borde campo formulario activo
+
+*/
+
+a {
+    color:#990000;
+    text-decoration: none;
+}
+a:hover {
+    color:#660000;
+    text-decoration: underline;
+}
+
+main.container-fluid{
+   padding-left: 0px;
+   padding-right: 0px;
+}
+
+div.container-fluid{
+   margin: 0 auto;
+   padding-left: 0px;
+   padding-right: 0px;
+}
+
+div.div_file{
+    position:relative;
+}
+input.subidaActividadEstacion, input.subidaDossierFinal{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+input[type=file].hidden {
+  color: transparent;
+}
+p.nombreDocuSubido{
+    font-size: 0.7em;
+    font-style: italic;
+    align: center;
+    margin-top: 6px;
+}
+
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+header {
+    background-color: #cc0000;
+    /*background-image: url("../images/logo_ur.png");*/
+    background-size: auto;
+    background-repeat: no-repeat;
+    /*background-position: left top;*/
+}
+
+header h1 {
+    text-align: right;
+    margin: 0 1em .5em 1em;
+    padding-top: 0.6em;
+}
+
+header h1 a {
+    color: #fff;
+    /*font-family: "Open Sans";*/
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 0.01rem;
+    line-height: 1.2em;
+    text-decoration: none !important;
+}
+
+header h1 a:hover {
+    color: #fff;
+}
+
+h5{
+    margin-bottom: 0px;
+}
+
+textarea#feedbackTutor{
+    width: 90%;
+    background-color: #eaebec;
+}
+
+.cabecera {
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between; /* items are evenly distributed in the line; first item is on the start line, last item on the end line*/
+}
+
+.nav-entrada {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 1px solid #990000;
+}
+
+main{
+    margin: 0 auto
+}
+
+footer {
+    background-color: #2d373c;
+}
+
+.menu_sidebar {
+    background-color: #fff;
+    border-right: 2px solid #2d373c;
+}
+
+.obligatorio {
+    color:red;
+}
+
+.encabezado {
+    background-color: #eaebec;
+}
+.error {
+    color:red;
+    font-weight: bold;
+}
+
+.inactivo {
+    color: #8d959d;
+    font-style: italic;
+}
+
+.material-icons, .material-icons-outlined {
+    vertical-align: -.2em;
+    padding-right: 0.5em;
+}
+
+.material-icons.entrada, .material-icons-outlined.entrada {
+    padding-right: 0;
+}
+
+.material-icons.error, .material-icons-outlined.error {
+    font-size: 5em;
+    color:red;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.iconos{
+   padding-right: 0px;
+}
+
+#intro{
+   background-color:#eaebec;
+   margin-left: 12.5%;
+   padding: 10px;
+   width: 80%;
+}
+
+.usuario-feature {
+    font-size: 1em;
+    font-weight: 500;
+    /*display: inline-flex;*/
+    align-items: center;
+    margin-right: .5em;
+}
+p.usuario-feature{
+    line-height: 0.8em;
+}
+.usuario-feature .material-icons{
+font-size: 1.1em;
+}
+
+.imagen-firma {
+    width: 596px;
+    height: 90px;
+}
+
+/* modificaciones de elementos de bootstrap */
+
+/* botones */
+.btn-primary.disabled{
+    background-color: #C46D6D;
+    border-color: #C46D6D;
+}
+
+.btn:hover {
+    text-decoration: initial;
+}
+.btn-primary {
+    background-color: #990000;
+    border-color: #990000;
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: #660000;
+    border-color: #660000;
+}
+.btn-outline-primary {
+    color: #990000;
+    border-color: #990000;
+}
+.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus {
+    background-color: #eaebec;
+    color: #990000;
+    border-color: #990000;
+}
+.btn-outline-secondary {
+    color: #46505a;
+    border-color: #46505a;
+}
+.btn-outline-secondary:hover,  .btn-outline-secondary:active, .btn-outline-secondary:focus {
+    background-color: #46505a;
+    border-color: #46505a;
+}
+btn-outline-light {
+    color: #eaebec;
+    border-color: #46505a;
+}
+.btn-outline-light:hover, .btn-outline-light:active, .btn-outline-light:focus {
+    background-color: #eaebec;
+    border-color: #46505a;
+}
+
+.boton-detalles {
+    font-size: 0.75em;
+    padding: 0.3em;
+    margin: 0;
+    /*line-height: 1.2em;*/
+}
+
+.form-check-input {
+    border: 1px solid rgba(0,0,0,.35);
+}
+
+.cajaTextoForm, .cajaTextoCalificacion, .cajaTextoCalificacionFinal{
+    background-color: #f6f6f6;
+}
+.cajaNumForm{
+    border: none;
+    background-color: #f6f6f6;
+}
+.cajaTextoForm:active, .cajaNumForm:active{
+    border-color: #129fea;
+}
+
+/* page-links */
+.pagination {
+    font-size: 0.8em;
+}
+.page-link, .page-link:hover {
+    color:#660000;
+}
+.page-item.active .page-link {
+    background-color: #660000;
+    border-color: #660000;
+}
+
+/* cards */
+.card-header {
+    color: #2d373c;
+    background-color: #eaebec;
+
+}
+
+/* tablas */
+.table-hover tbody tr:hover {
+    background-color:#c0e2e0;
+}
+#tabla_itinerario{
+    font-size: 1em;
+}
+#tabla_rubrica{
+    font-size: 1em;
+    padding:0px;
+    border: white 1px solid;
+    margin-left: 10%;
+}
+#tabla_itinerario>thead, #tabla_rubrica>thead{
+    background-color: #990000;
+    border-color: #990000;
+    color: white;
+}
+#tabla_rubrica>thead th.celdaGrisRubrica, #tabla_rubrica>tfoot td.celdaGrisRubrica{
+    background-color: grey;
+    color: black;
+}
+#tabla_rubrica th{
+    border: white 1px solid;
+    text-align: center;
+}
+#tabla_rubrica .tdIndicador{
+    border: black 1px solid;
+}
+.inputNota{
+    background-color: #eaebec;
+    border: none;
+}
+.inputNotaMedia{
+    background-color: #9b9b9b;
+    border: none;
+}
+
+
+/* forms */
+.input-group-text {
+    font-size: 0.75rem;
+}
+
+/* dropdowns */
+.dropdown-item:hover {
+    background-color: #2d373c;
+}
+/* containers */
+.container-footer {
+    width: 100%;
+    padding: 0 15px;
+    color: #eaebec;
+}
+/* accordions */
+.accordion{
+    border: 1px solid;
+    border-color: #ccc;
+}
+.accordion-header {
+    background-color: #c0e2e0;
+}
+.accordion-button:not(.collapsed) {
+    padding:0.5rem;
+    color: #2d373c;
+    background-color: #eaebec;
+}
+.accordion-button.collapsed {
+    padding:0.5rem;
+    color: #2d373c;
+    background-color: #eaebec;
+}
+.accordion-item:first-child > .accordion-header{
+    background-color: #F00;
+}
+
+/* nav tabs */
+.nav-tabs .nav-link:active {
+    font-weight: bold;
+    text-decoration: none;
+}
+.nav-tabs .nav-link:hover {
+    text-decoration: none;
+    color: #cc0000;
+}
+
+/* lists */
+
+.seccionmenu {
+    color: #2d373c;
+}
+
+.nav-link {
+    color: #990000;
+    text-decoration: none;
+}
+.nav-link:hover, .nav-link:active, .nav-link:focus{
+    color:#660000;
+    text-decoration: none;
+}
+
+a.enlacesItinerario:hover, a.enlacesItinerario:active, a.enlacesItinerario:focus
+a.enlacesEstacion:hover, a.enlacesEstacion:active, a.enlacesEstacion:focus, a.enlaceDossier:hover, a.enlaceDossier:active, a.enlaceDossier:focus
+{
+    color:#660000;
+    text-decoration: none;
+}
+
+.enlacesEstacion{
+    width: 50px;
+}
+
+li.submenu {
+    list-style: none;
+}
+li.submenu a {
+    padding:0.3em 0.6em;
+}
+
+.separador {
+    border-right: 2px solid #cc0000;
+}
+
+.oculto{
+    display: none;
+}
+
+.alert-success{
+    border-color: #a5d7d2;
+    background-color: #c0e2e0;
+}
+
+.alert-warning, .alert-danger{
+    border-color: #46505a;
+    background-color: #46505a;
+    color: #FFFFFF;
+}
+
+.form-check-input:checked {
+    background-color: #990000;
+    border-color: #990000;
+}
+
+.nav-menu {
+    background-color: #2d373c;
+}
+.nav-menu .material-icons {
+    color: #eaebec;
+}
+
+.menu_sidebar {
+    background-color: #2d373c;
+    color: #fff;
+    font-size: 0.9em;
+}
+.menu_sidebar .nav-link, .menu_sidebar .nav-link a, .menu_sidebar .nav-item a{
+    color: #fff;
+}
+
+.menu_sidebar a:hover {
+    color: #fff;
+    background-color: #46505a !important;
+    text-decoration: none;
+    border-radius: .25rem;
+}
+
+.menu_sidebar_activo {
+    color: #fff;
+    text-decoration: none;
+    border-radius: .25rem;
+}
+
+.menu_sidebar a:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+.readonly{
+    background-color: #CCC!important;
+    cursor: not-allowed;
+}
+
+@media (min-width: 1500px){
+    .modal-grande {
+        max-width: 1400px;
+        margin: 1.75rem auto;
+    }
+}
+
+.opacity-100{
+    opacity: 1;
+}
+
+.opacity-75{
+    opacity: 0.75;
+}
+
+a.p-01{
+    padding: 0.1rem;
+}
+
+span.icon-green {
+    color: green;
+}
+
+span.icon-yellow {
+    color: orange;
+}
+
+td.celda_ajustada{
+    width: 1%;
+    white-space: nowrap;
+}
+
+.dropdown-item.active, .dropdown-item:active{
+    color: #fff;
+    text-decoration: none;
+    background-color: #990000;
+}
+
+.dropdown-item:hover {
+    background-color: #eaebec;
+}
+
+.dropdown-menu, .dselect-wrapper > button{
+    padding: .175rem 2.25rem .175rem .75rem;
+}
+
+.dropdown-menu input.form-control{
+    background-color: #eaebec;
+}
+
+.mi-22, .mi-outlined-22 {
+    vertical-align: -.2em;
+    padding-right: 0em;
+    font-size: 22px;
+}
+
+.nav-link-order{
+    text-decoration: none !important;
+    color: black;
+}
+
+.misma-linea{
+    white-space: nowrap;
+}
+
+.tooltip-title{
+    cursor: pointer;
+}
+
+.modal-body p{
+    text-align: justify;
+}
+
+/* Colores para cajas de preguntas generales */
+div#enun4{
+    margin 5px auto;
+    border-radius: 5px;
+    border: solid;
+    border-color: #cc7404;
+}
+
+div#enun5{
+    border-radius: 5px;
+    border: solid;
+    border-color: #9cbc1c;
+}
+div#enun6{
+    border-radius: 5px;
+    border: solid;
+    border-color: #c4bcb4;
+}
+div#enun7{
+    border-radius: 5px;
+    border: solid;
+    border-color: #f49c0c;
+}
+div#enun8{
+    border-radius: 5px;
+    border: solid;
+    border-color: #eca4cc;
+}
+
+#modalSelloCalidad, #modalPregunta4{
+    overflow-y: scroll;
+}
+
+/* Cajas select de pagina 'LINEAS DE APRENDIZAJE' */
+.selectLinea{
+    width: 90%;
+}
+
+/* Colores para cajas de lineas en pagina de infor estaciones */
+div.linea1{
+    margin: 3px auto;
+    border-radius: 5px;
+    border: solid;
+    border-color: #4975cd;
+    background-color: #4975cd;
+    max-width: 33%;
+}
+div.titulolinea1{
+    margin: 5px auto;
+    border: solid;
+    border-radius: 5px;
+    border-color: #4975cd;
+    max-width: 67%;
+    height: 100%;
+}
+div.linea2{
+    margin: 3px auto;
+    border-radius: 5px;
+    border: solid;
+    border-color: #95d152;
+    background-color: #95d152;
+    max-width: 33%;
+}
+div.titulolinea2{
+    margin: 5px auto;
+    border: solid;
+    border-radius: 5px;
+    border-color: #95d152;
+    max-width: 67%;
+    height: 100%;
+}
+div.linea3{
+    margin: 3px auto;
+    border-radius: 5px;
+    border: solid;
+    border-color: #71379c;
+    background-color: #71379c;
+    max-width: 33%;
+}
+div.titulolinea3{
+    margin: 5px auto;
+    border: solid;
+    border-radius: 5px;
+    border-color: #71379c;
+    max-width: 67%;
+    height: 100%;
+}
+div.linea4{
+    margin: 3px auto;
+    border-radius: 5px;
+    border: solid;
+    border-color: #ef0d0d;
+    background-color: #ef0d0d;
+    max-width: 33%;
+}
+div.titulolinea4{
+    margin: 5px auto;
+    border: solid;
+    border-radius: 5px;
+    border-color: #ef0d0d;
+    max-width: 67%;
+    height: 100%;
+}
+/* Seccion datos de cada estacion*/
+.seccionDatos{
+    width: 80%;
+}
+.seccionDatos h3{
+    color: #46505a;
+}
+.seccionDatos p, .seccionDatos li, #fraseInicial{
+    text-align: justify;
+}
+
+.seccionDatos h4{
+    color: #cc0000 ;
+}
+/*#flechaAtras{
+   color: #cc0000;
+}*/
+#modelItinerario{
+   width: 85%;
+
+}
+.selectLineaCreacionItinerario{
+    width: 100%;
+}
+div.titulolinea1CreacionItir{
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: solid;
+    border-radius: 5px;
+    border-color: #4975cd;
+    background-color: #4975cd;
+    width: 54%;
+}
+div.titulolinea2CreacionItir{
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: solid;
+    border-radius: 5px;
+    border-color: #95d152;
+    background-color: #95d152;
+    width: 44%;
+}
+div.titulolinea3CreacionItir{
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: solid;
+    border-radius: 5px;
+    border-color: #71379c;
+    background-color: #71379c;
+    width: 43%;
+}
+div.titulolinea4CreacionItir{
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: solid;
+    border-radius: 5px;
+    border-color:#ef0d0d;
+    background-color: #ef0d0d;
+    width: 49%;
+}
+
+/* Propiedades para desarrollar mapa del metro */
+  /* The main DIV for the map */
+  .subway-map
+  {
+      height:380px;
+      background-color: white;
+  }
+ /* Text labels */
+ .text_subway
+ {
+     text-decoration: none;
+     color: black;
+     font-size: 0.7em;
+     font-weight: bold;
+ }
+ #legend
+ {
+     width: 250px;
+     height:70px;
+ }
+ #legend div
+ {
+     height: 25px;
+ }
+ #legend span
+ {
+    margin: 5px 5px 5px 0;
+ }
+.subway-map span
+{
+    margin: 5px 5px 5px 0;
+}
+
+/* ESTO HAY QUE PONERLO DESPUES RESPONSIVE */
+.cajaFeedback{
+    padding-top: 50px;
+    margin-left: 40px;
+}
+
+.cajaDocumento{
+    padding-bottom: 30px;
+}
+/*  ---------------------------------------  */
+
+button.botonBuscar{
+   display: block;
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+   border: none;
+}
+
+/* Media queries para pagina de informacion general*/
+@media screen and (min-width: 1440px) and (max-width: 2560px){
+    #contenedorTituloEntregaActividad{
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    /* Página de listado alumnado para consultar itinerarios */
+    #contenedorForm{
+        margin-top: 30px;
+        margin-bottom: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border: 0.5px solid;
+        border-style: dashed;
+        max-width: 870px;
+    }
+    .cajaNombreAlum, .cajaGrado{
+        max-width: 202px;
+        height: auto;
+        font-size: 0.9rem;
+    }
+    .cajaTituloFiltrado{
+        padding-bottom: 22px;
+    }
+    .tituloEstacion{
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    button.botonBuscar{
+        margin-left: 15px;
+    }
+    .labelNombreAlum{
+        padding-right: 20px;
+    }
+    #divSinItinerariosPropios, #divSinDossierFinal{
+      margin-top: 100px;
+    }
+    #contenedorIconoYPreguntas{
+       margin-right: 1rem!important;
+       margin-left: 1rem!important;
+    }
+    div#enun1, div#enun2, div#enun3, div#enun4, div#enun5, div#enun6, div#enun7, div#enun8{
+        max-width: 260px;
+    }
+    .fotoCreativeCommons{
+        max-width: 115px;
+        height: 40px;
+    }
+    #divCreativeCommons{
+       padding-left: 7px;
+       margin-right: 10px;
+       display: block;
+       text-align: right;
+    }
+    #licenciaAutores{
+        margin-left:42px;
+    }
+    header{
+        min-height: 5em;
+    }
+    #logo_UR_blanco{
+        width: 223px;
+        height: 80px;
+    }
+    #menu{
+        padding-top: 10px;
+        padding-left: 20px;
+    }
+    .material-icons {
+        font-size: 21px;
+    }
+    .tituloEncabezado{
+        font-size: 2.5em;
+    }
+    #opt1Menu, #opt2Menu, #opt3Menu, #opt4Menu, #opt5Menu{
+        font-size: 1.25em;
+        margin-left: 0px;
+    }
+    .subopcionMenu{
+        font-size: 1rem;
+    }
+    #div_M{
+        width: 100%;
+        max-height: 106px;
+        padding-left: 20px;
+    }
+    .M_metro{
+       width:140px;
+       height:90px;
+    }
+    #divMetroColores{
+       padding-left: 7px;
+       margin-top: 140px;
+    }
+    #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8{
+       width:100px;
+       height:100px;
+    }
+    h2{
+       font-size: 2.1rem;
+    }
+    div h2{
+       padding-left:15px;
+       padding-right:15px;
+    }
+    h5 i{
+       font-size: 0.9em;
+    }
+    #metroColores{
+        max-width: 388px;
+        height: 354px;
+    }
+    #divPreguntas{
+        direction: flex;
+        flex: nowrap;
+        padding-top: 20px;
+    }
+    #colPreg1, #colPreg2>button, #colPreg3, #colPreg4, #colPreg5, #colPreg6, #colPreg7, #colPreg8 {
+       padding-left: 0px;
+       padding-right: 0px;
+    }
+    /* Letra y espacio de PopUps*/
+    h5>em, div.modal-body{
+        font-size: 1em;
+    }
+    div.modal-dialog{
+        max-width: 600px;
+        max-height: 970px;
+    }
+    /* Cajas de linea para estaciones */
+    div.linea1, div.linea2, div.linea3, div.linea4{
+        max-width: 250px;
+        max-height:70px;
+    }
+    /* Texto con titulo de linea en pagina 'Lineas de Aprendizaje' */
+    h4{
+       font-size: 1.5rem;
+    }
+    #infoLinea, #infoSello{
+       padding-left: 10px;
+       padding-right: 10px;
+       font-size: 25px;
+    }
+    .selectLinea{
+       height: 45px;
+       font-size: 1.3rem;
+    }
+    .selectLineaCreacionItinerario{
+       height: 45px;
+       font-size: 1.3rem;
+    }
+    img.linea{
+       min-width: 620px;
+       height: 75px;
+    }
+   /* hr{
+       margin-top: 10px;
+       margin-bottom: 10px;
+   }*/
+   .botonesDatos{
+       width: 1200px;
+       padding-top: 0px;
+       padding-bottom: 0px;
+   }
+   .botonesDatos button{
+      font-size: 1.3rem;
+   }
+   .seccionDatos p, .seccionDatos li, #fraseInicial{
+      font-size: 1.3rem;
+   }
+   .seccionDatos h3{
+      font-size: 2rem;
+   }
+   .container-footer {
+      font-size: 1.2rem;
+   }
+   #flechaAtras{
+      /*padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 30px;*/
+      font-size: 33px;
+   }
+   .seccionFlecha{
+      margin-top: 20px;
+      height: 24px;
+   }
+   #divLineas{
+      margin-top: 25px;
+   }
+   .lineaAprendizaje{
+      padding-left: 50px;
+   }
+   form.formularioCalificacion{
+       width: 765px;
+       height: 305px;
+       margin-left: 30px;
+   }
+}
+@media screen and (min-width: 1024px) and (max-width: 1440px){
+    h5.tituloPregunta{
+        padding-bottom: 10px;
+    }
+    div#enun1, div#enun2, div#enun3, div#enun4, div#enun5, div#enun6, div#enun7, div#enun8{
+        max-width: 260px;
+    }
+    .fotoCreativeCommons{
+        max-width: 110px;
+        height: 40px;
+    }
+    #divCreativeCommons{
+       padding-left: 7px;
+       margin-right: 10px;
+       display: block;
+       text-align: right;
+    }
+    #licenciaAutores{
+        margin-left:42px;
+    }
+    header{
+        min-height: 5em;
+    }
+    #logo_UR_blanco{
+        width: 223px;
+        height: 80px;
+    }
+    #menu{
+        padding-top: 10px;
+        padding-left: 20px;
+    }
+    .material-icons {
+        font-size: 21px;
+    }
+    .tituloEncabezado{
+        font-size: 2.5em;
+    }
+    #opt1Menu, #opt2Menu, #opt3Menu, #opt4Menu, #opt5Menu{
+        font-size: 1.25em;
+        margin-left: 0px;
+    }
+    .subopcionMenu{
+        font-size: 1rem;
+    }
+    #div_M{
+        width: 100%;
+        max-height: 106px;
+        padding-left: 40px;
+    }
+    .M_metro{
+       width:140px;
+       height:90px;
+    }
+    #divMetroColores{
+       padding-left: 7px;
+       margin-top: 140px;
+    }
+    #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8{
+       width:100px;
+       height:100px;
+    }
+    h2{
+       font-size: 2.1rem;
+    }
+    div h2{
+       padding-left:15px;
+       padding-right:15px;
+    }
+    h5 i{
+       font-size: 0.9em;
+    }
+    #metroColores{
+        max-width: 388px;
+        height: 354px;
+    }
+    #divPreguntas{
+        direction: flex;
+        flex: nowrap;
+        padding-top: 20px;
+    }
+    #colPreg1, #colPreg2>button, #colPreg3, #colPreg4, #colPreg5, #colPreg6, #colPreg7, #colPreg8 {
+       padding-left: 0px;
+       padding-right: 0px;
+    }
+    /* Letra y espacio de PopUps*/
+    h5>em, div.modal-body{
+        font-size: 1em;
+    }
+    div.modal-dialog{
+        max-width: 600px;
+        max-height: 970px;
+    }
+    /* Cajas de linea para estaciones */
+    div.linea1, div.linea2, div.linea3, div.linea4{
+        max-width: 250px;
+        height:70px;
+    }
+    /* Texto con titulo de linea en pagina 'Lineas de Aprendizaje' */
+    h4.cajaTituloLinea{
+       font-size: 1.4rem;
+    }
+    #infoLinea, #infoSello{
+       padding-left: 10px;
+       padding-right: 10px;
+       font-size: 25px;
+    }
+    .selectLinea{
+       height: 45px;
+       font-size: 1.3rem;
+    }
+    img.linea{
+       min-width: 620px;
+       height: 75px;
+    }
+   /* hr{
+       margin-top: 10px;
+       margin-bottom: 10px;
+    }*/
+    .botonesDatos{
+       width: 1200px;
+       padding-top: 0px;
+       padding-bottom: 0px;
+    }
+    .botonesDatos button{
+       font-size: 1.3rem;
+    }
+    .seccionDatos p, .seccionDatos li, #fraseInicial{
+        font-size: 1.3rem;
+    }
+    .seccionDatos h3{
+        font-size: 2rem;
+    }
+    .container-footer {
+        font-size: 1.2rem;
+    }
+    #flechaAtras{
+       /*padding-left: 30px;
+       padding-right: 30px;
+       padding-top: 30px;*/
+       font-size: 33px;
+    }
+    .seccionFlecha{
+       margin-top: 20px;
+       height: 30px;
+    }
+    #divLineas{
+       margin-top: 25px;
+    }
+    .lineaAprendizaje{
+       padding-left: 50px;
+    }
+    /* Página ver calificación de alumnado */
+    .divNotaTutorCentro{
+        display: flex;
+        justify-content: end;
+    }
+    h4>i{
+        font-size: 1.3rem;
+    }
+    h5.h5NotaTutor{
+        font-size: 1.4rem;
+    }
+    p.especialidadNotaFinal{
+        font-size: 1.1rem;
+    }
+    input.cajaTextoCalificacion{
+        width: 70px;
+        height: 30px;
+    }
+    input.cajaTextoCalificacionFinal{
+        width: 70px;
+        height: 30px;
+        margin-left: 5px;
+    }
+    #sinCompletarEvaluacion{
+        margin-top: 5px;
+    }
+    form.formularioCalificacion{
+        width: 735px;
+        height: 305px;
+        margin-left: 52px;
+    }
+}
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #contenedorForm{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border: 0.5px solid;
+        border-style: dashed;
+        max-width: 637px;
+    }
+    .cajaNombreAlum, .cajaGrado{
+        max-width: 202px;
+        height: auto;
+        font-size: 0.8rem;
+    }
+    .cajaTituloFiltrado{
+        padding-bottom: 18px;
+    }
+    button.botonBuscar{
+        margin-left: 10px;
+    }
+    .labelNombreAlum{
+        padding-right: 15px;
+    }
+    #divCreativeCommons{
+       padding-left: 7px;
+       margin-right: 10px;
+    }
+    .fotoCreativeCommons{
+        max-width: 105px;
+        height: 38px;
+    }
+    header{
+        min-height: 4em;
+    }
+    #logo_UR_blanco{
+        width: 200px;
+        height: 71px;
+    }
+    .tituloEncabezado{
+        font-size: 1.9em;
+    }
+    #opt1Menu, #opt2Menu, #opt3Menu, #opt4Menu, #opt5Menu{
+        font-size: 1.1em;
+    }
+    .subopcionMenu{
+        font-size: 0.95rem;
+    }
+    .material-icons {
+        font-size: 18px;
+    }
+    #menu{
+        padding-top: 10px;
+        padding-left: 25px;
+    }
+    #div_M{
+        width: 100%;
+        max-height: 125px;
+        padding-left: 34px;
+    }
+    .M_metro{
+       width:92px;
+       height:59px;
+    }
+    #divMetroColores{
+       padding-left: 5px;
+    }
+    #colPreg1, #colPreg2>button, #colPreg3, #colPreg4, #colPreg5, #colPreg6, #colPreg7, #colPreg8 {
+       padding-left: 0px;
+       padding-right: 0px;
+    }
+    #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8{
+       width:65px;
+       height:65px;
+    }
+    h2{
+       font-size: 1.8rem;
+    }
+    h5 i{
+       font-size: 0.7em;
+    }
+    #metroColores{
+        max-width: 249px;
+        height: 227px;
+    }
+    #divPreguntas{
+        direction: flex;
+        flex: nowrap;
+        padding-top: 10px;
+    }
+    /* Letra y espacio de PopUps*/
+    h5>em, div.modal-body{
+        font-size: 0.8em;
+    }
+    div.modal-dialog{
+        max-width: 460px;
+        max-height: 950px;
+    }
+    .modal-header{
+        max-height: 68px;
+    }
+    button.close{
+        width: 24px;
+        height: 24px;
+    }
+    button.close>span{
+        position: absolute;
+        top: 18px;
+        right: 23px;
+    }
+    /* Cajas de linea para estaciones */
+    div.linea1, div.linea2, div.linea3, div.linea4{
+        max-width: 205px;
+        max-height:60px;
+    }
+    /* Titulo de lineas de aprendizaje para página principal */
+    h4.tituloLinea{
+       font-size: 1.3rem;
+    }
+    /* Texto con titulo de estacion de aprendizaje */
+    h2.tituloEstacion{
+       font-size: 1.4rem;
+    }
+    /* Texto con titulo de linea en pagina 'Lineas de Aprendizaje' */
+    h4.cajaTituloLinea{
+       font-size: 1.2rem;
+    }
+    #infoLinea, #infoSello{
+       padding-left: 0px;
+       padding-right: 10px;
+       font-size: 18px;
+    }
+    .selectLinea{
+       height: 36px;
+       font-size: 1rem;
+    }
+    img.linea{
+       min-width: 400px;
+       height: 42px;
+    }
+    /*hr{
+       margin-bottom: 8px;
+       margin-top: 8px;
+    }*/
+    .botonesDatos{
+       width: 777px;
+       padding-top:0px;
+       padding-bottom:0px;
+    }
+    .botonesDatos button{
+       font-size: 0.8rem;
+    }
+    .seccionDatos p, .seccionDatos li, #fraseInicial{
+        font-size: 1rem;
+    }
+    .seccionDatos h3{
+        font-size: 1.4rem;
+    }
+    .container-footer {
+        font-size: 1rem;
+    }
+    #flechaAtras{
+       /*padding-left: 30px;
+       padding-right: 23px;
+       padding-top: 25px;*/
+       font-size: 27px;
+    }
+    .seccionFlecha{
+       margin-top: 10px;
+       height: 21px;
+    }
+    #divLineas{
+       margin-top: 20px;
+    }
+    .lineaAprendizaje{
+       padding-left: 50px;
+    }
+    /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
+    p.parrafos, a.textoBoton, p.parrafoCelda, #form_filtrado label{
+        font-size: 0.8rem;
+    }
+    p.lead{
+        margin-top: 30px;
+        font-size: 1rem;
+    }
+    div.botonSubirDossier{
+        width: 150px;
+        height: 32px;
+    }
+    div.botonCrearItinerario{
+        width: 185px;
+        height: 32px;
+    }
+    #tabla_rubrica{
+        font-size: 0.8rem;
+        margin-left: 8.5%;
+    }
+    #tabla_itinerario{
+        font-size: 0.8rem;
+    }
+    h6.tituloCeldaRubrica{
+        font-size: 0.9rem;
+        align-items: center;
+        margin-bottom: 0px;
+    }
+    form.formularioCalificacion{
+        width: 730px;
+        height: 305px;
+        margin-left: 52px;
+    }
+}
+
+@media screen and (min-width: 426px) and (max-width: 768px){
+    #contenedorForm{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 2px;
+        padding-right: 2px;
+        border: 0.5px solid;
+        border-style: dashed;
+        max-width: 500px;
+    }
+    .cajaNombreAlum, .cajaGrado{
+        max-width: 180px;
+        height: auto;
+        font-size: 0.6rem;
+    }
+    .cajaTituloFiltrado{
+        padding-bottom: 15px;
+    }
+    button.botonBuscar{
+        margin-left: 10px;
+        width: 28px;
+        height: 28px;
+    }
+    .labelNombreAlum{
+        padding-right: 8px;
+    }
+    .fotoCreativeCommons{
+        max-width: 89px;
+        height: 28px;
+    }
+    div#enun1, div#enun2, div#enun3, div#enun4, div#enun5, div#enun6, div#enun7, div#enun8{
+        padding-bottom: 10px;
+    }
+    #divCreativeCommons{
+       padding-left: 0px;
+       margin-right: 10px;
+    }
+    #licenciaAutores{
+        margin-left:42px;
+    }
+    header{
+        min-height: 3em;
+    }
+    #logo_UR_blanco{
+        width: 180px;
+        height: 65px;
+    }
+    .tituloEncabezado{
+        font-size: 1.7em;
+    }
+    #opt1Menu, #opt2Menu, #opt3Menu, #opt4Menu, #opt5Menu{
+        font-size: 0.95em;
+    }
+    .subopcionMenu{
+        font-size: 0.8rem;
+    }
+    .material-icons {
+        font-size: 15px;
+    }
+    .iconosTabla {
+        font-size: 12px;
+    }
+    #menu{
+        padding-top: 10px;
+        padding-left: 25px;
+    }
+    #div_M{
+        width: 100%;
+        padding-left: 30px;
+    }
+    .M_metro{
+       width:71px;
+       height:47px;
+    }
+    #colPreg1, #colPreg2, #colPreg3, #colPreg4, #colPreg5, #colPreg6, #colPreg7, #colPreg8 {
+       float: left;
+       padding-right: 25px;
+    }
+    #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8{
+       width:45px;
+       height:45px;
+    }
+    h2{
+       font-size: 1.4rem;
+    }
+    div h2{
+       padding-left:20px;
+       padding-right:20px;
+    }
+    h5>i{
+        font-size: 0.8rem;
+        line-height : 10px;
+    }
+    #intro {
+        font-size: 0.8em;
+    }
+    #intro span {
+        font-size: 1em;
+    }
+    /*Para bajar abajo foto de metro de colores*/
+    #divPreguntas{
+        direction: flex;
+        flex-direction:column;
+        padding-top: 5px;
+    }
+    #metroColores{
+        width: 231px;
+        height: 199px;
+        margin-bottom: 25px;
+    }
+    #divMetroColores{
+       margin-left: 5px;
+       content-align: center;
+    }
+    /* Letra y espacio de PopUps*/
+    h5>em, div.modal-body{
+        font-size: 0.7em;
+    }
+    div.modal-dialog{
+        max-width: 400px;
+        max-height: 850px;
+    }
+    .modal-header{
+        max-height: 64px;
+    }
+    button.close{
+        width: 24px;
+        height: 24px;
+    }
+    button.close>span{
+        position: absolute;
+        top: 17px;
+        right: 22px;
+    }
+    /* Cajas de linea para estaciones */
+    div.linea1, div.linea2, div.linea3, div.linea4{
+        max-width: 160px;
+        max-height:45px;
+    }
+    /* Titulo de lineas de aprendizaje para página principal */
+    h4.tituloLinea{
+       font-size: 1rem;
+    }
+    /* Texto con titulo de estacion de aprendizaje */
+    h2.tituloEstacion {
+        font-size: 1rem;
+    }
+    /* Texto con titulo de linea en pagina 'Lineas de Aprendizaje' */
+    h4.cajaTituloLinea{
+        font-size: 0.9rem;
+    }
+    #infoLinea, #infoSello{
+       padding-left: 5px;
+       padding-right: 10px;
+       font-size: 15px;
+    }
+    .selectLinea{
+       height: 32px;
+       font-size: 0.8rem;
+    }
+    img.linea{
+       min-width: 300px;
+       height: 36px;
+    }
+    hr{
+       margin-bottom: 5px;
+       margin-top: 5px;
+    }
+    .botonesDatos{
+       width: 587px;
+       padding-bottom: 0px;
+       padding-top:0px;
+    }
+    .botonesDatos button{
+       font-size: 0.7rem;
+       padding-top: 3px;
+       padding-left: 6px;
+       padding-right: 6px;
+    }
+    .seccionDatos p, .seccionDatos li, #fraseInicial{
+        font-size: 0.8rem;
+    }
+    .seccionDatos h3{
+        font-size: 1.2rem;
+    }
+    .container-footer {
+        font-size: 0.75rem;
+    }
+    #flechaAtras{
+       font-size: 23px;
+    }
+    .seccionFlecha{
+       margin-top: 9px;
+       height: 19px;
+    }
+    #divLineas{
+       margin-top: 15px;
+    }
+    .lineaAprendizaje{
+       padding-left: 37px;
+    }
+    /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
+    p.parrafos, a.textoBoton, p.parrafoCelda{
+        font-size: 0.7rem;
+    }
+    #form_filtrado label{
+        font-size: 0.6rem;
+    }
+    p.lead{
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+    div.botonSubirDossier{
+        width: 130px;
+        height: 30px;
+    }
+    div.botonCrearItinerario{
+        width: 170px;
+        height: 25px;
+    }
+    /* Código de mensaje para alumno de creacion itinerarios en pagina de consulta líneas de aprendizaje */
+    div.divCrearIterEnLineas{
+        flex: direction;
+        flex-direction: column;
+    }
+    div.divTextoCreacionIter{
+        width: 75%;
+    }
+    #tabla_rubrica{
+        font-size: 0.6rem;
+        margin-left:5.5%;
+    }
+    #tabla_itinerario{
+        font-size: 0.6rem;
+    }
+    h6.tituloCeldaRubrica{
+        font-size: 0.7rem;
+        align-items: center;
+        margin-bottom: 0px;
+    }
+    /* Página ver calificación de alumnado */
+    .divNotaTutorCentro{
+        display: flex;
+        justify-content: end;
+
+    }
+    h4>i{
+        font-size: 1rem;
+    }
+    h5.h5NotaTutor{
+        font-size: 1.5rem;
+        line-height: 20px;
+    }
+    p.especialidadNotaFinal{
+        font-size: 1rem;
+    }
+    input.cajaTextoCalificacion{
+        width: 60px;
+        height: 26px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+    }
+    input.cajaTextoCalificacionFinal{
+        width: 60px;
+        height: 26px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        margin-left: 5px;
+    }
+    #sinCompletarEvaluacion{
+        margin-top: 0px;
+    }
+    form.formularioCalificacion{
+        width: 570px;
+        height: 280px;
+        margin-left: 25px;
+    }
+}
+
+@media screen and (max-width: 426px){
+    #contenedorForm{
+        margin-top: 11px;
+        margin-bottom: 11px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 0px;
+        padding-right: 0px;
+        border: 0.25px solid;
+        border-style: dashed;
+        max-width: 350px;
+    }
+    .cajaNombreAlum, .cajaGrado{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        max-width: 140px;
+        height: auto;
+        font-size: 0.4rem;
+    }
+    .cajaTituloFiltrado{
+        padding-bottom: 3px;
+    }
+    button.botonBuscar{
+        margin-left: 8px;
+        width: 20px;
+        height: 20px;
+    }
+    .labelNombreAlum{
+        padding-right: 5px;
+    }
+    h5.tituloPregunta{
+        padding-bottom: 5px;
+    }
+    .fotoCreativeCommons{
+        max-width: 63px;
+        height: 22px;
+    }
+    #divCreativeCommons{
+       padding-left: 0px;
+       margin-right: 10px;
+    }
+    #licenciaAutores{
+        margin-left: 0px;
+    }
+    header{
+        min-height: 2em;
+    }
+    #logo_UR_blanco{
+        width: 120px;
+        height: 43px;
+    }
+    .tituloEncabezado{
+        font-size: 1.4em;
+    }
+    #opt1Menu, #opt2Menu, #opt3Menu, #opt4Menu, #opt5Menu{
+        visibility: hidden;
+    }
+    .material-icons {
+        font-size: 15px;
+    }
+    .iconosTabla{
+        font-size: 12px;
+    }
+    .iconoBuscar{
+        position: absolute;
+        top: 102px;
+        right: 49px;
+        font-size: 12px;
+    }
+    #menu{
+        padding-top: 2px;
+        padding-left: 17px;
+    }
+    #div_M{
+        width: 100%;
+        padding-left: 26px;
+    }
+    .M_metro{
+       width:60px;
+       height:37px;
+    }
+    #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8{
+       width:40px;
+       height:40px;
+    }
+    h2{
+        font-size: 0.7rem;
+    }
+    h5 i{
+        font-size: 0.4em;
+    }
+    #intro {
+        font-size: 0.6em;
+    }
+    #intro span {
+        font-size: 0.9em;
+    }
+    #metroColores{
+        width: 260px;
+        height: 238px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    #divMetroColores{
+        padding-left: 20px;
+    }
+    #divPreguntas{
+        direction: flex;
+        flex:column;
+        padding-top: 4px;
+    }
+    /* Letra y espacio de modales*/
+    h5>em, div.modal-body{
+        font-size: 0.4em;
+    }
+    div.modal-dialog{
+        max-width: 260px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .modal-header{
+        max-height: 30px;
+        padding-top:0px;
+        padding-bottom: 8px;
+    }
+    #modalSelloCalidad .modal-header{
+        max-height: 44px;
+        padding-top:0px;
+        padding-bottom: 8px;
+    }
+    #modalPregunta6 .modal-header{
+        max-height: 54px;
+        padding-top:0px;
+        padding-bottom: 8px;
+    }
+    .modal-header h5{
+        line-height: 1rem;
+    }
+
+    button.close{
+        width: 16px;
+        height: 16px;
+        margin-top: 9px;
+    }
+    button.close>span{
+        position: absolute;
+        top: 1px;
+        right: 19px;
+    }
+    #modalPregunta6 button.close>span{
+        position: absolute;
+        top: 12px;
+        right: 19px;
+    }
+    #modalSelloCalidad  button.close>span{
+        position: absolute;
+        top: 8px;
+        right: 19px;
+    }
+    /* Cajas de linea para estaciones */
+    div.linea1{
+        max-width: 98px;
+        max-height:36px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-right: 8px;
+    }
+    div.titulolinea1{
+        border: 2px solid #4975cd;
+    }
+    div.linea2{
+        max-width: 96px;
+        max-height:36px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-right: 8px;
+    }
+    div.titulolinea2{
+        border: 2px solid #95d152;
+    }
+    div.linea3{
+        max-width: 96px;
+        max-height:36px;
+        padding-left: 8px;
+        margin-right: 8px;
+    }
+    div.titulolinea3{
+        border: 2px solid #71379c;
+    }
+    div.linea4{
+        max-width: 99px;
+        max-height:36px;
+        padding-left: 8px;
+        margin-right: 8px;
+    }
+    div.titulolinea4{
+        border: 2px solid #ef0d0d;
+    }
+    /* Texto con titulo de linea en pagina 'Lineas de Aprendizaje' */
+    h4{
+       font-size: 0.55rem;
+       /*line-height: 0.6;*/
+    }
+    #infoLinea, #infoSello{
+       padding-left: 0px;
+       padding-right: 10px;
+       font-size: 10px;
+    }
+    .selectLinea{
+       height: 25px;
+       font-size: 0.5rem;
+    }
+    img.linea{
+       width: 185px;
+       height: 25px;
+       padding-right: 0px;
+    }
+    hr{
+       margin-bottom: 0px;
+    }
+    .botonesDatos{
+       width: 325px;
+       padding-bottom: 2px!important;
+       padding-top: 6px!important;
+    }
+    .grupoBotones{
+       padding-left: 7px;
+    }
+    .botonesDatos button{
+       font-size: 0.4rem;
+       padding-top: 3px;
+       padding-left: 4px;
+       padding-right: 4px;
+    }
+    .seccionDatos p, .seccionDatos li, #fraseInicial{
+        font-size: 0.6rem;
+    }
+    .seccionDatos h3{
+        font-size: 1rem;
+    }
+    .container-footer {
+        font-size: 0.65rem;
+    }
+    #flechaAtras{
+       font-size: 19px;
+    }
+    .seccionFlecha{
+       margin-top: 6px;
+       height: 20px;
+    }
+    #divLineas{
+       margin-top: 10px;
+    }
+    .lineaAprendizaje{
+       padding-left: 34px;
+    }
+    button.botonInfoLinea{
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+    /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
+    p.parrafos, a.textoBoton, #form_filtrado label{
+        font-size: 0.6rem;
+    }
+    p.lead{
+        margin-top: 5px;
+        font-size: 0.8rem;
+    }
+    div.botonSubirDossier{
+        width: 115px;
+        height: 27px;
+    }
+    div.botonCrearItinerario{
+        width: 145px;
+        height: 13px;
+    }
+    /* Código de mensaje para alumno de creacion itinerarios en pagina de consulta líneas de aprendizaje */
+    div.divCrearIterEnLineas{
+        flex-direction: column;
+    }
+    div.divTextoCreacionIter{
+        width: 80%;
+    }
+    #tabla_rubrica{
+        font-size: 0.35rem;
+        margin-left: 3%;
+    }
+    #tabla_itinerario{
+        font-size: 0.35rem;
+    }
+    p.parrafoCelda{
+        font-size: 0.3rem;
+        align-items: center;
+    }
+    #form_filtrado label{
+       font-size: 0.4rem;
+    }
+    h6.tituloCeldaRubrica{
+        font-size: 0.3rem;
+        align-items: center;
+        margin-bottom: 0px;
+    }
+    #cajaRubrica{
+        padding-left: 2px;
+    }
+    th.cajaBlancaRubrica{
+        padding-left: 2px;
+        padding-right: 2px;
+        width: 20px;
+    }
+    /* Página ver calificación de alumnado */
+    .divNotaTutorCentro{
+        display: flex;
+        justify-content: end;
+    }
+    h4>i{
+        font-size: 0.6rem;
+    }
+    h5.h5NotaTutor{
+        font-size: 1.4rem;
+        line-height: 10px;
+    }
+    p.especialidadNotaFinal{
+        font-size: 0.7rem;
+    }
+    input.cajaTextoCalificacion{
+        width: 43px;
+        height: 23px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        font-size: 0.8rem;
+    }
+    input.cajaTextoCalificacionFinal{
+        width: 43px;
+        height: 23px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        margin-left: 5px;
+        font-size: 0.8rem;
+    }
+    #sinCompletarEvaluacion{
+        margin-top: 0px;
+        font-size: 0.7rem;
+    }
+    form.formularioCalificacion{
+        width: 338px;
+        height: 250px;
+        margin-left: 35px;
+    }
+    div.divNotasParciales{
+        flex-direction: column;
+    }
+}
+
+
