@@ -25,6 +25,8 @@ public class ControladorDossierFinal {
     @Autowired
     private TutorURService tutorURService;
     @Autowired
+    private TutorCentroService tutorCentroService;
+    @Autowired
     private PracticumService practicumService;
     @Autowired
     private DossierService dossierService;
@@ -132,25 +134,30 @@ public class ControladorDossierFinal {
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
+            List<Grado> grados = new ArrayList<>();
+            List<Estudiante> tutorizados = new ArrayList<>();
             if(user.tieneRol("ROL_TUTOR_UR")){
                 TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
-                List<Grado> grados = new ArrayList<>();
-                List<Estudiante> tutorizados = tutorUR.getTutorizados();
-                for(int i=0;i<tutorizados.size();i++) {
-                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if(practicum!=null){
-                        Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                        if(!grados.contains(grado)){
-                            grados.add(grado);
-                        }
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria()));
-                    }
-                }
-                model.addAttribute("grados",grados);
-                model.addAttribute("gradoSeleccionado", 0);
-                model.addAttribute("tutorizados", estudiantes);
-                return "dossierAlumnado";
+                tutorizados = tutorUR.getTutorizados();
             }
+            if(user.tieneRol("ROL_TUTOR_CENTRO")){
+                TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(user.getId());
+                tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+            }
+            for(int i=0;i<tutorizados.size();i++) {
+                Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                if(practicum!=null){
+                    Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                    if(!grados.contains(grado)){
+                        grados.add(grado);
+                    }
+                    estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria()));
+                }
+            }
+            model.addAttribute("grados",grados);
+            model.addAttribute("gradoSeleccionado", 0);
+            model.addAttribute("tutorizados", estudiantes);
+            return "dossierAlumnado";
         }
         return "redirect:/";
     }
@@ -161,8 +168,8 @@ public class ControladorDossierFinal {
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         if(user!=null) {
-            if(user.tieneRol("ROL_TUTOR_UR")){
-                Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
+            Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
+            if((user.tieneRol("ROL_TUTOR_UR") && tutorURService.getTutorURPorCodnum(user.getId()).tieneEstudiante(estudiante))||(user.tieneRol("ROL_TUTOR_CENTRO") && relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentroService.getTutorCentroPorCodnum(user.getId())).contains(estudiante))){
                 if(estudiante!=null){
                     Practicum practicum = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
                     Dossier dossier = practicum.getDossier();
@@ -175,6 +182,7 @@ public class ControladorDossierFinal {
                     model.addAttribute("dossierFinal", dossier);
                     model.addAttribute("estudiante", estudiante);
                     model.addAttribute("idEstudiante", estudiante.getId());
+                    model.addAttribute("urlFlecha", "/dossierAlumnado");
                     return "dossierFinal";
                 }
             }
@@ -182,7 +190,7 @@ public class ControladorDossierFinal {
         return "redirect:/";
     }
 
-    @PostMapping("/dossierAlumnado/consultarDossierFinal/nuevoComentario/{id}")
+    @PostMapping("/dossierAlumnado/consultarDossierFinal/nuevoComentario/{id}") // Ruta solo para rol TUTOR_UR
     public String nuevoComentarioDossierFinal(@PathVariable Integer id, @RequestParam("feedbackTutor") String feedbackTutor, Model model){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
@@ -201,54 +209,54 @@ public class ControladorDossierFinal {
         return "redirect:/";
     }
 
-    @PostMapping("/dossierAlumnado") //Ruta a la que solo acceden TUTOR_UR
+    @PostMapping("/dossierAlumnado") //Ruta a la que solo acceden TUTOR_UR o TUTOR_CENTRO
     public String consultaDossierAlumnadoPorFiltro(@RequestParam("nombreAlumn") String nombreAlumn, @RequestParam("grado") Integer grado, Model model){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
-            if(user.tieneRol("ROL_TUTOR_UR")){
+            List<Grado> grados = new ArrayList<>();
+            List<Estudiante> tutorizados = new ArrayList<>();
+            if(user.tieneRol("ROL_TUTOR_UR")) {
                 TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
-                List<Grado> grados = new ArrayList<>();
-                List<Estudiante> tutorizados = tutorUR.getTutorizados();
-                for(int i=0;i<tutorizados.size();i++){
-                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if(practicum!=null){
-                        Grado gradoLista = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                        if (!grados.contains(gradoLista)) {
-                            grados.add(gradoLista);
-                        }
-                        // Caso donde filtro tenga todos los valores vacios
-                        if(grado==0 && nombreAlumn==""){
-                            return "redirect:/dossierAlumnado";
-                        }
-                        // Caso donde el filtro solo se complete con Grado
-                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
+                tutorizados = tutorUR.getTutorizados();
+            }
+            if(user.tieneRol("ROL_TUTOR_CENTRO")){
+                TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(user.getId());
+                tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+            }
+            for(int i=0;i<tutorizados.size();i++){
+                Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                if(practicum!=null){
+                    Grado gradoLista = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                    if (!grados.contains(gradoLista)) {
+                        grados.add(gradoLista);
+                    }
+                    // Caso donde filtro tenga todos los valores vacios
+                    if(grado==0 && nombreAlumn==""){
+                        return "redirect:/dossierAlumnado";
+                    }
+                    // Caso donde el filtro solo se complete con Grado
+                    if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
+                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
+                    }
+                    else{
+                        // Caso donde el filtro solo se complete con Nombre
+                        if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
                             estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
                         }
-                        else{
-                            // Caso donde el filtro solo se complete con Nombre
-                            if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
-                            }
-                            if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
-                            }
+                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
                         }
                     }
-
                 }
-                model.addAttribute("grados", grados);
-                model.addAttribute("gradoSeleccionado", grado);
-                model.addAttribute("nombreSeleccionado", nombreAlumn);
-                model.addAttribute("tutorizados",estudiantes);
-                return "dossierAlumnado";
             }
-            if(user.tieneRol("ROL_COORDINADOR")){
-                //Falta implementar para rol COORDINADOR
-                return "redirect:/";
-            }
+            model.addAttribute("grados", grados);
+            model.addAttribute("gradoSeleccionado", grado);
+            model.addAttribute("nombreSeleccionado", nombreAlumn);
+            model.addAttribute("tutorizados",estudiantes);
+            return "dossierAlumnado";
         }
         return "redirect:/";
     }

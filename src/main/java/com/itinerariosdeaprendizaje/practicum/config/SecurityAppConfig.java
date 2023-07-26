@@ -41,7 +41,7 @@ public class SecurityAppConfig {
              //.requestMatchers("/actuator/**").hasIpAddress("10.254.0.252")
              .requestMatchers("/itinerariosPropios/**").hasAuthority(TipoPerfil.ROL_ESTUDIANTE.name())
              .requestMatchers("/itinerariosAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name())
-             .requestMatchers("/dossierFinal/**").hasAuthority(TipoPerfil.ROL_ESTUDIANTE.name())
+             .requestMatchers("/dossierFinal/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
              .requestMatchers("/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
              .anyRequest().hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
              .and()

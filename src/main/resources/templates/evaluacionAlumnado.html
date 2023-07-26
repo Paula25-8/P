@@ -34,7 +34,7 @@
         <div class="d-flex justify-content-center cajaTituloFiltrado">
           <h5><i>Búsqueda de alumnado por filtrado:</i></h5>
         </div>
-        <form th:action="@{/dossierAlumnado}" method="post" id="form_filtrado">
+        <form th:action="@{/calificacion}" method="post" id="form_filtrado">
           <div class="form-group d-flex flex-nowrap flex-row justify-content-center align-items-center">
             <div class="col-2 labelNombreAlum d-flex align-items-center justify-content-end">
               <label for="nombreAlum">Nombre y apellidos: </label>
@@ -67,6 +67,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Fecha de entrega de dossier</th>
             <th scope="col">Grado</th>
+            <th scope="col">Convocatoria</th>
             <th scope="col"></th>
           </tr>
           </thead>
@@ -75,9 +76,13 @@
             <td th:text="${alumno.nombre}"></td>
             <td th:text="${alumno.dossier!=null}? ${alumno.dossier.fechaEntrega}: '-'"></td>
             <td th:text="${alumno.gradoActual.nombre}"></td>
+            <td th:text="${alumno.convocatoria}"></td>
             <td>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/dossierAlumnado/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier">
+              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier">
                  <span class="material-icons text-secondary iconosTabla" aria-hidden="true">visibility</span>
+              </a>
+              <a th:if="${alumno.dossier!=null}" th:href="@{/}" class="enlacesItinerario" title="Evaluar practicum del alumno">
+                <span class="material-icons text-secondary iconosTabla" aria-hidden="true">select_check_box</span>
               </a>
             </td>
           </tr>

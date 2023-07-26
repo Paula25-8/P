@@ -41,6 +41,8 @@ public class ControladorGestion {
     private NotaTutorCentroService notaTutorCentroService;
     @Autowired
     private PracticumService practicumService;
+    @Autowired
+    private RelacionEstudianteTutorCentroService relacionEstudianteTutorCentroService;
 
     /* OPCION MENU: MODELO DE ITINERARIOS con nombre del grado del usuario bien usado */
     @GetMapping("/")
@@ -71,30 +73,16 @@ public class ControladorGestion {
             if(usuario.tieneRol("ROL_TUTOR_UR")){
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(usuario.getId());
                 List<Estudiante> tutorizados = tutorUR.getTutorizados();
-                sesion.setAttribute("tutorizados", tutorizados);
                 if(!tutorizados.isEmpty()){
                     model.addAttribute("grado", tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
                 }
             }
             if(usuario.tieneRol("ROL_TUTOR_CENTRO")){
-                /*TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(usuario.getId());
-
-                Practicum pract = practicumService.getPracticum(21);
-                System.out.println("Pract: "+pract);
-
-                List<Practicum> practicums = practicumService.getPracticums();
-                for(int i=0;i<practicums.size();i++){
-                    if(practicums.get(i).getId()==21){
-                        System.out.println("El practicum tiene un id igual a 21");
-                    }
-                    System.out.println(practicums.get(i).getId());
-                }
-
-                List<Estudiante> tutorizados = notaTutorCentroService.getEstudiantesPorTutor(tutorCentro);
-                sesion.setAttribute("tutorizados", tutorizados);
+                TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(usuario.getId());
+                List<Estudiante> tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
                 if(!tutorizados.isEmpty()){
-                    model.addAttribute("grado", tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()));
-                }*/
+                    model.addAttribute("grado", tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
+                }
             }
             return "index";
         }else{
