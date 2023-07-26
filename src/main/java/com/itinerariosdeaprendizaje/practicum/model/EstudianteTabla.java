@@ -14,4 +14,6 @@ public class EstudianteTabla {
     private Integer numItinerarios;
     private Grado gradoActual;
     private Itinerario itinerarioActivo;
+    private Dossier dossier;
+    private Integer convocatoria;
 }

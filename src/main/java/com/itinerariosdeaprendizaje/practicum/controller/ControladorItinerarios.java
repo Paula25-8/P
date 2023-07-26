@@ -562,25 +562,20 @@ public class ControladorItinerarios {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
-        System.out.println("Nombre usuario: "+user.getNombre());
         List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
-            System.out.println("El usuario NO es nulo");
             if(user.tieneRol("ROL_TUTOR_UR")){
-                System.out.println("El usuario tiene rol de tutor de la UR");
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
                 List<Grado> grados = new ArrayList<>();
                 List<Estudiante> tutorizados = tutorUR.getTutorizados();
                 for(int i=0;i<tutorizados.size();i++){
                     Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if(practicum==null){
-                        return "redirect:/";
-                    }else{
+                    if(practicum!=null){
                         Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
                         if(!grados.contains(grado)){
                             grados.add(grado);
                         }
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(),tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), grado, practicum.getItinerarioActivo()));
+                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(),tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), grado, practicum.getItinerarioActivo(), null, null));
                     }
                 }
                 model.addAttribute("grados", grados);
@@ -602,29 +597,6 @@ public class ControladorItinerarios {
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         List<EstudianteTabla> estudiantes = new ArrayList<>();
-        // Obtenemos el nombre y apellidos del filtro
-        /*String nombre = "";
-        String apellido1 = "";
-        String apellido2 = "";
-        if(nombreAlumn!=null){
-            Integer posEspacio = nombreAlumn.indexOf(" ");
-            if(posEspacio!=-1){
-                nombre = nombreAlumn.substring(0, posEspacio);
-                String apellidos = nombreAlumn.substring(posEspacio+1, nombreAlumn.length());
-                posEspacio = apellidos.indexOf(" ");
-                if(posEspacio != -1){
-                    apellido1 = apellidos.substring(0, posEspacio);
-                    apellido2 = apellidos.substring(posEspacio+1, apellidos.length());
-                }
-                else{
-                    apellido1 = apellidos;
-                }
-            }
-            else{
-                nombre = nombreAlumn;
-            }
-        }
-        System.out.println(nombre+", "+apellido1+", "+apellido2);*/
         if(user!=null) {
             if(user.tieneRol("ROL_TUTOR_UR")){
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
@@ -645,18 +617,15 @@ public class ControladorItinerarios {
                         }
                         // Caso donde el filtro solo se complete con Grado
                         if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
-                            System.out.println("Estamos en caso de valor de grado pero NO de nombre");
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo()));
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
                         }
                         else{
                             // Caso donde el filtro solo se complete con Nombre
                             if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                System.out.println("Estamos en caso de valor de nombre pero NO de grado");
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo()));
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
                             }
                             if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                System.out.println("Estamos en caso donde hay tanto valor de grado como de nombre");
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo()));
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
                             }
                         }
                     }

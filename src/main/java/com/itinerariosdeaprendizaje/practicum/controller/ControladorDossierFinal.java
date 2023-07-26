@@ -7,24 +7,23 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dossierFinal")
 public class ControladorDossierFinal {
     private MetodosGenerales metodosGenerales = new MetodosGenerales();
     @Autowired
     private EstudianteService estudianteService;
+    @Autowired
+    private TutorURService tutorURService;
     @Autowired
     private PracticumService practicumService;
     @Autowired
@@ -35,8 +34,10 @@ public class ControladorDossierFinal {
     private RelacionEstudianteTutorCentroService relacionEstudianteTutorCentroService;
     @Autowired
     private NotaTutorCentroService notaTutorCentroService;
+    @Autowired
+    private GradoService gradoService;
 
-    @GetMapping("")
+    @GetMapping("/dossierFinal")
     public String consultaDossierFinal(Model model){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
@@ -77,7 +78,7 @@ public class ControladorDossierFinal {
         return "redirect:/";
     }
 
-    @PostMapping("/crearDossier") //Ruta a la que solo acceden ESTUDIANTES
+    @PostMapping("/dossierFinal/crearDossier") //Ruta a la que solo acceden ESTUDIANTES
     public String nuevoDossierFinal(@RequestParam("docuDossier") MultipartFile docu, Model model){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
@@ -100,7 +101,7 @@ public class ControladorDossierFinal {
         return "redirect:/";
     }
 
-    @PostMapping("/modificarDossier") //Ruta a la que solo acceden ESTUDIANTES
+    @PostMapping("/dossierFinal/modificarDossier") //Ruta a la que solo acceden ESTUDIANTES
     public String modificarDossierFinal(@RequestParam("docuDossier") MultipartFile docu, @RequestParam("idDossier") Integer idDossier, Model model){
         try {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -122,5 +123,133 @@ public class ControladorDossierFinal {
         catch (IOException exception){
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/dossierAlumnado")
+    public String consultaDossierFinalListadoAlumnos(Model model){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        List<EstudianteTabla> estudiantes = new ArrayList<>();
+        if(user!=null) {
+            if(user.tieneRol("ROL_TUTOR_UR")){
+                TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
+                List<Grado> grados = new ArrayList<>();
+                List<Estudiante> tutorizados = tutorUR.getTutorizados();
+                for(int i=0;i<tutorizados.size();i++) {
+                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                    if(practicum!=null){
+                        Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                        if(!grados.contains(grado)){
+                            grados.add(grado);
+                        }
+                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria()));
+                    }
+                }
+                model.addAttribute("grados",grados);
+                model.addAttribute("gradoSeleccionado", 0);
+                model.addAttribute("tutorizados", estudiantes);
+                return "dossierAlumnado";
+            }
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/dossierAlumnado/consultarDossierFinal/{id}")
+    public String consultaDossierFinalAlumnoConcreto(@PathVariable Integer id, Model model){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        if(user!=null) {
+            if(user.tieneRol("ROL_TUTOR_UR")){
+                Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
+                if(estudiante!=null){
+                    Practicum practicum = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                    Dossier dossier = practicum.getDossier();
+                    if(dossier != null){
+                        model.addAttribute("rutaDocu", "/files/dossierFinal/" + dossier.getNombreDocu());
+                        model.addAttribute("fechaEntrega", dossier.getFechaEntrega());
+                        model.addAttribute("feedbackTutor", dossier.getFeedbackTutorUR());
+                        model.addAttribute("fechaFeedback", dossier.getFechaEntrega());
+                    }
+                    model.addAttribute("dossierFinal", dossier);
+                    model.addAttribute("estudiante", estudiante);
+                    model.addAttribute("idEstudiante", estudiante.getId());
+                    return "dossierFinal";
+                }
+            }
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/dossierAlumnado/consultarDossierFinal/nuevoComentario/{id}")
+    public String nuevoComentarioDossierFinal(@PathVariable Integer id, @RequestParam("feedbackTutor") String feedbackTutor, Model model){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        if(user!=null) {
+            Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
+            if(estudiante!=null) {
+                Practicum practicum = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                Dossier dossier = practicum.getDossier();
+                dossier.setFeedbackTutorUR(feedbackTutor);
+                dossier.setFechaFeedback(new Date());
+                dossierService.guardarDossier(dossier);
+            }
+            return "redirect:/dossierAlumnado/consultarDossierFinal/"+id;
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/dossierAlumnado") //Ruta a la que solo acceden TUTOR_UR
+    public String consultaDossierAlumnadoPorFiltro(@RequestParam("nombreAlumn") String nombreAlumn, @RequestParam("grado") Integer grado, Model model){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        List<EstudianteTabla> estudiantes = new ArrayList<>();
+        if(user!=null) {
+            if(user.tieneRol("ROL_TUTOR_UR")){
+                TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
+                List<Grado> grados = new ArrayList<>();
+                List<Estudiante> tutorizados = tutorUR.getTutorizados();
+                for(int i=0;i<tutorizados.size();i++){
+                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                    if(practicum!=null){
+                        Grado gradoLista = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                        if (!grados.contains(gradoLista)) {
+                            grados.add(gradoLista);
+                        }
+                        // Caso donde filtro tenga todos los valores vacios
+                        if(grado==0 && nombreAlumn==""){
+                            return "redirect:/dossierAlumnado";
+                        }
+                        // Caso donde el filtro solo se complete con Grado
+                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
+                        }
+                        else{
+                            // Caso donde el filtro solo se complete con Nombre
+                            if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
+                            }
+                            if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria()));
+                            }
+                        }
+                    }
+
+                }
+                model.addAttribute("grados", grados);
+                model.addAttribute("gradoSeleccionado", grado);
+                model.addAttribute("nombreSeleccionado", nombreAlumn);
+                model.addAttribute("tutorizados",estudiantes);
+                return "dossierAlumnado";
+            }
+            if(user.tieneRol("ROL_COORDINADOR")){
+                //Falta implementar para rol COORDINADOR
+                return "redirect:/";
+            }
+        }
+        return "redirect:/";
     }
 }
