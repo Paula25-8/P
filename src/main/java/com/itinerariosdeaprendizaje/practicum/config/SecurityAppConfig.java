@@ -140,7 +140,9 @@ public class SecurityAppConfig {
                 .and()
                 .withUser("rosmoreno").password("rosmoreno").authorities("ROL_ESTUDIANTE")
                 .and()
-                .withUser("matio").password("matio").authorities("ROL_TUTOR_CENTRO");
+                .withUser("matio").password("matio").authorities("ROL_TUTOR_CENTRO")
+                .and()
+                .withUser("user").password("user").authorities("ROL_COORDINADOR");
         //passwordEncoder().encode("password")
     }
     @Bean

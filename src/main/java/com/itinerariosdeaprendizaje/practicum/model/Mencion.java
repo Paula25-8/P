@@ -19,6 +19,9 @@ public class Mencion {
     @NotNull
     private String nombre;
 
+    @NotNull
+    private String curso;
+
     @ManyToMany
     @JoinTable(name="MENCION_ESTACION",
             joinColumns = {

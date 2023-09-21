@@ -37,13 +37,10 @@ public class NotaTutorCentroService {
         return notaTutorCentroRepository.findByPracticum(practicum);
     }
     public List<Estudiante> getEstudiantesPorTutor(TutorCentro tutorCentro){
-        System.out.println("Buscamos los alumnos de: "+tutorCentro.getNombre());
         List<NotaTutorCentro> notas = notaTutorCentroRepository.findByTutorCentro(tutorCentro);
-        System.out.println("Tamaño de las notas: "+notas.size());
         List<Estudiante> tutorizados = new ArrayList<>();
         for(int i=0;i<notas.size();i++){
-            System.out.println(notas.get(i).getPracticum().getId());
-            //tutorizados.add(notas.get(i).getPracticum().getEstudiante());
+            tutorizados.add(notas.get(i).getPracticum().getEstudiante());
         }
         return tutorizados;
     }

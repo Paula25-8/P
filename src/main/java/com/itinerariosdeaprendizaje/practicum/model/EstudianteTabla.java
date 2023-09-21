@@ -16,4 +16,5 @@ public class EstudianteTabla {
     private Itinerario itinerarioActivo;
     private Dossier dossier;
     private Integer convocatoria;
+    private boolean evaluado;
 }

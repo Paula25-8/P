@@ -35,6 +35,16 @@ public class Estudiante extends Usuario{
         return null;
     }
 
+    public Mencion obtenerMencionPorCurso(String curso){
+        List<Mencion> menciones = this.getMenciones();
+        for(int i=0;i<menciones.size();i++){
+            if(menciones.get(i).getCurso().equals(curso)){
+                return menciones.get(i);
+            }
+        }
+        return null;
+    }
+
     // Metodo que dice si un estudiante tiene algun itinerario creado en el practicum del curso academico y la convocatoria actuales
     public boolean tieneItinerarioCreado(String curso, Integer conv){
         List<Practicum> practicums = this.getPracticums();

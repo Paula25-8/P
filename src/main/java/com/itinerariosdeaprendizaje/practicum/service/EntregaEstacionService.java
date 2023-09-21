@@ -61,14 +61,4 @@ public class EntregaEstacionService {
         entregaEstacionRepository.delete(entrega);
     }
 
-    // Cargamos documento a base de datos
-    /*public EntregaEstacion subidaDocumento(MultipartFile file, EntregaEstacion entrega) throws IOException {
-        entrega.setDocu(ArchivosUtils.compressDocu(file.getBytes()));
-        System.out.println("Documento de entrega: "+entrega.getDocu().toString());
-        return entregaEstacionRepository.save(entrega);
-    }*/
-    // Obtenemos documento de base de datos
-    /*public byte[] descargaDocumento(EntregaEstacion entrega){
-        return ArchivosUtils.decompressDocu(entrega.getDocu());
-    }*/
 }

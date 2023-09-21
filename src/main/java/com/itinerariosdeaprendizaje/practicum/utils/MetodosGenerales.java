@@ -1,10 +1,12 @@
 package com.itinerariosdeaprendizaje.practicum.utils;
 
+import com.itinerariosdeaprendizaje.practicum.model.Mencion;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @NoArgsConstructor
 public class MetodosGenerales {
@@ -12,7 +14,7 @@ public class MetodosGenerales {
         Calendar fecha = new GregorianCalendar();
         int año = fecha.get(Calendar.YEAR)-2000;
         int mes = fecha.get(Calendar.MONTH);
-        if(mes+1>=9) {
+        if(mes+1>=10) {
             return año+"/"+(año+1);
         }else{
             return (año-1)+"/"+año;
@@ -28,6 +30,17 @@ public class MetodosGenerales {
         }else{
             return 1; // Primera convocatoria del curso academico
         }
+    }
+
+    public Mencion getMencionByCurso(List<Mencion> menciones, String curso){
+        if(menciones!=null && !menciones.isEmpty()){
+            for(int i=0;i< menciones.size();i++){
+                if(menciones.get(i).getCurso().equals(curso)){
+                    return menciones.get(i);
+                }
+            }
+        }
+        return null;
     }
 
 }

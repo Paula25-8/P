@@ -3,10 +3,8 @@ package com.itinerariosdeaprendizaje.practicum.controller;
 import com.itinerariosdeaprendizaje.practicum.model.*;
 import com.itinerariosdeaprendizaje.practicum.service.*;
 import com.itinerariosdeaprendizaje.practicum.utils.MetodosGenerales;
-import com.itinerariosdeaprendizaje.practicum.utils.TipoPerfil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.id.IntegralDataTypeHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -486,6 +484,23 @@ public class ControladorItinerarios {
                     seleccionEstaciones.add(Integer.parseInt(estacionLinea3));
                     seleccionEstaciones.add(Integer.parseInt(estacionLinea4));
                     if (practicumActivo.caracterItinerario(id).equals("Inicial")) {
+                        // Previo a crear el nuevo itinerario, borramos los documentos de las entregas del viejo (primer itinerario)
+                        List<Integer> indicesEstacionesViejas = entregaEstacionService.getIndicesEstacionDeItinerario(id);
+                        for(int i=0;i<indicesEstacionesViejas.size();i++){
+                            EntregaEstacion.IdEntregaEstacion idEntrega = new EntregaEstacion.IdEntregaEstacion();
+                            idEntrega.setId_Itinerario(id);
+                            idEntrega.setId_Estacion(indicesEstacionesViejas.get(i));
+                            EntregaEstacion entrega = entregaEstacionService.getEntregasPorId(idEntrega);
+                            if(entrega.getNombreDocu()!=null && !entrega.getNombreDocu().isEmpty()){
+                                documentosService.eliminarActividad(entrega.getNombreDocu());
+                                entrega.setNombreDocu("");
+                                entrega.setFechaEntrega(null);
+                                entregaEstacionService.guardarEntrega(entrega);
+                            }else{
+                                System.out.println("No hay documento entregado");
+                            }
+                        }
+                        // Creamos nuevo itinerario
                         Itinerario nuevoItinerario = new Itinerario();
                         nuevoItinerario.setFechaCreacion(new Date());
                         nuevoItinerario = itinerarioService.guardarItinerario(nuevoItinerario);
@@ -575,7 +590,7 @@ public class ControladorItinerarios {
                         if(!grados.contains(grado)){
                             grados.add(grado);
                         }
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(),tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), grado, practicum.getItinerarioActivo(), null, null));
+                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(),tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), grado, practicum.getItinerarioActivo(), null, null, false));
                     }
                 }
                 model.addAttribute("grados", grados);
@@ -617,15 +632,15 @@ public class ControladorItinerarios {
                         }
                         // Caso donde el filtro solo se complete con Grado
                         if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
                         }
                         else{
                             // Caso donde el filtro solo se complete con Nombre
                             if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
                             }
                             if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null));
+                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
                             }
                         }
                     }

@@ -60,7 +60,7 @@
                         <div th:replace="~{popUps/popUps :: popUpSello}"></div>
                         <div>
                             <form method="post" th:action="@{/itinerariosAlumnado/consultarActividad/nuevoComentario/{id}(id=${idEstudiante})}">
-                                <div class="form-group"> <!-- ${feedbackTutor==null} ? 'No hay ningún comentario registrado.' :  -->
+                                <div class="form-group">
                                     <textarea class="form-control mx-3" name="feedbackTutor" id="feedbackTutor" rows="4" th:text="${feedbackTutor}" placeholder="No hay ningún comentario registrado."></textarea>
                                     <label class="mx-2" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
                                     <input type="hidden" th:value="${itinerario.id}" name="idItinerario">

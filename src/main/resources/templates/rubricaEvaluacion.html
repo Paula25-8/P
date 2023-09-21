@@ -23,35 +23,45 @@
   <!-- Hojas de estilo CSS -->
   <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
 
-  <!-- Importamos JQuery en archivo y debajo el js en el que se va a usar -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.0.min.js"></script>
-  <script type="text/javascript" src="js/mapaMetro.js"></script>
+  <!-- jQuery library -->
+  <script th:if="${valorarRubrica==true}" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- html2canvas library -->
+  <!--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.1/dist/html2canvas.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- jsPDF library -->
+  <!--<script th:if="${valorarRubrica==true}" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>-->
 
 </head>
 <body class="d-flex flex-column">
 <header th:replace="~{general/header :: cabecera}"></header>
 <main class="row flex-nowrap container-fluid">
   <div th:replace="~{general/sidebar :: menu-lateral}"></div>
-  <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center"> <!-- d-flex -->
-    <div class="row-auto row-xl-10">
-      <div class="col-auto px-sm-2 px-2">
-        <h2 th:text="'Rúbrica de evaluación del '+${tipoTutor}" class="fw-bold my-4 mx-1 align-items-center text-center"></h2>
+  <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center" id="contenedorEvaluacion">
+      <div class="d-flex justify-content-center align-items-center flex-row flex-nowrap"> <!-- row-auto row-xl-10 -->
+          <div class="col-10 d-flex flex-column justify-content-center"> <!-- col-auto px-sm-2 px-2 -->
+              <h2 th:text="'Rúbrica de evaluación del '+${tipoTutor}" class="fw-bold my-4 mx-1 align-items-center text-center"></h2>
+          </div>
+          <div th:if="${urlFlecha}" class="col-1 d-flex justify-content-end">
+              <a th:href="@{${urlFlecha}}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
+          </div>
       </div>
-    </div>
-      <form method="post"> <!-- AQUI HABRA QUE PROGRAMARLO PARA TUTORES -->
+      <form th:action="@{/evaluacionAlumnado}" method="post" id="formularioEvaluacion">
         <div th:if="${valorarRubrica}" class="d-flex flex-nowrap flex-row justify-content-center my-3">
           <div class="col-3 px-2">
             <label for="nombreAlum">Nombre alumno : </label>
-            <input type="text" class="form-control cajaTextoForm" id="nombreAlum">
+            <input type="text" class="form-control cajaTextoForm" id="nombreAlum" th:value="${nombreEstud}" readonly disabled>
           </div>
           <div class="col-3 px-2">
             <label for="grado">Grado : </label>
-            <input type="text" class="form-control cajaTextoForm" id="grado">
+            <input type="text" class="form-control cajaTextoForm" id="grado" th:value="${gradoAlum}" readonly disabled>
           </div>
           <div class="col-3 px-2">
             <label for="mencion">Mención : </label>
-            <input type="text" class="form-control cajaTextoForm" id="mencion">
+            <input type="text" class="form-control cajaTextoForm" id="mencion" th:value="${mencionAlum}" readonly disabled>
           </div>
+          <input type="hidden" name="idEstudEvaluado" th:value="${idEstud}">
         </div>
         <div class="row d-flex justify-content-start">
            <div class="col-10" id="cajaRubrica">
@@ -81,28 +91,33 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="criterio,iterador : ${criterios}">
-                <td style="background-color: #990000; color: white;" width="10%"  valign="middle" align="center" th:text="${criterio.nombre}+' ('+${pesosCriterios[iterador.index].porcentaje}+'%)'"></td>
-                <td style="background-color: white" th:each="indicador : ${criterio.indicadores}" width="22%" align="center" class="tdIndicador" th:text="${indicador.descripcion}"></td>
-                <td class="tdIndicador" width="2%"  valign="middle">
-                  <input th:if="${valorarRubrica}" type="text" class="inputNota" size="6" th:name="'nota_'+${criterio.id}">
+              <tr th:each="criterio,iterador : ${criterios}" th:attr="class=${iterador.index==2 || iterador.index==6} ? 'saltoPagina' : ''">
+                <td style="background-color: #990000; color: white;" class="porcentajeCriterio" width="10%"  valign="middle" align="center" th:text="${criterio.nombre}+' ('+${pesosCriterios[iterador.index].porcentaje}+'%)'"></td>
+                <td style="background-color: white; border: black 1px solid;" th:each="indicador : ${criterio.indicadores}" width="22%" align="center" class="tdIndicador" th:text="${indicador.descripcion}"></td>
+                <td class="tdIndicador celdaNota" width="2%"  valign="middle">
+                  <input th:if="${valorarRubrica}" type="text" class="inputNota" style="background-color: #eaebec;" size="6" th:name="'nota_'+${criterio.id}">
                 </td>
               </tr>
               </tbody>
               <tfoot>
               <tr>
-                <td width="79%" colspan="4" style="border-color: white 1px solid;"></td>
+                <td width="79%" colspan="4" style="border: white 1px solid;"></td>
                 <td width="19%" align="center" class="celdaGrisRubrica tdIndicador"><strong>NOTA MEDIA</strong></td>
                 <td width="2%" class="celdaGrisRubrica tdIndicador">
-                  <input th:if="${valorarRubrica}" class="inputNotaMedia" type="text" size="6" name="notaMedia">
+                  <input th:if="${valorarRubrica}" class="inputNotaMedia d-flex align-items-center justify-content-center" type="text" size="6" name="notaMedia" value="0.0">
                 </td>
                </tr>
               </tfoot>
             </table>
           </div>
         </div>
-        <div th:if="${valorarRubrica}"  class=" gap-4 d-sm-flex justify-content-sm-center">
-          <button type="submit" class="btn btn-primary mt-2 mb-2">Confirmar evaluación</button>
+        <div class="row d-flex justify-content-center">
+          <div class="col-8" id="divAviso">
+            <p class=" lead text-center parrafos text-danger"><i><strong>Para poder confirmar la evaluación es necesario haber rellenado previamente la nota correspondiente a cada uno de los criterios recogidos en la rúbrica anterior.</strong></i></p>
+          </div>
+        </div>
+        <div th:if="${valorarRubrica}"  class="gap-4 d-sm-flex justify-content-sm-center" id="botonesConfirmarEvaluacion">
+          <button type="submit" class="btn btn-primary mt-2 mb-2 disabled" id="btnConfirmarEvaluacion">Confirmar evaluación</button>
           <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
         </div>
         </br>
@@ -112,6 +127,12 @@
 <footer th:replace="~{general/footer :: pie}"></footer>
 </body>
 <!-- Hojas de JavaScript -->
-<script src="js/expandir_menu.js"></script>
+<script th:if="${valorarRubrica==false}" src="js/expandir_menu.js"></script>
+<script th:if="${valorarRubrica==true}" src="../../js/expandir_menu.js"></script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+-->
+
+<script th:if="${valorarRubrica==true}" src="../../js/calificacionPDF.js"></script>
 </html>
 

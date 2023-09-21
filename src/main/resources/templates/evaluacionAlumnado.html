@@ -69,6 +69,7 @@
             <th scope="col">Grado</th>
             <th scope="col">Convocatoria</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
           </thead>
           <tbody>
@@ -78,12 +79,15 @@
             <td th:text="${alumno.gradoActual.nombre}"></td>
             <td th:text="${alumno.convocatoria}"></td>
             <td>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier">
+              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier final">
                  <span class="material-icons text-secondary iconosTabla" aria-hidden="true">visibility</span>
               </a>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/}" class="enlacesItinerario" title="Evaluar practicum del alumno">
-                <span class="material-icons text-secondary iconosTabla" aria-hidden="true">select_check_box</span>
+              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/evaluacionAlumnado/{id}(id=${alumno.id})}" th:attr="class=${alumno.evaluado==true} ? 'enlacesItinerario disabled' : 'enlacesItinerario'" title="Evaluar practicum del alumno">
+                <span th:attr="class=${alumno.evaluado==true} ? 'material-icons text-secondary iconosTabla disqualified' : 'material-icons text-secondary iconosTabla'" aria-hidden="true">check_box</span>
               </a>
+            </td>
+            <td>
+              <p th:attr="class=${alumno.evaluado==true} ? 'text-success parrafos' : 'text-danger parrafos'" th:text="${alumno.evaluado==true} ? 'Evaluado' : 'Por evaluar'"></p>
             </td>
           </tr>
           </tbody>
