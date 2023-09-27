@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class ControladorEvaluacion {
     @Autowired
     private GradoService gradoService;
 
-    @GetMapping("rubricaTutorUR")
+    @GetMapping("/rubricaTutorUR")
     public String consultaRubricaTutorUR(Model model, HttpServletRequest request) {
         String paginaAnterior = request.getHeader("Referer");
         if (request.getHeader("Referer").contains("/consultarDossierFinal")) {
@@ -74,6 +75,13 @@ public class ControladorEvaluacion {
                 gradoUser = tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
                 model.addAttribute("valorarRubrica", false);
             }
+            if (user.tieneRol("ROL_COORDINADOR")) {
+                List<Grado> grados = gradoService.getGrados();
+                gradoUser = grados.get(0);
+                model.addAttribute("grados", grados);
+                model.addAttribute("gradoSeleccionado", gradoUser.getId());
+                model.addAttribute("valorarRubrica", false);
+            }
             Rubrica rubrica = gradoUser.getRubricaTutorUR();
             if (rubrica != null) {
                 List<Criterio> criteriosRubrica = rubrica.getCriterios();
@@ -96,7 +104,7 @@ public class ControladorEvaluacion {
         return "redirect:/";
     }
 
-    @GetMapping("rubricaTutorCentro")
+    @GetMapping("/rubricaTutorCentro")
     public String consultaRubricaTutorCentro(Model model) {
         model.addAttribute("nivel1", Nivelndicador.SOBRESALIENTE.descripcion);
         model.addAttribute("nivel2", Nivelndicador.NOTABLE.descripcion);
@@ -122,6 +130,13 @@ public class ControladorEvaluacion {
                 gradoUser = tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
                 model.addAttribute("valorarRubrica", false);
             }
+            if (user.tieneRol("ROL_COORDINADOR")) {
+                List<Grado> grados = gradoService.getGrados();
+                gradoUser = grados.get(0);
+                model.addAttribute("grados", grados);
+                model.addAttribute("gradoSeleccionado", gradoUser.getId());
+                model.addAttribute("valorarRubrica", false);
+            }
             Rubrica rubrica = gradoUser.getRubricaTutorCentro();
             if (rubrica != null) {
                 List<Criterio> criteriosRubrica = rubrica.getCriterios();
@@ -144,6 +159,84 @@ public class ControladorEvaluacion {
         return "redirect:/";
     }
 
+    // Metodo para filtro de rol COORDINADOR (solo puede acceder este rol a la url)
+    @PostMapping("/rubricaTutorUR")
+    public String filtradoRubricaTutorUR(@RequestParam("gradoFiltrado") Integer idGrado, Model model) {
+        System.out.println("Estamos en metodo POST de la rubrica del tutor UR");
+        model.addAttribute("nivel1", Nivelndicador.SOBRESALIENTE.descripcion);
+        model.addAttribute("nivel2", Nivelndicador.NOTABLE.descripcion);
+        model.addAttribute("nivel3", Nivelndicador.APROBADO.descripcion);
+        model.addAttribute("nivel4", Nivelndicador.SUSPENSO.descripcion);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        Grado gradoSeleccionado = gradoService.getGradoPorId(idGrado);
+        if (user != null && user.tieneRol("ROL_COORDINADOR") && gradoSeleccionado != null) {
+            List<Grado> grados = gradoService.getGrados();
+            Rubrica rubrica = gradoSeleccionado.getRubricaTutorUR();
+            if (rubrica != null) {
+                List<Criterio> criteriosRubrica = rubrica.getCriterios();
+                List<PesoCriterio> pesosCriterios = new ArrayList<>();
+                for (int i = 0; i < criteriosRubrica.size(); i++) {
+                    PesoCriterio.IdPesoCriterio id = new PesoCriterio.IdPesoCriterio();
+                    id.setId_Rubrica(rubrica.getId());
+                    id.setId_Criterio(criteriosRubrica.get(i).getId());
+                    pesosCriterios.add(pesoCriterioService.getPesoCriterioPorId(id));
+                }
+                model.addAttribute("grados", grados);
+                model.addAttribute("gradoSeleccionado", gradoSeleccionado.getId());
+                model.addAttribute("valorarRubrica", false);
+                model.addAttribute("rubrica", rubrica);
+                model.addAttribute("criterios", criteriosRubrica);
+                model.addAttribute("pesosCriterios", pesosCriterios);
+                model.addAttribute("tipoTutor", "tutor de la UR");
+                return "rubricaEvaluacion";
+            } else {
+                return "redirect:/rubricaTutorUR";
+            }
+        }
+        return"redirect:/rubricaTutorUR";
+    }
+
+    // Metodo para filtro de rol COORDINADOR (solo puede acceder este rol a la url)
+    @PostMapping("/rubricaTutorCentro")
+    public String filtradoRubricaTutorCentro(@RequestParam("gradoFiltrado") Integer idGrado, Model model) {
+        System.out.println("Estamos en metodo POST de la rubrica del tutor UR");
+        model.addAttribute("nivel1", Nivelndicador.SOBRESALIENTE.descripcion);
+        model.addAttribute("nivel2", Nivelndicador.NOTABLE.descripcion);
+        model.addAttribute("nivel3", Nivelndicador.APROBADO.descripcion);
+        model.addAttribute("nivel4", Nivelndicador.SUSPENSO.descripcion);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        Grado gradoSeleccionado = gradoService.getGradoPorId(idGrado);
+        if (user != null && user.tieneRol("ROL_COORDINADOR") && gradoSeleccionado != null) {
+            List<Grado> grados = gradoService.getGrados();
+            Rubrica rubrica = gradoSeleccionado.getRubricaTutorCentro();
+            if (rubrica != null) {
+                List<Criterio> criteriosRubrica = rubrica.getCriterios();
+                List<PesoCriterio> pesosCriterios = new ArrayList<>();
+                for (int i = 0; i < criteriosRubrica.size(); i++) {
+                    PesoCriterio.IdPesoCriterio id = new PesoCriterio.IdPesoCriterio();
+                    id.setId_Rubrica(rubrica.getId());
+                    id.setId_Criterio(criteriosRubrica.get(i).getId());
+                    pesosCriterios.add(pesoCriterioService.getPesoCriterioPorId(id));
+                }
+                model.addAttribute("grados", grados);
+                model.addAttribute("gradoSeleccionado", gradoSeleccionado.getId());
+                model.addAttribute("valorarRubrica", false);
+                model.addAttribute("rubrica", rubrica);
+                model.addAttribute("criterios", criteriosRubrica);
+                model.addAttribute("pesosCriterios", pesosCriterios);
+                model.addAttribute("tipoTutor", "tutor del centro educativo");
+                return "rubricaEvaluacion";
+            } else {
+                return "redirect:/rubricaTutorCentro";
+            }
+        }
+        return"redirect:/rubricaTutorCentro";
+    }
+
     @GetMapping("/calificacion")
     public String consultaCalificacion(Model model) {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -155,11 +248,6 @@ public class ControladorEvaluacion {
                 Practicum practicumActivo = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
                 if (practicumActivo != null) {
                     List<NotaTutorCentro> notasTutoresCentro = notaTutorCentroService.getNotasTutoresPorPracticum(practicumActivo);
-                    /*System.out.println("Id de practicum: " + practicumActivo.getId());
-                    System.out.println("Notas de tutor de centro prácticum: ");
-                    for (int i = 0; i < notasTutoresCentro.size(); i++) {
-                        System.out.println(notasTutoresCentro.get(i).getEspecialidad().descripcion);
-                    }*/
                     if (!notasTutoresCentro.isEmpty()) {
                         if (notasTutoresCentro.size() == 2) {
                             model.addAttribute("variosTutores", true);
@@ -189,51 +277,82 @@ public class ControladorEvaluacion {
                     return "redirect:/itinerariosPropios";
                 }
             }
-            if (user.tieneRol("ROL_TUTOR_UR") || user.tieneRol("ROL_TUTOR_CENTRO")) {
+            if (user.tieneRol("ROL_TUTOR_UR") || user.tieneRol("ROL_TUTOR_CENTRO") || user.tieneRol("ROL_COORDINADOR")) {
+                List<String> cursos = new ArrayList<>();
                 List<Grado> grados = new ArrayList<>();
-                List<EstudianteTabla> estudiantes = new ArrayList<>();
-                List<Estudiante> tutorizados = new ArrayList<>();
+                List<Estudiante> listadoEstudiantes = null;
+                List<EstudianteTabla> estudiantesAMostrar = new ArrayList<>();
                 if (user.tieneRol("ROL_TUTOR_UR")) {
                     TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
-                    tutorizados = tutorUR.getTutorizados();
+                    listadoEstudiantes = tutorUR.getTutorizados();
+                    model.addAttribute("usuarioTutor", true);
                 }
                 if (user.tieneRol("ROL_TUTOR_CENTRO")) {
                     TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(user.getId());
-                    tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+                    listadoEstudiantes = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+                    model.addAttribute("usuarioTutor", true);
                 }
-                for (int i = 0; i < tutorizados.size(); i++) {
-                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if (practicum != null) {
-                        Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                        if (!grados.contains(grado)) {
-                            grados.add(grado);
+                if (user.tieneRol("ROL_COORDINADOR")) {
+                    listadoEstudiantes = estudianteService.getEstudiantes();
+                    model.addAttribute("usuarioTutor", false);
+                }
+                for (int i = 0; i < listadoEstudiantes.size(); i++) {
+                    if(user.tieneRol("ROL_COORDINADOR")){
+                        List<Practicum> practicums = practicumService.getPracticumsEstudiante(listadoEstudiantes.get(i));
+                        if (!practicums.isEmpty()) {
+                            for(int j=0;j<practicums.size();j++){
+                                String curso = practicums.get(j).getCurso();
+                                if (!cursos.contains(curso)) {
+                                    cursos.add(curso);
+                                }
+                                Grado grado = listadoEstudiantes.get(i).obtenerGradoPorCurso(curso);
+                                if (!this.contieneGrado(grados, grado)) {
+                                    grados.add(grado);
+                                }
+                                Mencion posibleMencion = listadoEstudiantes.get(i).obtenerMencionPorCurso(curso);
+                                if(practicums.get(j).getNotaFinal()!=0.0 &&((posibleMencion!=null && practicums.get(j).getNotaFinalMencion()!=0.0)||(posibleMencion==null))){
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicums.get(j), null, grado, null, true));
+                                }
+                                else{
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicums.get(j), null, grado, null, false));
+                                }
+                            }
                         }
-                        // Comprobamos si el usuario ya ha evaluado al alumno o no
-                        if(user.tieneRol("ROL_TUTOR_UR")){
-                            if(practicum.getNotaTutorUR()!=0.0){
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria(),true));
+                    }
+                    if(user.tieneRol("ROL_TUTOR_UR") || user.tieneRol("ROL_TUTOR_CENTRO")){
+                        Practicum practicum = practicumService.getPracticumActivoEstudiante(listadoEstudiantes.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                        if (practicum != null) {
+                            Grado grado = listadoEstudiantes.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                            if (!grados.contains(grado)) {
+                                grados.add(grado);
                             }
-                            else{
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria(),false));
+                            // Comprobamos si el usuario ya ha evaluado al alumno o no
+                            if(user.tieneRol("ROL_TUTOR_UR")){
+                                if(practicum.getNotaTutorUR()!=0.0){
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, grado, null, true));
+                                }
+                                else{
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, grado, null, false));
+                                }
                             }
-                        }
-                        if(user.tieneRol("ROL_TUTOR_CENTRO")){
-                            NotaTutorCentro.IdNotaTutorCentro id = new NotaTutorCentro.IdNotaTutorCentro();
-                            id.setCodnumTutorCentro(user.getId());
-                            id.setId_practicum(practicum.getId());
-                            NotaTutorCentro nota = notaTutorCentroService.getNotaTutorCentroPorId(id);
-                            if(nota.getNota()!=0.0){
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria(),true));
-                            }
-                            else{
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria(),false));
+                            if(user.tieneRol("ROL_TUTOR_CENTRO")){
+                                NotaTutorCentro.IdNotaTutorCentro id = new NotaTutorCentro.IdNotaTutorCentro();
+                                id.setCodnumTutorCentro(user.getId());
+                                id.setId_practicum(practicum.getId());
+                                NotaTutorCentro nota = notaTutorCentroService.getNotaTutorCentroPorId(id);
+                                if(nota.getNota()!=0.0){
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, grado, null, true));
+                                }
+                                else{
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, grado, null, false));
+                                }
                             }
                         }
                     }
                 }
                 model.addAttribute("grados", grados);
                 model.addAttribute("gradoSeleccionado", 0);
-                model.addAttribute("tutorizados", estudiantes);
+                model.addAttribute("tutorizados", estudiantesAMostrar);
                 return "evaluacionAlumnado";
             }
         }
@@ -281,44 +400,109 @@ public class ControladorEvaluacion {
         return "redirect:/";
     }
 
-    @PostMapping("/calificacion") //Ruta a la que solo acceden TUTOR_UR o TUTOR_CENTRO
+    @PostMapping("/calificacion") //Ruta a la que solo acceden TUTOR_UR o TUTOR_CENTRO o COORDINADOR (FILTRO DE EVALUACION)
     public String consultaDossierAlumnadoPorFiltro(@RequestParam("nombreAlumn") String nombreAlumn, @RequestParam("grado") Integer grado, Model model) {
+        System.out.println("Grado: "+grado);
+        System.out.println("Nombre alumno: "+nombreAlumn);
+        // Caso donde filtro tenga todos los valores vacios
+        if (grado == 0 && nombreAlumn == "") {
+            return "redirect:/calificacion";
+        }
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
-        List<EstudianteTabla> estudiantes = new ArrayList<>();
         if (user != null) {
+            Grado gradoSeleccionado = gradoService.getGradoPorId(grado);
             List<Grado> grados = new ArrayList<>();
-            List<Estudiante> tutorizados = new ArrayList<>();
+            List<Estudiante> listadoEstudiantes = null;
+            List<EstudianteTabla> estudiantesAMostrar = new ArrayList<>();
             if (user.tieneRol("ROL_TUTOR_UR")) {
                 TutorUR tutorUR = tutorURService.getTutorURPorCodnum(user.getId());
-                tutorizados = tutorUR.getTutorizados();
+                listadoEstudiantes = tutorUR.getTutorizados();
+                model.addAttribute("usuarioTutor", true);
             }
             if (user.tieneRol("ROL_TUTOR_CENTRO")) {
                 TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(user.getId());
-                tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+                listadoEstudiantes = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
+                model.addAttribute("usuarioTutor", true);
             }
-            for (int i = 0; i < tutorizados.size(); i++) {
-                Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                if (practicum != null) {
-                    Grado gradoLista = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                    if (!grados.contains(gradoLista)) {
-                        grados.add(gradoLista);
-                    }
-                    // Caso donde filtro tenga todos los valores vacios
-                    if (grado == 0 && nombreAlumn == "") {
-                        return "redirect:/calificacion";
-                    }
-                    // Caso donde el filtro solo se complete con Grado
-                    if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn == "") {
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), this.estaEvaluado(tutorizados.get(i), practicum)));
-                    } else {
-                        // Caso donde el filtro solo se complete con Nombre
-                        if (grado == 0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), this.estaEvaluado(tutorizados.get(i), practicum)));
+            if (user.tieneRol("ROL_COORDINADOR")) {
+                listadoEstudiantes = estudianteService.getEstudiantes();
+                System.out.println("Tam listado alumnos matriculados: "+listadoEstudiantes.size());
+                model.addAttribute("usuarioTutor", false);
+            }
+            for (int i = 0; i < listadoEstudiantes.size(); i++) {
+                boolean estaEvaluado = false;
+                if(user.tieneRol("ROL_COORDINADOR")){
+                    System.out.println("Estudiante: "+listadoEstudiantes.get(i).getNombreCompleto());
+                    List<Practicum> practicums = practicumService.getPracticumsEstudiante(listadoEstudiantes.get(i));
+                    if (!practicums.isEmpty()) {
+                        for(int j=0;j<practicums.size();j++){
+                            System.out.println("Practicum: "+practicums.get(j).getId());
+                            String curso = practicums.get(j).getCurso();
+                            Grado gradoLista = listadoEstudiantes.get(i).obtenerGradoPorCurso(curso);
+                            if (!this.contieneGrado(grados, gradoLista)) {
+                                grados.add(gradoLista);
+                            }
+                            Mencion posibleMencion = listadoEstudiantes.get(i).obtenerMencionPorCurso(curso);
+                            if(practicums.get(j).getNotaFinal()!=0.0 &&((posibleMencion!=null && practicums.get(j).getNotaFinalMencion()!=0.0)||(posibleMencion==null))){
+                                estaEvaluado = true;
+                            }
+                            // Caso donde el filtro solo se complete con Grado
+                            if (nombreAlumn == "" && gradoSeleccionado != null && gradoLista.getNombre().equals(gradoSeleccionado.getNombre())) {
+                                System.out.println("Caso de filtro con solo Grado");
+                                estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicums.get(j), null, gradoLista, null, estaEvaluado));
+                            }else{
+                                // Caso donde el filtro solo se complete con Nombre
+                                if (grado == 0 && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                    System.out.println("Caso de filtro con solo Nombre");
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicums.get(j), null, gradoLista, null, estaEvaluado));
+                                }else{
+                                    // Caso donde el filtro se complete con Grado y Nombre
+                                    if (gradoSeleccionado != null && gradoLista.getNombre().equals(gradoSeleccionado.getNombre()) && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                        System.out.println("Caso de filtro con ambas cosas Grado y Nombres");
+                                        estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicums.get(j), null, gradoLista, null, estaEvaluado));
+                                    }
+                                }
+                            }
                         }
-                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), this.estaEvaluado(tutorizados.get(i), practicum)));
+                    }
+                }
+                if(user.tieneRol("ROL_TUTOR_UR") || user.tieneRol("ROL_TUTOR_CENTRO")) {
+                    Practicum practicum = practicumService.getPracticumActivoEstudiante(listadoEstudiantes.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                    if (practicum != null) {
+                        Grado gradoLista = listadoEstudiantes.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                        if (!this.contieneGrado(grados, gradoLista)) {
+                            grados.add(gradoLista);
+                        }
+                        // Comprobamos si el usuario ya ha evaluado al alumno o no
+                        if (user.tieneRol("ROL_TUTOR_UR")) {
+                            if (practicum.getNotaTutorUR() != 0.0) {
+                                estaEvaluado = true;
+                            }
+                        }
+                        if (user.tieneRol("ROL_TUTOR_CENTRO")) {
+                            NotaTutorCentro.IdNotaTutorCentro id = new NotaTutorCentro.IdNotaTutorCentro();
+                            id.setCodnumTutorCentro(user.getId());
+                            id.setId_practicum(practicum.getId());
+                            NotaTutorCentro nota = notaTutorCentroService.getNotaTutorCentroPorId(id);
+                            if (nota.getNota() != 0.0) {
+                                estaEvaluado = true;
+                            }
+                        }
+                        // Caso donde el filtro solo se complete con Grado
+                        if (nombreAlumn == "" && gradoSeleccionado != null && gradoLista.equals(gradoSeleccionado)) {
+                            estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, estaEvaluado));
+                        }else{
+                            // Caso donde el filtro solo se complete con Nombre
+                            if (grado == 0 && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, estaEvaluado));
+                            }else{
+                                // Caso donde el filtro se complete con Grado y Nombre
+                                if (gradoSeleccionado != null && gradoLista.equals(gradoSeleccionado) && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, estaEvaluado));
+                                }
+                            }
                         }
                     }
                 }
@@ -326,7 +510,7 @@ public class ControladorEvaluacion {
             model.addAttribute("grados", grados);
             model.addAttribute("gradoSeleccionado", grado);
             model.addAttribute("nombreSeleccionado", nombreAlumn);
-            model.addAttribute("tutorizados", estudiantes);
+            model.addAttribute("tutorizados", estudiantesAMostrar);
             return "evaluacionAlumnado";
         }
         return "redirect:/";
@@ -445,6 +629,59 @@ public class ControladorEvaluacion {
         return "redirect:/";
     }
 
+    // Url solo para consultar calificaciones del alumnado por rol COORDINADOR
+    @GetMapping("/calificacion/consultarCalificacionFinal/{idPracticum}")
+    public String consultaCalificacionFinalAlumnoConcreto(@PathVariable Integer idPracticum, Model model, HttpServletRequest request) {
+        System.out.println("Id de practicum: "+idPracticum);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        if (user != null && user.tieneRol("ROL_COORDINADOR")) {
+            Practicum practicumAMostrar = practicumService.getPracticum(idPracticum);
+            /*List<Practicum> practicums = practicumService.getPracticumsEstudiante(estudianteService.getEstudiantePorCodnum(idPracticum));
+            Practicum practicumAMostrar = null;
+            for(int i=0;i<practicums.size();i++){
+                if(practicums.get(i).getId()==42){
+                    practicumAMostrar = practicums.get(i);
+                }
+            }*/
+            if (practicumAMostrar != null) {
+                List<NotaTutorCentro> notasTutoresCentro = notaTutorCentroService.getNotasTutoresPorPracticum(practicumAMostrar);
+                if (!notasTutoresCentro.isEmpty()) {
+                    if (notasTutoresCentro.size() == 2) {
+                        model.addAttribute("variosTutores", true);
+                    } else {
+                        model.addAttribute("variosTutores", false);
+                    }
+                    for (int i = 0; i < notasTutoresCentro.size(); i++) {
+                        if (notasTutoresCentro.get(i).getEspecialidad().equals(Especialidad.GENERALISTA)) {
+                            model.addAttribute("notaTutorCentroGeneralista", notasTutoresCentro.get(i).getNota());
+                            model.addAttribute("fechNotaTutorCentroGeneralista", notasTutoresCentro.get(i).getFechaNota());
+                        } else {
+                            model.addAttribute("notaTutorCentroMencion", notasTutoresCentro.get(i).getNota());
+                            model.addAttribute("fechNotaTutorCentroMencion", notasTutoresCentro.get(i).getFechaNota());
+                            model.addAttribute("notaFinalMencion", practicumAMostrar.getNotaFinalMencion());
+                            model.addAttribute("fechNotaFinalMencion", practicumAMostrar.getFechaNFMencion());
+                        }
+                    }
+                    model.addAttribute("notaTutorUR", practicumAMostrar.getNotaTutorUR());
+                    model.addAttribute("fechNotaTutorUR", practicumAMostrar.getFechaNotaTutorUR());
+                    model.addAttribute("notaFinal", practicumAMostrar.getNotaFinal());
+                    model.addAttribute("fechNotaFinal", practicumAMostrar.getFechaNF());
+                    model.addAttribute("nombreAlumn", practicumAMostrar.getEstudiante().getNombreCompletoOrdenado());
+                    model.addAttribute("urlFlecha", "/calificacion");
+                    return "verCalificacion";
+                } else {
+                    return "redirect:/";
+                }
+            } else {
+                System.out.println("El practicum es NULO");
+                return "redirect:/calificacion";
+            }
+        }
+        return "redirect:/";
+    }
+
     public void intentarAsignarNotaFinal(Practicum practicum){
         double notaFinal, notaFinalMencion;
         List<NotaTutorCentro> notasTutoresCentro = notaTutorCentroService.getNotasTutoresPorPracticum(practicum);
@@ -493,6 +730,7 @@ public class ControladorEvaluacion {
     public boolean estaEvaluado(Estudiante estudiante, Practicum practicum){
         // Caso de que estudiante está matriculado en mención
         if(estudiante.obtenerMencionPorCurso(metodosGenerales.getCursoAcademico()) != null){
+            System.out.println("Estamos en caso de matricula en Mencion");
             if(practicum.getNotaFinalMencion() != 0.0 && practicum.getNotaFinal() != 0.0){
                 return true;
             }
@@ -502,6 +740,7 @@ public class ControladorEvaluacion {
         }
         // Caso en que estudiante NO está matriculado en ninguna mención
         else{
+            System.out.println("Estamos en caso de matricula solo GENERALISTA");
             if(practicum.getNotaFinal()!=0.0){
                 return true;
             }
@@ -510,4 +749,19 @@ public class ControladorEvaluacion {
             }
         }
     }
+
+    public boolean contieneGrado(List<Grado> listadoGrados, Grado grado){
+        for(int i=0;i<listadoGrados.size();i++){
+            /*System.out.println("");
+            System.out.println("listadoGrados.get(i).getNombre(): "+listadoGrados.get(i).getNombre());
+            System.out.println("grado.getNombre(): "+grado.getNombre());
+            System.out.println(listadoGrados.get(i).getNombre().equals(grado.getNombre()));
+            System.out.println("");*/
+            if(listadoGrados.get(i).getNombre().equals(grado.getNombre())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -65,28 +65,35 @@
           <thead class="thead-dark">
           <tr>
             <th scope="col">Nombre</th>
-            <th scope="col">Fecha de entrega de dossier</th>
+            <th th:if="${usuarioTutor}" scope="col">Fecha de entrega de dossier</th>
             <th scope="col">Grado</th>
             <th scope="col">Convocatoria</th>
+            <th th:unless="${usuarioTutor}" scope="col">Curso académico</th>
             <th scope="col"></th>
-            <th scope="col"></th>
+            <th th:if="${usuarioTutor}" scope="col"></th>
           </tr>
           </thead>
           <tbody>
           <tr th:each="alumno: ${tutorizados}">
             <td th:text="${alumno.nombre}"></td>
-            <td th:text="${alumno.dossier!=null}? ${alumno.dossier.fechaEntrega}: '-'"></td>
+            <td th:if="${usuarioTutor}" th:text="${alumno.practicum.dossier!=null}? ${alumno.practicum.dossier.fechaEntrega}: '-'"></td>
             <td th:text="${alumno.gradoActual.nombre}"></td>
-            <td th:text="${alumno.convocatoria}"></td>
+            <td th:text="${alumno.practicum.convocatoria}"></td>
+            <td th:unless="${usuarioTutor}" th:text="${alumno.gradoActual.curso}"></td>
             <td>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier final">
+              <!-- Boton para visualizar calificacion de alumnado (exclusivo de COORDINADOR) -->
+              <a th:if="${alumno.practicum.dossier!=null} and ${usuarioTutor==false}" th:href="@{/calificacion/consultarCalificacionFinal/{idPracticum}(idPracticum=${alumno.practicum.id})}" class="enlacesItinerario" title="Consultar calificación final">
+                <span class="material-icons text-secondary iconosTabla" aria-hidden="true">visibility</span>
+              </a>
+              <!-- Estos 2 botones son exclusivos de los TUTORES (CENTRO y UR) -->
+              <a th:if="${alumno.practicum.dossier!=null} and ${usuarioTutor}" th:href="@{/calificacion/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier final">
                  <span class="material-icons text-secondary iconosTabla" aria-hidden="true">visibility</span>
               </a>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/calificacion/evaluacionAlumnado/{id}(id=${alumno.id})}" th:attr="class=${alumno.evaluado==true} ? 'enlacesItinerario disabled' : 'enlacesItinerario'" title="Evaluar practicum del alumno">
+              <a th:if="${alumno.practicum.dossier!=null} and ${usuarioTutor}" th:href="@{/calificacion/evaluacionAlumnado/{id}(id=${alumno.id})}" th:attr="class=${alumno.evaluado==true} ? 'enlacesItinerario disabled' : 'enlacesItinerario'" title="Evaluar practicum del alumno">
                 <span th:attr="class=${alumno.evaluado==true} ? 'material-icons text-secondary iconosTabla disqualified' : 'material-icons text-secondary iconosTabla'" aria-hidden="true">check_box</span>
               </a>
             </td>
-            <td>
+            <td th:if="${usuarioTutor}">
               <p th:attr="class=${alumno.evaluado==true} ? 'text-success parrafos' : 'text-danger parrafos'" th:text="${alumno.evaluado==true} ? 'Evaluado' : 'Por evaluar'"></p>
             </td>
           </tr>
@@ -102,7 +109,6 @@
 <footer th:replace="~{general/footer :: pie}"></footer>
 </body>
 <!-- Hojas de JavaScript -->
-<!--<script src="js/funcionesExtraConsultarAlumnos.js"></script>-->
 <script src="js/expandir_menu.js"></script>
 </html>
 

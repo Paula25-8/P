@@ -30,9 +30,10 @@
   <div th:replace="~{general/sidebar :: menu-lateral}"></div>
   <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center">
     <div class="row-auto row-xl-10">
-      <div class="col-auto px-sm-2 px-2">
-        <h2 class="fw-bold my-4 mx-1align-items-center text-center">Evaluación final de la asignatura del prácticum</h2>
+      <div sec:authorize="hasAnyAuthority('ROL_COORDINADOR')" class="col-12 d-flex justify-content-end mt-2">
+        <a th:href="@{${urlFlecha}}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
       </div>
+      <h2 class="fw-bold my-4 mx-1align-items-center text-center" th:text="${nombreAlumn}? 'Evaluación final del prácticum de grado obtenida por '+${nombreAlumn} : 'Evaluación final del prácticum de grado'"></h2>
     </div>
     <div class="d-flex flex-column align-items-center justify-content-center">
       <form class="formularioCalificacion">

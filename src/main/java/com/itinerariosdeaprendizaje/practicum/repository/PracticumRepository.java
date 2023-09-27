@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface PracticumRepository extends JpaRepository<Practicum, Integer> {
 
+     List<Practicum> findByEstudiante(Estudiante estudiante);
      Practicum findByEstudianteAndCursoAndConvocatoria(Estudiante estudiante, String curso, Integer convocatoria);
 
 }

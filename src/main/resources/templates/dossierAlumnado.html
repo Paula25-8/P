@@ -73,10 +73,10 @@
           <tbody>
           <tr th:each="alumno: ${tutorizados}">
             <td th:text="${alumno.nombre}"></td>
-            <td th:text="${alumno.dossier!=null}? ${alumno.dossier.fechaEntrega}: '-'"></td>
+            <td th:text="${alumno.practicum.dossier!=null}? ${alumno.practicum.dossier.fechaEntrega}: '-'"></td>
             <td th:text="${alumno.gradoActual.nombre}"></td>
             <td>
-              <a th:if="${alumno.dossier!=null}" th:href="@{/dossierAlumnado/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier">
+              <a th:if="${alumno.practicum.dossier!=null}" th:href="@{/dossierAlumnado/consultarDossierFinal/{id}(id=${alumno.id})}" class="enlacesItinerario" title="Consultar dossier">
                  <span class="material-icons text-secondary iconosTabla" aria-hidden="true">visibility</span>
               </a>
             </td>

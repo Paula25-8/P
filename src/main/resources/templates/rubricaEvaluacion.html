@@ -46,6 +46,21 @@
           <div th:if="${urlFlecha}" class="col-1 d-flex justify-content-end">
               <a th:href="@{${urlFlecha}}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
           </div>
+          <div sec:authorize="hasAuthority('ROL_COORDINADOR')" class="col-auto mt-3 d-flex align-items-end flex-column">
+              <form th:action="${tipoTutor}=='tutor del centro educativo' ? '/rubricaTutorCentro' : '/rubricaTutorUR'" method="post" id="filtroGrado">
+                  <div class="d-flex flex-row">
+                      <div class="d-flex align-items-center">
+                          <label for="gradoFiltrado"><strong><i>Grado: </i></strong></label>
+                      </div>
+                      <div class="mx-1">
+                          <select class="form-select" id="gradoFiltrado" name="gradoFiltrado">
+                              <option th:selected="${gradoSeleccionado==0}" value="0">-</option>
+                              <option th:each="grado: ${grados}" th:value="${grado.id}" th:text="${grado.nombre}" th:selected="${gradoSeleccionado}==${grado.id}"></option>
+                          </select>
+                      </div>
+                  </div>
+              </form>
+          </div>
       </div>
       <form th:action="@{/evaluacionAlumnado}" method="post" id="formularioEvaluacion">
         <div th:if="${valorarRubrica}" class="d-flex flex-nowrap flex-row justify-content-center my-3">
@@ -111,7 +126,7 @@
             </table>
           </div>
         </div>
-        <div class="row d-flex justify-content-center">
+        <div th:if="${valorarRubrica}" class="row d-flex justify-content-center">
           <div class="col-8" id="divAviso">
             <p class=" lead text-center parrafos text-danger"><i><strong>Para poder confirmar la evaluación es necesario haber rellenado previamente la nota correspondiente a cada uno de los criterios recogidos en la rúbrica anterior.</strong></i></p>
           </div>
@@ -134,5 +149,7 @@
 -->
 
 <script th:if="${valorarRubrica==true}" src="../../js/calificacionPDF.js"></script>
+<!-- Script para funcion de filtro de caso COORDINADOR -->
+<script th:if="${valorarRubrica==false}" src="js/envioFiltro.js"></script>
 </html>
 

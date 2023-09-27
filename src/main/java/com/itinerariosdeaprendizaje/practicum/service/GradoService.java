@@ -5,6 +5,7 @@ import com.itinerariosdeaprendizaje.practicum.repository.GradoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,10 @@ public class GradoService {
         else{
             return null;
         }
+    }
+
+    public List<Grado> getGrados(){
+        return gradoRepository.findAll();
     }
 
 }

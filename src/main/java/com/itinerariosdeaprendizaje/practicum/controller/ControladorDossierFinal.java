@@ -151,7 +151,7 @@ public class ControladorDossierFinal {
                     if(!grados.contains(grado)){
                         grados.add(grado);
                     }
-                    estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, grado, null, practicum.getDossier(), practicum.getConvocatoria(), false));
+                    estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum, null, grado, null, false));
                 }
             }
             model.addAttribute("grados",grados);
@@ -239,15 +239,15 @@ public class ControladorDossierFinal {
                     }
                     // Caso donde el filtro solo se complete con Grado
                     if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), false));
+                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, false));
                     }
                     else{
                         // Caso donde el filtro solo se complete con Nombre
                         if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), false));
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, false));
                         }
                         if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), null, gradoLista, null, practicum.getDossier(), practicum.getConvocatoria(), false));
+                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum, null, gradoLista, null, false));
                         }
                     }
                 }

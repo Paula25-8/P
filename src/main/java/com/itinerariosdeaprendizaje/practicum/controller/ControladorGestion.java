@@ -66,7 +66,7 @@ public class ControladorGestion {
                 List<Grado> grados = estudiante.getGrados();
                 for(int i=0;i<grados.size();i++){
                     if(grados.get(i).getCurso().equals(metodosGenerales.getCursoAcademico())){
-                        model.addAttribute("grado", grados.get(i).getNombre());
+                        model.addAttribute("grado", "del grado de "+grados.get(i).getNombre());
                     }
                 }
             }
@@ -74,15 +74,18 @@ public class ControladorGestion {
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(usuario.getId());
                 List<Estudiante> tutorizados = tutorUR.getTutorizados();
                 if(!tutorizados.isEmpty()){
-                    model.addAttribute("grado", tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
+                    model.addAttribute("grado", "del grado de "+tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
                 }
             }
             if(usuario.tieneRol("ROL_TUTOR_CENTRO")){
                 TutorCentro tutorCentro = tutorCentroService.getTutorCentroPorCodnum(usuario.getId());
                 List<Estudiante> tutorizados = relacionEstudianteTutorCentroService.getListaEstudiantesPorTutor(tutorCentro);
                 if(!tutorizados.isEmpty()){
-                    model.addAttribute("grado", tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
+                    model.addAttribute("grado", "del grado de "+tutorizados.get(0).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico()).getNombre());
                 }
+            }
+            if(usuario.tieneRol("ROL_COORDINADOR")){
+                model.addAttribute("grado", "de los grados de Educación");
             }
             return "index";
         }else{
@@ -108,7 +111,7 @@ public class ControladorGestion {
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         if(user !=null) {
             String curso = metodosGenerales.getCursoAcademico();
-            if (user.tieneRol("ROL_ESTUDIANTE")) { // Buscamos lineas de grado donde esta matriculado estudiante en ese curso
+            if (user.tieneRol("ROL_ESTUDIANTE")) { // Buscamos líneas de grado donde está matriculado estudiante en ese curso
                 Estudiante estudiante = estudianteService.getEstudiantePorCodnum(user.getId());
                 model.addAttribute("lineas", lineasAprendService.getLineasPorCursoYGrado(curso, estudiante.obtenerGradoPorCurso(curso)));
                 model.addAttribute("tieneItinerarioCreado", estudiante.tieneItinerarioCreado(curso, metodosGenerales.getConvocatoriaPorFechas()));
@@ -119,21 +122,6 @@ public class ControladorGestion {
             return "lineasAprendizaje";
         }
         return "redirect:/";
-    }
-
-    public List<Estudiante> getEstudiantesPorTutorCentro(TutorCentro tutorCentro){
-        /*System.out.println("Procedemos a buscar estudiantes por tutor");
-        List<NotaTutorCentro> notas = notaTutorCentroService.getEstudiantesPorTutor(tutorCentro);
-        System.out.println("El tamaño de notas es: "+notas.size());
-        if(!notas.isEmpty()){
-            List<Estudiante> tutorizados = new ArrayList<>();
-            for(int i=0;i<notas.size();i++){
-                tutorizados.add(notas.get(i).getPracticum().getEstudiante());
-            }
-            System.out.println("Tamaño de lista tutorizados: "+tutorizados.size());
-            return tutorizados;
-        }*/
-        return null;
     }
 
 }

@@ -72,7 +72,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="alumno: ${tutorizados}">
+          <tr th:each="alumno: ${estudiantes}">
             <td th:text="${alumno.nombre}"></td>
             <td th:text="${alumno.numItinerarios}"></td>
             <td th:text="${alumno.itinerarioActivo!=null}? ${alumno.itinerarioActivo.fechaCreacion} : '-'"></td>
@@ -85,7 +85,7 @@
           </tr>
           </tbody>
         </table>
-        <div th:if="${tutorizados.size==0}" class="d-flex align-items-center justify-content-center">
+        <div th:if="${estudiantes.size==0}" class="d-flex align-items-center justify-content-center">
           <p class="col-8 lead text-center parrafos"><strong>Lo sentimos, no se ha encontrado ningún alumno matriculado con estas características.</strong></p>
         </div>
       </div>
@@ -95,7 +95,6 @@
 <footer th:replace="~{general/footer :: pie}"></footer>
 </body>
 <!-- Hojas de JavaScript -->
-<!--<script src="js/funcionesExtraConsultarAlumnos.js"></script>-->
 <script src="js/expandir_menu.js"></script>
 </html>
 

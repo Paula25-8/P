@@ -4,12 +4,17 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Data
+/*@Getter
+@Setter
+@ToString*/
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="DOSSIER", schema="USER_UR")
 public class Dossier {
     @Id

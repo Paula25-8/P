@@ -35,14 +35,15 @@ public class SecurityAppConfig {
              .requestMatchers("/css/**").permitAll()
              .requestMatchers("/images/**").permitAll()
              .requestMatchers("/js/**").permitAll()
-             .requestMatchers("/preguntas").permitAll()  //Apartado de preguntas sobre informacion general
-             .requestMatchers("/lineasAprendizaje/**").permitAll() //Apartado de infor sobre lineas y estaciones de aprendizaje
-             .requestMatchers("/infoEstacion/**").permitAll() //Apartado de infor sobre lineas y estaciones de aprendizaje
+             .requestMatchers("/preguntas").permitAll()  //Apartado de preguntas sobre información general
+             .requestMatchers("/lineasAprendizaje/**").permitAll() //Apartado de infor sobre líneas y estaciones de aprendizaje
+             .requestMatchers("/infoEstacion/**").permitAll() //Apartado de infor sobre líneas y estaciones de aprendizaje
              //.requestMatchers("/actuator/**").hasIpAddress("10.254.0.252")
              .requestMatchers("/itinerariosPropios/**").hasAuthority(TipoPerfil.ROL_ESTUDIANTE.name())
-             .requestMatchers("/itinerariosAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name())
-             .requestMatchers("/dossierFinal/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
-             .requestMatchers("/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
+             .requestMatchers("/itinerariosAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_COORDINADOR.name())
+             .requestMatchers("/dossierFinal/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name())
+             .requestMatchers("/dossierAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
+             .requestMatchers("/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name(), TipoPerfil.ROL_COORDINADOR.name())
              .anyRequest().hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
              .and()
              .formLogin()
@@ -142,7 +143,7 @@ public class SecurityAppConfig {
                 .and()
                 .withUser("matio").password("matio").authorities("ROL_TUTOR_CENTRO")
                 .and()
-                .withUser("user").password("user").authorities("ROL_COORDINADOR");
+                .withUser("cordi").password("cordi").authorities("ROL_COORDINADOR");
         //passwordEncoder().encode("password")
     }
     @Bean

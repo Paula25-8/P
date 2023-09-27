@@ -8,7 +8,9 @@ import java.util.Date;
 
 @Entity
 @Data
-@ToString
+/*@Getter
+@Setter
+@ToString*/
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="PRACTICUM", schema="USER_UR")

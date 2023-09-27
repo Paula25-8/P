@@ -577,31 +577,31 @@ public class ControladorItinerarios {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
-        List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
+            List<Grado> grados = new ArrayList<>();
+            List<Estudiante> listadoEstudiantes = null;
+            List<EstudianteTabla> estudiantesAMostrar = new ArrayList<>();
             if(user.tieneRol("ROL_TUTOR_UR")){
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
-                List<Grado> grados = new ArrayList<>();
-                List<Estudiante> tutorizados = tutorUR.getTutorizados();
-                for(int i=0;i<tutorizados.size();i++){
-                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if(practicum!=null){
-                        Grado grado = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                        if(!grados.contains(grado)){
-                            grados.add(grado);
-                        }
-                        estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(),tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), grado, practicum.getItinerarioActivo(), null, null, false));
-                    }
-                }
-                model.addAttribute("grados", grados);
-                model.addAttribute("gradoSeleccionado", 0);
-                model.addAttribute("tutorizados",estudiantes);
-                return "itinerariosAlumnado";
+                listadoEstudiantes = tutorUR.getTutorizados();
             }
             if(user.tieneRol("ROL_COORDINADOR")){
-                //Falta implementar para rol COORDINADOR
-                return "redirect:/";
+                listadoEstudiantes = estudianteService.getEstudiantes();
             }
+            for(int i=0;i<listadoEstudiantes.size();i++){
+                Practicum practicum = practicumService.getPracticumActivoEstudiante(listadoEstudiantes.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                if(practicum!=null){
+                    Grado grado = listadoEstudiantes.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                    if(!grados.contains(grado)){
+                        grados.add(grado);
+                    }
+                    estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(),listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, practicum.numItinerarios(), grado, practicum.getItinerarioActivo(), false));
+                }
+            }
+            model.addAttribute("grados", grados);
+            model.addAttribute("gradoSeleccionado", 0);
+            model.addAttribute("estudiantes",estudiantesAMostrar);
+            return "itinerariosAlumnado";
         }
         return "redirect:/";
     }
@@ -611,50 +611,55 @@ public class ControladorItinerarios {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
-        List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
-            if(user.tieneRol("ROL_TUTOR_UR")){
+            List<Grado> grados = new ArrayList<>();
+            List<Estudiante> listadoEstudiantes = null;
+            List<EstudianteTabla> estudiantesAMostrar = new ArrayList<>();
+            if(user.tieneRol("ROL_TUTOR_UR")) {
                 TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
-                List<Grado> grados = new ArrayList<>();
-                List<Estudiante> tutorizados = tutorUR.getTutorizados();
-                for(int i=0;i<tutorizados.size();i++){
-                    Practicum practicum = practicumService.getPracticumActivoEstudiante(tutorizados.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if(practicum==null){
-                        return "redirect:/";
-                    }else {
-                        Grado gradoLista = tutorizados.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
-                        if (!grados.contains(gradoLista)) {
-                            grados.add(gradoLista);
+                listadoEstudiantes = tutorUR.getTutorizados();
+            }
+            if(user.tieneRol("ROL_COORDINADOR")){
+                listadoEstudiantes = estudianteService.getEstudiantes();
+            }
+            for(int i=0;i<listadoEstudiantes.size();i++){
+                System.out.println(listadoEstudiantes.get(i).getId()+", "+listadoEstudiantes.get(i).getNombreCompleto());
+                Practicum practicum = practicumService.getPracticumActivoEstudiante(listadoEstudiantes.get(i), metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+
+                // ESTO SE DEBERÍA BORRAR EN CUANTO PREPAREMOS LA PARTE DE GESTION
+                if(practicum==null){
+                    return "redirect:/";
+                }else
+
+                {
+                    Grado gradoLista = listadoEstudiantes.get(i).obtenerGradoPorCurso(metodosGenerales.getCursoAcademico());
+                    if (!grados.contains(gradoLista)) {
+                        grados.add(gradoLista);
+                    }
+                    // Caso donde filtro tenga todos los valores vacios
+                    if(grado==0 && nombreAlumn==""){
+                        return "redirect:/itinerariosAlumnado";
+                    }
+                    // Caso donde el filtro solo se complete con Grado
+                    if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
+                        estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), false));
+                    }
+                    else{
+                        // Caso donde el filtro solo se complete con Nombre
+                        if (grado==0 && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                            estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), false));
                         }
-                        // Caso donde filtro tenga todos los valores vacios
-                        if(grado==0 && nombreAlumn==""){
-                            return "redirect:/itinerariosAlumnado";
-                        }
-                        // Caso donde el filtro solo se complete con Grado
-                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && nombreAlumn=="") {
-                            estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
-                        }
-                        else{
-                            // Caso donde el filtro solo se complete con Nombre
-                            if (grado==0 && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
-                            }
-                            if (gradoLista.equals(gradoService.getGradoPorId(grado)) && tutorizados.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
-                                estudiantes.add(new EstudianteTabla(tutorizados.get(i).getId(), tutorizados.get(i).getNombreCompletoOrdenado(), practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), null, null, false));
-                            }
+                        if (gradoLista.equals(gradoService.getGradoPorId(grado)) && listadoEstudiantes.get(i).getNombreCompletoOrdenado().contains(nombreAlumn)) {
+                            estudiantesAMostrar.add(new EstudianteTabla(listadoEstudiantes.get(i).getId(), listadoEstudiantes.get(i).getNombreCompletoOrdenado(), practicum, practicum.numItinerarios(), gradoLista, practicum.getItinerarioActivo(), false));
                         }
                     }
                 }
-                model.addAttribute("grados", grados);
-                model.addAttribute("gradoSeleccionado", grado);
-                model.addAttribute("nombreSeleccionado", nombreAlumn);
-                model.addAttribute("tutorizados",estudiantes);
-                return "itinerariosAlumnado";
             }
-            if(user.tieneRol("ROL_COORDINADOR")){
-                //Falta implementar para rol COORDINADOR
-                return "redirect:/";
-            }
+            model.addAttribute("grados", grados);
+            model.addAttribute("gradoSeleccionado", grado);
+            model.addAttribute("nombreSeleccionado", nombreAlumn);
+            model.addAttribute("estudiantes",estudiantesAMostrar);
+            return "itinerariosAlumnado";
         }
         return "redirect:/";
     }
@@ -664,77 +669,81 @@ public class ControladorItinerarios {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession sesion = attr.getRequest().getSession(true);
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
-        List<EstudianteTabla> estudiantes = new ArrayList<>();
         if(user!=null) {
+            List<Estudiante> listadoEstudiantes = null;
+            List<EstudianteTabla> estudiantes = new ArrayList<>();
+            Integer numCambios = 0;
+            Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
             if (user.tieneRol("ROL_TUTOR_UR")) {
-                List<Estudiante> tutorizados = tutorUrService.getTutorURPorCodnum(user.getId()).getTutorizados();
-                Integer numCambios = 0;
-                Estudiante estudiante = estudianteService.getEstudiantePorCodnum(id);
-                if (estudiante != null && tutorizados.contains(estudiante)) {
-                    Practicum practicumActivo = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
-                    if (practicumActivo.getPrimerItinerario() != null) {
-                        List<EstacionAprend> estacionesPrimerItinerario = this.getEstacionesDeItinerario(practicumActivo.getPrimerItinerario().getId());
-                        List<Integer> indicesPrimerItinerario = entregaEstacionService.getIndicesEstacionDeItinerario(practicumActivo.getPrimerItinerario().getId());
-                        Collections.sort(indicesPrimerItinerario);
-                        if (practicumActivo.getUltimoItinerario() != null) {
-                            List<EstacionAprend> estacionesUltimoItinerario = this.getEstacionesDeItinerario(practicumActivo.getUltimoItinerario().getId());
-                            List<Integer> indicesUltimoItinerario = entregaEstacionService.getIndicesEstacionDeItinerario(practicumActivo.getUltimoItinerario().getId());
-                            Collections.sort(indicesUltimoItinerario);
-                            // Miramos número de cambios y guardamos la posicion de ellos
-                            List<Integer> posCambios = new ArrayList<Integer>();
-                            for (int i = 0; i < indicesPrimerItinerario.size(); i++) {
-                                if (!indicesUltimoItinerario.contains(indicesPrimerItinerario.get(i))) {
-                                    posCambios.add(i);
-                                    numCambios++;
-                                }
+                listadoEstudiantes = tutorUrService.getTutorURPorCodnum(user.getId()).getTutorizados();
+            }
+            if (user.tieneRol("ROL_COORDINADOR")) {
+                listadoEstudiantes = estudianteService.getEstudiantes();
+            }
+            if (estudiante != null && listadoEstudiantes.contains(estudiante)) {
+                Practicum practicumActivo = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
+                if (practicumActivo.getPrimerItinerario() != null) {
+                    List<EstacionAprend> estacionesPrimerItinerario = this.getEstacionesDeItinerario(practicumActivo.getPrimerItinerario().getId());
+                    List<Integer> indicesPrimerItinerario = entregaEstacionService.getIndicesEstacionDeItinerario(practicumActivo.getPrimerItinerario().getId());
+                    Collections.sort(indicesPrimerItinerario);
+                    if (practicumActivo.getUltimoItinerario() != null) {
+                        List<EstacionAprend> estacionesUltimoItinerario = this.getEstacionesDeItinerario(practicumActivo.getUltimoItinerario().getId());
+                        List<Integer> indicesUltimoItinerario = entregaEstacionService.getIndicesEstacionDeItinerario(practicumActivo.getUltimoItinerario().getId());
+                        Collections.sort(indicesUltimoItinerario);
+                        // Miramos número de cambios y guardamos la posicion de ellos
+                        List<Integer> posCambios = new ArrayList<Integer>();
+                        for (int i = 0; i < indicesPrimerItinerario.size(); i++) {
+                            if (!indicesUltimoItinerario.contains(indicesPrimerItinerario.get(i))) {
+                                posCambios.add(i);
+                                numCambios++;
                             }
-                            switch (numCambios) {
-                                case 1:
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 3, estacionesPrimerItinerario);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 5, estacionesUltimoItinerario);
-                                    model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerarioNuevo);
-                                    model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo);
-                                    break;
-                                case 2:
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo21 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo22 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 5, estacionesPrimerItinerarioNuevo21);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo21 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo22 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 5, estacionesUltimoItinerarioNuevo21);
-                                    model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerarioNuevo22);
-                                    model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo22);
-                                    break;
-                                case 3:
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo31 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo32 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 3, estacionesPrimerItinerarioNuevo31);
-                                    List<EstacionAprend> estacionesPrimeroItinerarioNuevo33 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(2)), 4, estacionesPrimerItinerarioNuevo32);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo31 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo32 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 3, estacionesUltimoItinerarioNuevo31);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo33 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(2)), 4, estacionesUltimoItinerarioNuevo32);
-                                    model.addAttribute("estacionesPrimerItinerario", estacionesPrimeroItinerarioNuevo33);
-                                    model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo33);
-                                    break;
-                                case 4:
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo41 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
-                                    List<EstacionAprend> estacionesPrimerItinerarioNuevo42 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 2, estacionesPrimerItinerarioNuevo41);
-                                    List<EstacionAprend> estacionesPrimeroItinerarioNuevo43 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(2)), 4, estacionesPrimerItinerarioNuevo42);
-                                    List<EstacionAprend> estacionesPrimeroItinerarioNuevo44 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(3)), 5, estacionesPrimeroItinerarioNuevo43);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo41 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo42 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 2, estacionesUltimoItinerarioNuevo41);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo43 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(2)), 4, estacionesUltimoItinerarioNuevo42);
-                                    List<EstacionAprend> estacionesUltimoItinerarioNuevo44 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(3)), 5, estacionesUltimoItinerarioNuevo43);
-                                    model.addAttribute("estacionesPrimerItinerario", estacionesPrimeroItinerarioNuevo44);
-                                    model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo44);
-                                    break;
-                            }
-                        } else {
-                            model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerario);
                         }
-                        model.addAttribute("estudiante", estudiante);
-                        model.addAttribute("numCambios", numCambios);
-                        model.addAttribute("primerItinerario", practicumActivo.getPrimerItinerario());
-                        model.addAttribute("ultimoItinerario", practicumActivo.getUltimoItinerario());
-                        return "itinerariosPropios";
+                        switch (numCambios) {
+                            case 1:
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 3, estacionesPrimerItinerario);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 5, estacionesUltimoItinerario);
+                                model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerarioNuevo);
+                                model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo);
+                                break;
+                            case 2:
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo21 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo22 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 5, estacionesPrimerItinerarioNuevo21);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo21 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo22 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 5, estacionesUltimoItinerarioNuevo21);
+                                model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerarioNuevo22);
+                                model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo22);
+                                break;
+                            case 3:
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo31 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo32 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 3, estacionesPrimerItinerarioNuevo31);
+                                List<EstacionAprend> estacionesPrimeroItinerarioNuevo33 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(2)), 4, estacionesPrimerItinerarioNuevo32);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo31 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo32 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 3, estacionesUltimoItinerarioNuevo31);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo33 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(2)), 4, estacionesUltimoItinerarioNuevo32);
+                                model.addAttribute("estacionesPrimerItinerario", estacionesPrimeroItinerarioNuevo33);
+                                model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo33);
+                                break;
+                            case 4:
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo41 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(0)), 1, estacionesPrimerItinerario);
+                                List<EstacionAprend> estacionesPrimerItinerarioNuevo42 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(1)), 2, estacionesPrimerItinerarioNuevo41);
+                                List<EstacionAprend> estacionesPrimeroItinerarioNuevo43 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(2)), 4, estacionesPrimerItinerarioNuevo42);
+                                List<EstacionAprend> estacionesPrimeroItinerarioNuevo44 = this.posicionarEstacion(estacionesPrimerItinerario.get(posCambios.get(3)), 5, estacionesPrimeroItinerarioNuevo43);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo41 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(0)), 1, estacionesUltimoItinerario);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo42 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(1)), 2, estacionesUltimoItinerarioNuevo41);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo43 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(2)), 4, estacionesUltimoItinerarioNuevo42);
+                                List<EstacionAprend> estacionesUltimoItinerarioNuevo44 = this.posicionarEstacion(estacionesUltimoItinerario.get(posCambios.get(3)), 5, estacionesUltimoItinerarioNuevo43);
+                                model.addAttribute("estacionesPrimerItinerario", estacionesPrimeroItinerarioNuevo44);
+                                model.addAttribute("estacionesUltimoItinerario", estacionesUltimoItinerarioNuevo44);
+                                break;
+                        }
+                    } else {
+                        model.addAttribute("estacionesPrimerItinerario", estacionesPrimerItinerario);
                     }
+                    model.addAttribute("estudiante", estudiante);
+                    model.addAttribute("numCambios", numCambios);
+                    model.addAttribute("primerItinerario", practicumActivo.getPrimerItinerario());
+                    model.addAttribute("ultimoItinerario", practicumActivo.getUltimoItinerario());
+                    return "itinerariosPropios";
                 }
             }
         }
@@ -751,9 +760,9 @@ public class ControladorItinerarios {
             if (pos != -1) {
                 Integer idItinerario = Integer.parseInt(id.substring(0, pos));
                 Integer idEstudiante = Integer.parseInt(id.substring(pos + 1, id.length()));
-                TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
                 Estudiante estudiante = estudianteService.getEstudiantePorCodnum(idEstudiante);
-                if (tutorUR!=null && estudiante!=null && tutorUR.tieneEstudiante(estudiante)) {
+                TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
+                if ((estudiante!=null && user.tieneRol("ROL_TUTOR_UR") && tutorUR!=null && tutorUR.tieneEstudiante(estudiante)) || (estudiante!=null && user.tieneRol("ROL_COORDINADOR"))){
                     Practicum pract = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
                     // Controlamos que no nos puedan manipular la URL cambiando el identificador del itinerario a consultar
                     if (pract.tieneItinerario(idItinerario)) {
@@ -867,7 +876,7 @@ public class ControladorItinerarios {
                         Integer idEstudiante = Integer.parseInt(idEntrega2.substring(pos+1, idEntrega2.length()));
                         TutorUR tutorUR = tutorUrService.getTutorURPorCodnum(user.getId());
                         Estudiante estudiante = estudianteService.getEstudiantePorCodnum(idEstudiante);
-                        if (tutorUR!=null && estudiante!=null && tutorUR.tieneEstudiante(estudiante)) {
+                        if ((estudiante!=null && user.tieneRol("ROL_TUTOR_UR") && tutorUR!=null && tutorUR.tieneEstudiante(estudiante)) || (estudiante!=null && user.tieneRol("ROL_COORDINADOR"))) {
                             Practicum pract = practicumService.getPracticumActivoEstudiante(estudiante, metodosGenerales.getCursoAcademico(), metodosGenerales.getConvocatoriaPorFechas());
                             if (pract.tieneItinerario(idItinerario) && entregaEstacionService.getIndicesEstacionDeItinerario(idItinerario).contains(idEstacion)) {
                                 EntregaEstacion.IdEntregaEstacion id = new EntregaEstacion.IdEntregaEstacion();
