@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<div th:fragment="menu-lateral-admin" class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-sm-2 px-0 bg-dark" xmlns:th="http://www.thymeleaf.org">
+  <div class="d-flex flex-column align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none text-white min-vh-100">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+      <!-- PAGINA DE INICIO -->
+      <li class="nav-item">
+        <a th:href="@{/}" class="nav-link align-middle px-0" title="Inicio">
+          <div class="d-flex flex-row flex-nowrap">
+            <div class="col-2">
+              <span class="material-icons text-secondary" aria-hidden="true">home</span>
+            </div>
+            <div class="col-10 px-2">
+              <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" id="opt1Menu">Inicio</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <!-- CONSULTAS -->
+      <li class="nav-item">
+        <a th:href="@{/}" class="nav-link align-middle px-0" title="Consulta de datos de la API">
+          <div class="d-flex flex-row flex-nowrap">
+            <div class="col-2">
+              <span class="material-icons text-secondary" aria-hidden="true">find_in_page</span>
+            </div>
+            <div class="col-10">
+              <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" id="opt2Menu">Consultas</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <!-- LISTADOS -->
+      <li class="nav-item">
+        <a th:href="@{/}" data-bs-toggle="collapse" role="button" class="nav-link align-middle px-0" title="Listado de datos de la API">
+          <div class="d-flex flex-row flex-nowrap ">
+            <div class="col-2">
+              <span class="material-icons text-secondary" aria-hidden="true">list_alt</span>
+            </div>
+            <div class="col-10 px-1">
+              <span class="ms-1 d-none d-sm-inline text-uppercase fw-bold text-white" id="opt3Menu">Listados</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <!-- GESTION -->
+      <li class="nav-item">
+        <a href="#submenuGestion" data-bs-toggle="collapse" role="button" class="nav-link align-middle px-0" title="Gestión">
+          <div class="d-flex flex-row flex-nowrap ">
+            <div class="col-2">
+              <span class="material-icons text-secondary" aria-hidden="true">settings</span>
+            </div>
+            <div class="col-10 px-1">
+              <span class="ms-1 d-none d-sm-inline text-uppercase fw-bold text-white" id="opt4Menu">Gestión</span>
+            </div>
+          </div>
+        </a>
+        <!-- OPCIONES DE SUBLISTAS DEL APARTADO DE GESTION -->
+        <ul class="collapse nav flex-column ms-sm-2" aria-expanded="false" id="submenuGestion" data-bs-parent="#menu"> <!-- class="show" si queremos dejarlo desplegado por defecto -->
+          <li>
+            <a th:href="@{/gestionPreguntasGenerales}" class="nav-link px-1 ms-sm-1">
+              <div class="d-flex flex-row flex-nowrap">
+                <div class="col-2">
+                  <span class="material-icons text-secondary iconos" aria-hidden="true">list</span>
+                </div>
+                <div class="col-10">
+                  <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Preguntas Generales</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/}" class="nav-link px-1 ms-sm-1">
+              <div class="d-flex flex-row flex-nowrap">
+                <div class="col-2">
+                  <span class="material-icons text-secondary iconos" aria-hidden="true">list</span>
+                </div>
+                <div class="col-10">
+                  <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Líneas Aprendizaje</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/}" class="nav-link px-1 ms-sm-1">
+              <div class="d-flex flex-row flex-nowrap">
+                <div class="col-2">
+                  <span class="material-icons text-secondary iconos" aria-hidden="true">check_box</span>
+                </div>
+                <div class="col-10">
+                  <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Estaciones Aprendizaje</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/}" class="nav-link px-1 ms-sm-1">
+              <div class="d-flex flex-row flex-nowrap">
+                <div class="col-2">
+                  <span class="material-icons text-secondary iconos" aria-hidden="true">check_box</span>
+                </div>
+                <div class="col-10">
+                  <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Rúbricas de Evaluación</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/}" class="nav-link px-1 ms-sm-1">
+              <div class="d-flex flex-row flex-nowrap">
+                <div class="col-2">
+                  <span class="material-icons text-secondary iconos" aria-hidden="true">check_box</span>
+                </div>
+                <div class="col-10">
+                  <span class="d-none d-sm-inline text-uppercase text-white subopcionMenu">Sello de Calidad</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- CERRAR SESIÓN -->
+      <li class="nav-item pt-5">
+        <form th:action="@{/logout}" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button type="submit" id="logout" class="btn px-3 pb-0 mb-2 text-secondary boton-sin-sombra" title="Salir y cerrar sesión">
+            <div class="d-flex flex-row flex-nowrap ">
+              <div class="col-2">
+                <span class="material-icons text-secondary" aria-hidden="true">logout</span>
+              </div>
+              <div class="col-10">
+                <span class="ms-1 d-none d-sm-inline text-uppercase text-white fw-bold" title="Cerrar sesión" id="opt5Menu">Cerrar sesión</span>
+              </div>
+            </div>
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+

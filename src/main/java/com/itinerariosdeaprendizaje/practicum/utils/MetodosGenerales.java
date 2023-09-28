@@ -4,6 +4,7 @@ import com.itinerariosdeaprendizaje.practicum.model.Mencion;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -41,6 +42,21 @@ public class MetodosGenerales {
             }
         }
         return null;
+    }
+
+    public List<String> getCursos(){
+        List<String> cursos = new ArrayList<>();
+        String ultimoCurso = this.getCursoAcademico();
+        Integer primerAnio = Integer.parseInt(ultimoCurso.substring(0, ultimoCurso.indexOf("/")));
+        Integer segundoAnio = Integer.parseInt(ultimoCurso.substring(ultimoCurso.indexOf("/")+1));
+        Integer primerAnioNuevo = 22;
+        Integer segundoAnioNuevo = 23;
+        while(primerAnioNuevo<=primerAnio && segundoAnioNuevo<=segundoAnio){
+            cursos.add(primerAnioNuevo+"/"+segundoAnioNuevo);
+            primerAnioNuevo++;
+            segundoAnioNuevo++;
+        }
+        return cursos;
     }
 
 }

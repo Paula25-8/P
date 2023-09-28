@@ -27,13 +27,15 @@
         <main class="container h-100"> <!-- overflow-hidden -->
             <div class="row">
                 <div class="col text-center">
-                    <h2 class="fw-bold my-4">XXX</h2>
-                    <p>Ejemplo de página con botones de acceso según roles</p>
+                    <h2 class="fw-bold my-4">Aplicación para el desarrollo del prácticum de los grados de Educación</h2>
                     <nav class="d-grid gap-5 d-sm-flex justify-content-sm-center py-5">
-                        <a sec:authorize="hasRole('USER')" th:href="@{/indexprueba}" class="btn btn-primary btn-lg px-4" role="button">
-                            Acceso a zona de administración<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">manage_accounts</span>
+                        <!-- <a sec:authorize="hasAuthority('ROL_ADMINISTRADOR')" th:href="@{/apiPracticum}" class="btn btn-primary btn-lg px-4" role="button">
+                            Acceso a aplicación del prácticum<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">school</span>
+                        </a> -->
+                        <a sec:authorize="hasAuthority('ROL_ADMINISTRADOR')" th:href="@{/administracion}" class="btn btn-primary btn-lg px-4" role="button">
+                            Acceso a zona de administración<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">admin_panel_settings</span>
                         </a>
-                        <a sec:authorize="hasAnyAuthority('USER','ADMIN')" th:href="@{/pruebaBootstrap}" class="btn btn-primary btn-lg px-4" role="button">
+                        <a sec:authorize="hasAuthority('ROL_ADMINISTRADOR')" th:href="@{/pruebaBootstrap}" class="btn btn-secondary btn-lg px-4" role="button">
                             Acceso a zona de gestores<span class="material-icons fs-1 px-0 pt-2 pb-1" aria-hidden="true">manage_accounts</span>
                         </a>
                     </nav>

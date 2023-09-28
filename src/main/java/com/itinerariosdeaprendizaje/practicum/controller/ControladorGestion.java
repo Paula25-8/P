@@ -61,6 +61,9 @@ public class ControladorGestion {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession sesion = attr.getRequest().getSession(true);
             sesion.setAttribute("usuarioSesion", usuario);
+            if(usuario.tieneRol("ROL_ADMINISTRADOR")){
+                return "indexGestion";
+            }
             if(usuario.tieneRol("ROL_ESTUDIANTE")){
                 Estudiante estudiante = estudianteService.getEstudiantePorCodnum(usuario.getId());
                 List<Grado> grados = estudiante.getGrados();
@@ -122,6 +125,26 @@ public class ControladorGestion {
             return "lineasAprendizaje";
         }
         return "redirect:/";
+    }
+
+    // Url para acceder a ZONA DE ADMINISTRACION para rol COORDINADOR
+    @GetMapping("/administracion")
+    public String paginaInicioParaCoordinador(Model model){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = attr.getRequest().getSession(true);
+        Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
+        if(user !=null && user.tieneRol("ROL_ADMINISTRADOR")) {
+
+            return "indexAdmin";
+        }
+        return "redirect:/";
+    }
+
+    /*OPCION MENU: ITINERARIOS > LINEAS APREND */
+    @GetMapping("/gestionPreguntasGenerales")
+    public String paginaGestionPreguntas(Model model){
+        model.addAttribute("cursos", metodosGenerales.getCursos());
+        return "gestionPreguntasGenerales";
     }
 
 }

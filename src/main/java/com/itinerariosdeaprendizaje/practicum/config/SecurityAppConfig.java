@@ -43,7 +43,7 @@ public class SecurityAppConfig {
              .requestMatchers("/itinerariosAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_COORDINADOR.name())
              .requestMatchers("/dossierFinal/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name())
              .requestMatchers("/dossierAlumnado/**").hasAnyAuthority(TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
-             .requestMatchers("/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name(), TipoPerfil.ROL_COORDINADOR.name())
+             .requestMatchers("/**").hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name(), TipoPerfil.ROL_COORDINADOR.name(), TipoPerfil.ROL_ADMINISTRADOR.name())
              .anyRequest().hasAnyAuthority(TipoPerfil.ROL_ESTUDIANTE.name(), TipoPerfil.ROL_TUTOR_UR.name(), TipoPerfil.ROL_TUTOR_CENTRO.name())
              .and()
              .formLogin()
@@ -143,7 +143,9 @@ public class SecurityAppConfig {
                 .and()
                 .withUser("matio").password("matio").authorities("ROL_TUTOR_CENTRO")
                 .and()
-                .withUser("cordi").password("cordi").authorities("ROL_COORDINADOR");
+                .withUser("cordi").password("cordi").authorities("ROL_COORDINADOR")
+                .and()
+                .withUser("admin").password("admin").authorities("ROL_ADMINISTRADOR");
         //passwordEncoder().encode("password")
     }
     @Bean

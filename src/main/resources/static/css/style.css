@@ -979,6 +979,15 @@ button.botonBuscar{
        height: 305px;
        margin-left: 30px;
    }
+
+   /* Características de la parte de GESTIÓN Y ADMINISTRACIÓN */
+    p.btnNuevo{
+        margin-top: 20px;
+        margin-right: 30px;
+    }
+    label.pLabel{
+        font-size: 1.1rem;
+    }
 }
 @media screen and (min-width: 1024px) and (max-width: 1440px){
     h5.tituloPregunta{
