@@ -76,7 +76,7 @@ public class ControladorEvaluacion {
                 model.addAttribute("valorarRubrica", false);
             }
             if (user.tieneRol("ROL_COORDINADOR")) {
-                List<Grado> grados = gradoService.getGrados();
+                List<Grado> grados = gradoService.getGradosPorCurso(metodosGenerales.getCursoAcademico());
                 gradoUser = grados.get(0);
                 model.addAttribute("grados", grados);
                 model.addAttribute("gradoSeleccionado", gradoUser.getId());
@@ -131,7 +131,7 @@ public class ControladorEvaluacion {
                 model.addAttribute("valorarRubrica", false);
             }
             if (user.tieneRol("ROL_COORDINADOR")) {
-                List<Grado> grados = gradoService.getGrados();
+                List<Grado> grados = gradoService.getGradosPorCurso(metodosGenerales.getCursoAcademico());;
                 gradoUser = grados.get(0);
                 model.addAttribute("grados", grados);
                 model.addAttribute("gradoSeleccionado", gradoUser.getId());
@@ -162,7 +162,6 @@ public class ControladorEvaluacion {
     // Metodo para filtro de rol COORDINADOR (solo puede acceder este rol a la url)
     @PostMapping("/rubricaTutorUR")
     public String filtradoRubricaTutorUR(@RequestParam("gradoFiltrado") Integer idGrado, Model model) {
-        System.out.println("Estamos en metodo POST de la rubrica del tutor UR");
         model.addAttribute("nivel1", Nivelndicador.SOBRESALIENTE.descripcion);
         model.addAttribute("nivel2", Nivelndicador.NOTABLE.descripcion);
         model.addAttribute("nivel3", Nivelndicador.APROBADO.descripcion);
@@ -172,7 +171,7 @@ public class ControladorEvaluacion {
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         Grado gradoSeleccionado = gradoService.getGradoPorId(idGrado);
         if (user != null && user.tieneRol("ROL_COORDINADOR") && gradoSeleccionado != null) {
-            List<Grado> grados = gradoService.getGrados();
+            List<Grado> grados = gradoService.getGradosPorCurso(metodosGenerales.getCursoAcademico());
             Rubrica rubrica = gradoSeleccionado.getRubricaTutorUR();
             if (rubrica != null) {
                 List<Criterio> criteriosRubrica = rubrica.getCriterios();
@@ -201,7 +200,6 @@ public class ControladorEvaluacion {
     // Metodo para filtro de rol COORDINADOR (solo puede acceder este rol a la url)
     @PostMapping("/rubricaTutorCentro")
     public String filtradoRubricaTutorCentro(@RequestParam("gradoFiltrado") Integer idGrado, Model model) {
-        System.out.println("Estamos en metodo POST de la rubrica del tutor UR");
         model.addAttribute("nivel1", Nivelndicador.SOBRESALIENTE.descripcion);
         model.addAttribute("nivel2", Nivelndicador.NOTABLE.descripcion);
         model.addAttribute("nivel3", Nivelndicador.APROBADO.descripcion);
@@ -211,7 +209,7 @@ public class ControladorEvaluacion {
         Usuario user = (Usuario) sesion.getAttribute("usuarioSesion");
         Grado gradoSeleccionado = gradoService.getGradoPorId(idGrado);
         if (user != null && user.tieneRol("ROL_COORDINADOR") && gradoSeleccionado != null) {
-            List<Grado> grados = gradoService.getGrados();
+            List<Grado> grados = gradoService.getGradosPorCurso(metodosGenerales.getCursoAcademico());;
             Rubrica rubrica = gradoSeleccionado.getRubricaTutorCentro();
             if (rubrica != null) {
                 List<Criterio> criteriosRubrica = rubrica.getCriterios();

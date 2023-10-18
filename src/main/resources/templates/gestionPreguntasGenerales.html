@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" class="h-100" lang="es">
 <head>
-  <title>Inicio</title>
+  <title>Gestión de preguntas generales</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,50 +35,81 @@
       </div>
       <div class="col-2 d-flex align-items-center py-sm-2 py-2">
         <p class="btnNuevo">
-          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePregunta" aria-expanded="false" aria-controls="collapseExample">
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePregunta" aria-expanded="false" aria-controls="collapsePregunta">
             <span class="material-icons text-white iconos" aria-hidden="true">add</span>Nueva
           </button>
         </p>
       </div>
     </div>
-    <div class="row-auto row-xl-10 d-flex flex-row flex-nowrap align-items-center justify-content-center">
+    <div class="row-auto row-xl-10 d-flex flex-column flex-nowrap align-items-center justify-content-center">
       <div class="col-11">
-        <div class="collapse" id="collapsePregunta">
+        <div th:class="${errorEnunciado!=null || errorCurso!=null || errorRespuesta!=null} ? 'collapse show' : 'collapse'" id="collapsePregunta">
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">Nueva pregunta sobre información general</h5>
             </div>
             <div class="card-body">
               <p>Los campos marcados con <font color="red">*</font> son obligatorios.</p>
-              <form method="post">
+              <form method="post" th:action="@{/gestionPreguntasGenerales/nuevaPregunta}">
                 <div class="flex-row d-flex flex-nowrap">
                   <div class="form-group col-6">
                     <label class="pLabel" for="enunciado">Enunciado <font color="red">*</font></label>
-                    <textarea class="form-control" id="enunciado" rows="3" name="enunciado"></textarea>
+                    <p class="text-danger" th:text="${errorEnunciado}"></p>
+                    <textarea class="form-control" id="enunciado" rows="3" name="enunciado" th:text="${enunciado}"></textarea>
                   </div>
                   <div class="col-1"></div>
                   <div class="form-group col-2">
                     <label class="pLabel" for="curso">Curso académico <font color="red">*</font></label>
-                    <select class="form-control" id="curso" name="curso">
-                      <option selected value="0">-</option>
-                      <option th:each="curso: ${cursos}" th:value="${curso}" th:text="${curso}"></option>
+                    <p class="text-danger" th:text="${errorCurso}"></p>
+                    <select class="form-select" id="curso" name="curso">
+                      <option th:selected="${curso=='-'}" value="-">(Seleccione)</option>
+                      <option th:each="cursoLista: ${cursos}" th:value="${cursoLista}" th:text="${cursoLista}" th:selected="${cursoLista}==${curso}"></option>
                     </select>
                   </div>
                 </div>
                 <br>
                 <div class="form-group col-6">
                   <label class="pLabel" for="respuesta">Respuesta (expresada en lenguaje HTML) <font color="red">*</font></label>
-                  <textarea class="form-control" id="respuesta" rows="3" name="respuesta"></textarea>
+                  <p class="text-danger" th:text="${errorRespuesta}"></p>
+                  <textarea class="form-control" id="respuesta" rows="3" name="respuesta" placeholder="<p>....</p>" th:text="${respuesta}"></textarea>
                 </div>
                 <br>
                 <div class="gap-4 card-foot d-sm-flex justify-content-sm-center" id="botonesConfirmarNuevaPregunta">
                   <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnConfirmarPregunta">Guardar</button>
-                  <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+                  <a id="btnCancelarNuevoDato" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
                 </div>
               </form>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="col-11">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Respuesta</th>
+            <th scope="col">Curso</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="pregunta: ${preguntas}">
+            <td th:text="${pregunta.enunciado}"></td>
+            <td th:text="${pregunta.respuesta}"></td>
+            <td colspan="2" th:text="${pregunta.curso}"></td>
+            <td scope="col">
+              <a th:href="@{/gestionPreguntasGenerales/editarPregunta/{id}(id=${pregunta.codigo})}">
+                <button class="btn btn-primary" type="button">
+                  Editar
+                </button>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </main>
@@ -87,16 +118,6 @@
 </body>
 <!-- Hojas de JavaScript
 <script src="js/expandir_menu.js"></script> -->
-
-<script>
-$(function(){
-    $(document).ready(function(){
-		$('.collapse').on('show.bs.collapse',function(){
-		$('.collapse.show').collapse('toggle');
-		});
-	});
-});
-</script>
-
+<script src="../js/desplegableEdicionDatos.js"></script>
 </html>
 

@@ -24,21 +24,21 @@
 </head>
 <body class="d-flex flex-column" >
     <header th:replace="~{general/header :: cabecera}"></header>
-      <div class="container-fluid d-flex flex-nowrap">
-          <nav th:replace="~{general/sidebar :: menu-lateral}"></nav>
-            <main class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0">
+        <main class="row flex-nowrap container-fluid">
+            <div th:replace="~{general/sidebar :: menu-lateral}"></div>
+            <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0">
                 <div class="row-auto row-xl-10">
                     <div class="col-auto px-sm-2 px-2">
                         <h2 th:text="'Itinerarios de Aprendizaje en el prácticum '+${grado}" class="fw-bold my-4 mx-1align-items-center text-center"></h2>
                     </div>
                 </div>
                 <div class="row-auto row-xl-10">
-                    <div class="col-auto px-sm-1 px-2 d-flex justify-content-center">
+                    <div class="col-auto px-sm-1 px-2 d-flex justify-content-center align-items-center">
                          <img src="images/metroPropio2.png" id="modelItinerario" class="img-fluid mb-5" title="Esta aplicación web facilita los recursos necesarios para la realización y entrega del informe final de prácticas.">
                     </div>
                 </div>
-            </main>
-      </div>
+            </div>
+        </main>
     <footer th:replace="~{general/footer :: pie}"></footer>
 </body>
 <!-- Hojas de JavaScript -->

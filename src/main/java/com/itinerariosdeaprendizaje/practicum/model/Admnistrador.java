@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "ADMINISTRADOR",schema="USER_UR")
+@Table(name = "ADMINISTRADOR", schema = "USER_UR")
 public class Admnistrador extends Usuario{
 }

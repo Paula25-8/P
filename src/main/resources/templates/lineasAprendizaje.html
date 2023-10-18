@@ -29,7 +29,7 @@
 <main class="row flex-nowrap container-fluid">
   <div th:replace="~{general/sidebar :: menu-lateral}"></div>
   <div class="col-10 col-sm-9 col-md-9 col-xl-10" id="divLineas">
-    <div class="row" th:each="linea : ${lineas}">
+    <div class="row cajaInfoLinea" th:each="linea : ${lineas}">
       <div class="row flex-nowrap d-flex align-items-center container-fluid my-1 pb-1">
         <div class="col-7 lineaAprendizaje">
           <div class="row d-flex flex-nowrap align-items-center">

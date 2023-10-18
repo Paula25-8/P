@@ -33,7 +33,7 @@ public class PreguntaService {
         }
     }
 
-    public PreguntaGeneral nuevaPregunta(PreguntaGeneral pregunta) {
+    public PreguntaGeneral guardarPregunta(PreguntaGeneral pregunta) {
         return preguntaRepository.save(pregunta);
     }
 

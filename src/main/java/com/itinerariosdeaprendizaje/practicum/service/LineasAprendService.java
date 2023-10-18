@@ -7,9 +7,7 @@ import com.itinerariosdeaprendizaje.practicum.repository.LineasAprendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class LineasAprendService {
@@ -54,4 +52,16 @@ public class LineasAprendService {
     public LineaAprend guardarLinea(LineaAprend linea){
         return lineasAprendRepository.save(linea);
     }
+
+    public List<String> getNombreGradosLinea(LineaAprend linea){
+        List<Grado> grados = linea.getGrados();
+        List<String> nombreGrados = new ArrayList<>();
+        for(int i=0;i<grados.size();i++){
+            if(!nombreGrados.contains(grados.get(i).getNombre())){
+                nombreGrados.add(grados.get(i).getNombre());
+            }
+        }
+        return nombreGrados;
+    }
+
 }

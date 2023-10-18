@@ -7,7 +7,7 @@ import lombok.*;
 
 @Entity
 @Data
-@Table(name="CARACTERISTICA", schema="USER_UR")
+@Table(name = "CARACTERISTICA", schema = "USER_UR")
 public class Caracteristica {
 
     @Id

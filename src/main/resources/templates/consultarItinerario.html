@@ -45,8 +45,9 @@
         </div>
       </div>
       <div class="col-12">
-        <div class="row flex-nowrap d-flex justify-content-center">
-          <div class="col-5">
+        <div class="row flex-nowrap d-flex justify-content-center" id="cajaMapaDtosItinerario">
+          <div class="col-1"></div>
+          <div class="col-7 d-flex align-items-center justify-content-start">
             <div class="subway-map" data-columns="12" data-rows="10" data-cellSize="40" data-legendId="legend" data-textClass="text_subway" data-gridNumbers="true" data-grid="false" data-lineWidth="8">
               <!-- Mapa de metro para caso de querer ver itinerario final con 1 cambio-->
               <ul th:if="${caracterItinerario=='final' && numCambios==1}" data-color="#36AEFF" data-label="Itinerario final">
@@ -149,15 +150,20 @@
               </ul>
             </div>
           </div>
-          <div class="col-2 pt-5">
-            <b><em>Fecha creación: </em></b><p th:text="${itinerario.fechaCreacion}"></p>
-            <b><em>Estado: </em></b><p th:text="${estado}"></p>
+          <div class="col" id="dtosItinerario">
+            <div id="fechCreacionItir">
+              <b><em>Fecha creación: </em></b><p th:text="${itinerario.fechaCreacion}"></p>
+            </div>
+            <div id="estadoItir">
+              <div><b><em>Estado: </em></b><p th:text="${estado}"></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <br>
-      <div class="col-12 blockquote d-flex flex-column">
-        <p class="d-flex justify-content-center">
+      <div id="estacionesItinerario" class="col-12 blockquote d-flex flex-column">
+        <p class="d-flex justify-content-center align-items-center textoListadoEstaciones">
           Listado de estaciones que conforman el itinerario: &nbsp;
           <!-- Este enlace será una ventana emergente con info del sello de calidad -->
           <button type="button" class="btn shadow-none" data-bs-toggle="modal" th:attr="data-bs-target='#modalSelloCalidad'" title="Información sello de calidad">
@@ -168,8 +174,8 @@
           <ul>
             <li th:each="estacion, iterador:${estaciones}">
               <div th:if="${estado=='Activo'}" class="row flex-nowrap container-fluid">
-                <div class="col-10">
-                  <p th:text="${estacion.titulo}+'. '"></p>
+                <div class="col-8">
+                  <p class="tituloEstacion" th:text="${estacion.titulo}+'. '"></p>
                 </div>
                 <div th:if="${estudiante==null}" class="col-1">
                   <form method="post" enctype="multipart/form-data" th:action="@{/itinerariosPropios/consultarItinerario/{id}(id=${estacion.id})}">

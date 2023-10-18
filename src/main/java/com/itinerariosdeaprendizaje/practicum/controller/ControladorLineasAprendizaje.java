@@ -50,7 +50,7 @@ public class ControladorLineasAprendizaje {
             }
             String html_div_Act;
             if(actCompleto==null) {
-                html_div_Act = "<h3 class='text-center'>Secuencia de Actividades</h3><h4>Actividades de inicio: </h4>" + actInicio.getHtmlResultante()+"<h4>Actividades de aplicación: </h4>"+actAplic.getHtmlResultante()+"<h4>Actividades de cierre: </h4>"+actCierre.getHtmlResultante();
+                html_div_Act = "<h3 class='text-center'>Secuencia de Actividades</h3><h3 class='tipoActividad'>Actividades de inicio: </h3>" + actInicio.getHtmlResultante()+"<h3 class='tipoActividad'>Actividades de aplicación: </h3>"+actAplic.getHtmlResultante()+"<h3 class='tipoActividad'>Actividades de cierre: </h3>"+actCierre.getHtmlResultante();
             }
             else{
                 html_div_Act = "<h3 class='text-center'>Secuencia de Actividades</h3>"+actCompleto.getHtmlResultante();

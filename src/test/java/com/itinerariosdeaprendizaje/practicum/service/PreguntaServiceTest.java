@@ -52,7 +52,7 @@ class PreguntaServiceTest {
         pregunta.setCurso("22/23");
         when(preguntaRepository.save(pregunta)).thenReturn(pregunta);
 
-        pregunta = preguntaService.nuevaPregunta(pregunta);
+        pregunta = preguntaService.guardarPregunta(pregunta);
 
         assertEquals("Enunciado de la pregunta", pregunta.getEnunciado());
         assertEquals("Respuesta de la pregunta", pregunta.getRespuesta());

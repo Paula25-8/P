@@ -141,6 +141,8 @@ public class SecurityAppConfig {
                 .and()
                 .withUser("rosmoreno").password("rosmoreno").authorities("ROL_ESTUDIANTE")
                 .and()
+                .withUser("robto").password("robto").authorities("ROL_ESTUDIANTE")
+                .and()
                 .withUser("matio").password("matio").authorities("ROL_TUTOR_CENTRO")
                 .and()
                 .withUser("cordi").password("cordi").authorities("ROL_COORDINADOR")

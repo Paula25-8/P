@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="COMPET_ESPEC", schema="USER_UR")
+@Table(name = "COMPET_ESPEC", schema = "USER_UR")
 public class CompEspecifica {
 
     @Id

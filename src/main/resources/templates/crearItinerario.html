@@ -33,7 +33,7 @@
       <div class="col-auto px-sm-2 px-2">
         <h2 class="fw-bold my-4 mx-1align-items-center text-center">Creación de nuevo itinerario de aprendizaje</h2>
       </div>
-      <div class="col-12 blockquote">
+      <div id="textoCrearItir" class="col-10 blockquote">
         <p class="text-center">Selecciona en cada línea la estación que formará parte de tu itinerario.</p>
       </div>
       <form th:action="@{/itinerariosPropios/crearItinerario}" method="POST" th:object="${nuevoItinerario}">
@@ -154,9 +154,9 @@
             <hr class="hr hr-blurry"/>
           </div>
         </div>
-        <div class=" gap-4 d-sm-flex justify-content-sm-center">
-          <button type="submit" class="btn btn-primary mt-2 mb-2">Crear itinerario</button>
-          <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+        <div class="gap-4 d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnCrearItir">Crear itinerario</button>
+          <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2 textoBoton" role="button" >Cancelar</a>
         </div>
       </form>
     </div>

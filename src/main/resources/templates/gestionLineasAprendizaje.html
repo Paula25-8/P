@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" class="h-100" lang="es">
+<head>
+    <title>Gestión de líneas de aprendizaje</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="author" content="Universidad de La Rioja" />
+
+    <!-- Colocamos el favicon a nuestra web -->
+    <link rel="icon" type="image/jpg" href="/images/logoFavicon.png"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+
+    <!-- Material Icons CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+</head>
+<body class="d-flex flex-column" >
+<header th:replace="~{general/header :: cabecera}"></header>
+<div class="container-fluid d-flex flex-nowrap">
+    <nav th:replace="~{general/sidebarAdmin :: menu-lateral-admin}"></nav>
+    <main class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 p-0">
+        <div class="row-auto row-xl-10 d-flex flex-row flex-nowrap align-items-start">
+            <div class="col-4 px-sm-2 px-2">
+                <h2 class="fw-bold my-4 mx-1 align-items-start text-start">Líneas de aprendizaje</h2>
+            </div>
+            <div class="col-2 d-flex align-items-center py-sm-2 py-2">
+                <p class="btnNuevo">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLineas" aria-expanded="false" aria-controls="collapseLineas">
+                        <span class="material-icons text-white iconos" aria-hidden="true">add</span>Nueva
+                    </button>
+                </p>
+            </div>
+        </div>
+        <div class="row-auto row-xl-10 d-flex flex-column flex-nowrap align-items-center justify-content-center">
+            <div class="col-11">
+                <div th:class="${errorTitulo!=null || errorDescripcion!=null || errorCurso!=null || errorNumLinea!=null || errorGrados!=null } ? 'collapse show' : 'collapse'" id="collapseLineas">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Nueva línea de aprendizaje</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Los campos marcados con <font color="red">*</font> son obligatorios.</p>
+                            <form method="post" th:action="@{/gestionLineasAprendizaje/nuevaLinea}">
+                                <div class="flex-row d-flex flex-nowrap">
+                                    <div class="form-group col-6">
+                                        <label class="pLabel" for="titulo">Título <font color="red">*</font></label>
+                                        <p class="text-danger" th:text="${errorTitulo}"></p>
+                                        <input type="text" class="form-control" id="titulo" name="titulo" th:value="${titulo}">
+                                    </div>
+                                    <div class="col-1"></div>
+                                    <div class="form-group col-3">
+                                        <label class="pLabel" for="numeroLinea">Número de línea (selección de color) <font color="red">*</font></label>
+                                        <p class="text-danger" th:text="${errorNumLinea}"></p>
+                                        <select class="form-select" id="numeroLinea" name="numeroLinea">
+                                            <option th:selected="${numLinea==0}" value="0" class="opcionDeshabilitada">Seleccione</option>
+                                            <option th:each="numLista: ${numLineasDisponibles}" th:value="${numLista.key}" th:text="${numLista.value}" th:selected="${numLista.key}==${numLinea}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="flex-row d-flex flex-nowrap">
+                                    <div class="form-group col-6">
+                                        <label class="pLabel" for="descripcion">Descripción (expresada en lenguaje HTML) <font color="red">*</font></label>
+                                        <p class="text-danger" th:text="${errorDescripcion}"></p>
+                                        <textarea class="form-control" id="descripcion" rows="6" name="descripcion" placeholder="<p>....</p>" th:text="${descripcion}"></textarea>
+                                    </div>
+                                    <div class="col-1"></div>
+                                    <div class="form-group col-3 d-flex flex-column">
+                                        <div>
+                                            <label class="pLabel" for="curso">Curso académico <font color="red">*</font></label>
+                                            <p class="text-danger" th:text="${errorCurso}"></p>
+                                            <select class="form-select" id="curso" name="curso">
+                                                <option th:selected="${curso=='-'}" value="-" class="opcionDeshabilitada">Seleccione</option>
+                                                <option th:each="cursoLista: ${cursos}" th:value="${cursoLista}" th:text="${cursoLista}" th:selected="${cursoLista}==${curso}"></option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <label class="pLabel" for="grados">Grado(s) al que pertenece <font color="red">*</font></label>
+                                            <p class="text-danger" th:text="${errorGrados}"></p>
+                                            <select id="grados" name="grados" placeholder="Seleccione" multiple>
+                                                <option th:selected="${#lists.contains(gradosSeleccionados, '-')}" value="-" hidden>Seleccione</option> <!-- Necesitamos este elemento hidden para que siempre se pase algún valor del parámetro al ejecutar el formulario -->
+                                                <option th:each="gradoLista: ${grados}" th:value="${gradoLista}" th:text="${gradoLista}" th:selected="${#lists.contains(gradosSeleccionados, gradoLista)}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="gap-4 card-foot d-sm-flex justify-content-sm-center" id="botonesConfirmarNuevaLinea">
+                                    <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnConfirmarPregunta">Guardar</button>
+                                    <a id="btnCancelarNuevoDato" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-11">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Curso</th>
+                        <th scope="col"></th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Grado(s) académico</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="linea: ${lineas}">
+                        <td th:text="${linea.titulo}"></td>
+                        <td th:text="${linea.descripcion}"></td>
+                        <td colspan="2" th:text="${linea.curso}"></td>
+                        <td th:text="${linea.numeroLinea}"></td>
+                        <td>
+                            <ul>
+                                <li th:each="grado: ${linea.grados}" th:text="${grado.nombre}"></li>
+                            </ul>
+                        </td>
+                        <td scope="col">
+                            <a th:href="@{/gestionLineasAprendizaje/editarLinea/{id}(id=${linea.id})}">
+                                <button class="btn btn-primary" type="button">
+                                    Editar
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<footer th:replace="~{general/footer :: pie}"></footer>
+</body>
+<!-- Hojas de JavaScript -->
+<!-- Librería de JQUERY -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+<script>
+    $('#grados').selectpicker();
+</script>
+
+<!-- <script src="js/expandir_menu.js"></script> -->
+<script src="../js/desplegableEdicionDatos.js"></script>
+
+
+</html>
+
