@@ -60,7 +60,7 @@
           </div>
         </form>
       </div>
-      <div class="col-10">
+      <div class="col-11">
         <table class="table" id="tabla_itinerario">
           <thead class="thead-dark">
           <tr>
@@ -94,7 +94,7 @@
               </a>
             </td>
             <td th:if="${usuarioTutor}">
-              <p th:attr="class=${alumno.evaluado==true} ? 'text-success parrafos' : 'text-danger parrafos'" th:text="${alumno.evaluado==true} ? 'Evaluado' : 'Por evaluar'"></p>
+              <p th:attr="class=${alumno.evaluado==true} ? 'text-success' : 'text-danger'" th:text="${alumno.evaluado==true} ? 'Evaluado' : 'Por evaluar'"></p>
             </td>
           </tr>
           </tbody>

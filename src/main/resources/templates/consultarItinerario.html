@@ -45,9 +45,8 @@
         </div>
       </div>
       <div class="col-12">
-        <div class="row flex-nowrap d-flex justify-content-center" id="cajaMapaDtosItinerario">
-          <div class="col-1"></div>
-          <div class="col-7 d-flex align-items-center justify-content-start">
+        <div id="cajaMapaDtosItinerario">
+          <div class="col-6 d-flex align-items-center justify-content-start">
             <div class="subway-map" data-columns="12" data-rows="10" data-cellSize="40" data-legendId="legend" data-textClass="text_subway" data-gridNumbers="true" data-grid="false" data-lineWidth="8">
               <!-- Mapa de metro para caso de querer ver itinerario final con 1 cambio-->
               <ul th:if="${caracterItinerario=='final' && numCambios==1}" data-color="#36AEFF" data-label="Itinerario final">
@@ -150,12 +149,13 @@
               </ul>
             </div>
           </div>
-          <div class="col" id="dtosItinerario">
+          <div  id="dtosItinerario">
             <div id="fechCreacionItir">
               <b><em>Fecha creación: </em></b><p th:text="${itinerario.fechaCreacion}"></p>
             </div>
             <div id="estadoItir">
-              <div><b><em>Estado: </em></b><p th:text="${estado}"></p>
+              <div>
+                <b><em>Estado: </em></b><p th:text="${estado}"></p>
               </div>
             </div>
           </div>

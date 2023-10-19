@@ -61,7 +61,7 @@
               <div class="col-10 d-flex flex-column justify-content-center" id="contenedorTituloEntregaActividad">
                 <h2 th:if="${estudiante==null}" class="fw-bold my-3 mx-1 text-center" th:text="'Dossier final del prácticum'"></h2>
                 <h2 th:if="${estudiante!=null}" class="fw-bold my-3 mx-1 text-center" th:text="'Dossier final entregado por '+${estudiante.nombreCompletoOrdenado}"></h2>
-                <p th:if="${estudiante==null}" class="text-center">Su dossier ya ha sido entregado. </p>
+                <p th:if="${estudiante==null}" class="text-center txtInformativo">Su dossier ya ha sido entregado. </p>
               </div>
               <div sec:authorize="hasAnyAuthority('ROL_TUTOR_UR', 'ROL_TUTOR_CENTRO')" class="col-1 d-flex justify-content-end">
                 <a th:href="@{${urlFlecha}}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
@@ -70,49 +70,47 @@
           </div>
           </div>
           <div class="col-12">
-            <div class="row flex-row flex-nowrap container-fluid">
+            <div class="d-flex row flex-nowrap container-fluid" id="cajaDtosEntrega">
               <div class="col-7 my-2 cajaDocumento">
                 <embed th:attr="src=${rutaDocu}" type="application/pdf" width="105%" height="800px"/>
-                <p><i class="d-flex align-items-end" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
+                <p><i class="d-flex align-items-end fechEntregaDossier" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
               </div>
               <div class="col-5 d-flex flex-column justify-content-start cajaFeedback">
                 <div class="d-flex flex-row mx-2 my-2 flex-nowrap align-items-center justify-content-start">
                   <h5><i>Feedback del tutor de UR:</i></h5>
                   <a href="/rubricaTutorUR" id="btnInfoConsultaDossier" class="nav-link px-1 ms-sm-1" title="Consulta rúbrica tutor UR">
-                    <span class="material-icons text-secondary iconos" aria-hidden="true">info</span>
+                    <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">info</span>
                   </a>
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <div class="">
+                  <div>
                     <form method="post" th:action="@{/dossierAlumnado/consultarDossierFinal/nuevoComentario/{id}(id=${idEstudiante})}">
                       <div class="form-group">
                         <textarea class="form-control mx-3" name="feedbackTutor" id="feedbackTutor" rows="4" th:text="${feedbackTutor}" placeholder="No hay ningún comentario registrado."></textarea>
-                        <label class="mx-2" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
+                        <label class="mx-2 fechPublicacionComentario" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
                       </div>
-                      <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-4 d-sm-flex justify-content-sm-center">
-                        <button type="submit" class="btn btn-primary mt-2 mb-2">Incluir comentario</button>
-                        <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
+                      <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-1 d-sm-flex justify-content-sm-center">
+                        <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnNuevoComentario">Incluir comentario</button>
+                        <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2 textoBoton" role="button">Cancelar</a>
                       </div>
                     </form>
                   </div>
-                  <br>
                   <div th:if="${feedbackTutor!=null}" sec:authorize="hasAuthority('ROL_ESTUDIANTE')" class="d-flex flex-row">
-                    <p class="mx-2 text-center">Subir nuevo documento: </p>
+                    <p class="mx-2 my-2 text-center txtInformativo">Subir nuevo documento: </p>
                     <form th:if="${feedbackTutor!=null}" method="post" enctype="multipart/form-data" th:action="@{dossierFinal/modificarDossier}">
                       <div class="div_file">
                         <a title="Modificar dossier final del prácticum" class="enlaceDossier">
-                          <span class="material-icons" aria-hidden="true">upload</span>
+                          <span class="material-icons iconosTabla" id="iconoSubirDocu" aria-hidden="true">upload</span>
                         </a>
                         <input type="file" name="docuDossier" class="subidaDossierFinal" accept="application/pdf">
                       </div>
                       <input type="hidden" name="idDossier" th:value="${dossierFinal.id}">
                     </form>
                   </div>
-
                   <div th:if="${posibleCalificacion}" sec:authorize="hasAnyAuthority('ROL_TUTOR_UR', 'ROL_TUTOR_CENTRO')" id="contenedorPosibleCalificacion" class="d-flex flex-row mx-2 my-2 flex-nowrap align-items-center justify-content-start">
-                    <p class="text-center">Evaluar prácticum del alumno:</p>
+                    <p class="text-start txtInformativo">Evaluar prácticum del alumno:</p>
                     <a th:href="@{/calificacion/evaluacionAlumnado/{id}(id=${idEstudiante})}" class="nav-link px-1 ms-sm-1" title="Evaluar practicum del alumno">
-                      <span class="material-icons iconos" aria-hidden="true">check_box</span>
+                      <span class="material-icons iconos iconosTabla" aria-hidden="true">check_box</span>
                     </a>
                   </div>
                 </div>

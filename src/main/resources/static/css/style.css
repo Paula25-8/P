@@ -783,6 +783,14 @@ button.botonBuscar{
 
 /* Media queries para pagina de informacion general*/
 @media screen and (min-width: 1440px) and (max-width: 2560px){
+    div#cajaMapaDtosItinerario {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    div#dtosItinerario{
+        width: 392px;
+    }
     div.titulolinea1CreacionItir, div.titulolinea2CreacionItir, div.titulolinea3CreacionItir, div.titulolinea4CreacionItir,
     div.titulolinea1ModificarItir, div.titulolinea2ModificarItir, div.titulolinea3ModificarItir, div.titulolinea4ModificarItir{
         width: 392px;
@@ -1000,6 +1008,12 @@ button.botonBuscar{
        height: 305px;
        margin-left: 30px;
    }
+   /* Parte de visualizar calificación de alumno */
+    .divNotasParciales{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 
    /* Características de la parte de GESTIÓN Y ADMINISTRACIÓN */
     p.btnNuevo{
@@ -1011,6 +1025,14 @@ button.botonBuscar{
     }
 }
 @media screen and (min-width: 1024px) and (max-width: 1440px){
+    div#cajaMapaDtosItinerario {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    div#dtosItinerario{
+        width: 245px;
+    }
     div.titulolinea1CreacionItir, div.titulolinea2CreacionItir, div.titulolinea3CreacionItir, div.titulolinea4CreacionItir,
     div.titulolinea1ModificarItir, div.titulolinea2ModificarItir, div.titulolinea3ModificarItir, div.titulolinea4ModificarItir{
         width: 360px;
@@ -1052,6 +1074,9 @@ button.botonBuscar{
     }
     .material-icons {
         font-size: 21px;
+    }
+    #iconoSubirDocu{
+        margin-top: 10px;
     }
     .tituloEncabezado{
         font-size: 2.5em;
@@ -1145,10 +1170,10 @@ button.botonBuscar{
     .botonesDatos button{
        font-size: 1.3rem;
     }
-    div#dtosItinerario>b>em{
+    div#dtosItinerario>div>b>em{
         font-size: 1.1rem;
     }
-    .seccionDatos p, .seccionDatos li, #fraseInicial, p.textoListadoEstaciones, p.tituloEstacion, div#dtosItinerario>p{
+    .seccionDatos p, .seccionDatos li, #fraseInicial, p.textoListadoEstaciones, p.tituloEstacion, div#dtosItinerario>div>p{
         font-size: 1.3rem;
     }
     .seccionDatos h3{
@@ -1177,6 +1202,11 @@ button.botonBuscar{
        padding-left: 50px;
     }
     /* Página ver calificación de alumnado */
+    .divNotasParciales{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
     .divNotaTutorCentro{
         display: flex;
         justify-content: end;
@@ -1296,7 +1326,7 @@ button.botonBuscar{
        font-size: 1.6rem;
     }
     h5 i{
-       font-size: 0.7em;
+       font-size: 0.65em;
     }
     #metroColores{
         max-width: 249px;
@@ -1371,15 +1401,16 @@ button.botonBuscar{
     }
     div#cajaMapaDtosItinerario{
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         justify-content: center;
+        align-items: center;
     }
     div#dtosItinerario{
         display: flex;
         flex-direction: row;
         justify-content: center
     }
-    div#fechCreacionItir, div#estadoItir{
+    div#fechCreacionItir{
         width: 150px;
     }
     div#estadoItir{
@@ -1387,7 +1418,7 @@ button.botonBuscar{
         display: flex;
         justify-content: center;
     }
-    div#dtosItinerario>b>em, div#dtosItinerario>p{
+    div#dtosItinerario>div>b>em, div#dtosItinerario>div>p{
         font-size: 0.9rem;
     }
     .seccionDatos p, .seccionDatos li, #fraseInicial, p.textoListadoEstaciones, p.tituloEstacion{
@@ -1419,7 +1450,7 @@ button.botonBuscar{
        padding-left: 50px;
     }
     /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
-    p.parrafos, a.textoBoton, p.parrafoCelda, #form_filtrado label, button#btnCrearItir, button#btnModificarItir{
+    p.parrafos, a.textoBoton, p.parrafoCelda, #form_filtrado label, button#btnCrearItir, button#btnModificarItir, button#btnConfirmarEvaluacion, button#btnNuevoComentario, p.txtInformativo{
         font-size: 0.8rem;
     }
     p.lead{
@@ -1453,6 +1484,22 @@ button.botonBuscar{
     }
     div.blockquote>p, label.blockquote{
         font-size: 1rem;
+    }
+    /* Parte de visualización de calificación del alumnado */
+    .divNotasParciales{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    #cajaDtosAlumRubrica>div>input{
+        font-size: 0.9rem;
+    }
+    /* Página de visualización de dossier */
+    textarea#feedbackTutor{
+        font-size: 0.75rem;
+    }
+    .fechEntregaDossier, .fechPublicacionComentario{
+        font-size: 0.7rem;
     }
 }
 
@@ -1649,11 +1696,35 @@ button.botonBuscar{
        padding-left: 6px;
        padding-right: 6px;
     }
-    div#dtosItinerario>b>em{
-       font-size: 0.9rem;
+    div#cajaMapaDtosItinerario{
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+    div#dtosItinerario{
+        display: flex;
+        flex-direction: row;
+        justify-content: center
+    }
+    div#fechCreacionItir{
+        width: 150px;
+        line-height: 3rem;
+    }
+    div#estadoItir{
+        width: 150px;
+        display: flex;
+        justify-content: center;
+        line-height: 3rem;
+    }
+    #fechCreacionItir>b>em, #fechCreacionItir>p, #estadoItir>div>b>em, #estadoItir>div>p{
+       font-size: 0.8rem;
        line-height: 0.2rem;
     }
-    .seccionDatos p, .seccionDatos li, #fraseInicial, p.textoListadoEstaciones, p.tituloEstacion, div#dtosItinerario>p{
+    div.blockquote>p, div#estacionesItinerario, label.blockquote{
+        font-size: 0.9rem;
+    }
+    .seccionDatos p, .seccionDatos li, #fraseInicial, div.blockquote>p.textoListadoEstaciones, p.tituloEstacion{
         font-size: 0.8rem;
     }
     .seccionDatos h3{
@@ -1672,9 +1743,6 @@ button.botonBuscar{
        margin-top: 9px;
        height: 19px;
     }
-    div.blockquote>p, div#estacionesItinerario, label.blockquote{
-        font-size: 0.9rem;
-    }
     #divLineas{
        margin-top: 15px;
     }
@@ -1682,15 +1750,15 @@ button.botonBuscar{
        padding-left: 37px;
     }
     /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
-    p.parrafos, a.textoBoton, p.parrafoCelda, button#btnCrearItir, button#btnModificarItir{
+    p.parrafos, a.textoBoton, p.parrafoCelda, button#btnCrearItir, button#btnModificarItir, button#btnConfirmarEvaluacion, button#btnNuevoComentario, p.txtInformativo{
         font-size: 0.7rem;
     }
     #form_filtrado label{
         font-size: 0.6rem;
     }
     p.lead{
-        margin-top: 15px;
-        font-size: 0.9rem;
+        margin-top: 0px;
+        font-size: 0.8rem;
     }
     div.botonSubirDossier{
         width: 130px;
@@ -1721,10 +1789,14 @@ button.botonBuscar{
         margin-bottom: 0px;
     }
     /* Página ver calificación de alumnado */
+    .divNotasParciales{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
     .divNotaTutorCentro{
         display: flex;
         justify-content: end;
-
     }
     h4>i{
         font-size: 0.8rem;
@@ -1759,6 +1831,31 @@ button.botonBuscar{
         width: 570px;
         height: 280px;
         margin-left: 25px;
+    }
+    /* Elemento extras de página rúbrica para completarla por el profesorado */
+    #cajaDtosAlumRubrica>div>label{
+        font-size: 0.8rem;
+    }
+    #cajaDtosAlumRubrica>div>input{
+        width: 133px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+    #h2TituloPagRubrica{
+        margin-bottom: 0px!important;
+    }
+    /* Página de visualización de dossier */
+    textarea#feedbackTutor{
+        font-size: 0.65rem;
+    }
+    .fechEntregaDossier, .fechPublicacionComentario{
+        font-size: 0.6rem;
+    }
+    #cajaDtosEntrega{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
 
@@ -1837,13 +1934,13 @@ button.botonBuscar{
         font-size: 15px;
     }
     .iconosTabla{
-        font-size: 12px;
+        font-size: 10px;
     }
     .iconoBuscar{
         position: absolute;
-        top: 102px;
-        right: 49px;
-        font-size: 12px;
+        top: 97px;
+        right: 51px;
+        font-size: 10px;
     }
     #menu{
         padding-top: 2px;
@@ -2000,9 +2097,6 @@ button.botonBuscar{
        height: 25px;
        padding-right: 0px;
     }
-    hr{
-       margin-bottom: 0px;
-    }
     .botonesDatos{
        width: 325px;
        padding-bottom: 2px!important;
@@ -2016,6 +2110,31 @@ button.botonBuscar{
        padding-top: 3px;
        padding-left: 4px;
        padding-right: 4px;
+    }
+    div#cajaMapaDtosItinerario{
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+    div#dtosItinerario{
+        display: flex;
+        flex-direction: row;
+        justify-content: center
+    }
+    div#fechCreacionItir{
+        width: 80px;
+        line-height: 2.3rem;
+    }
+    div#estadoItir{
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        line-height: 2.3rem;
+    }
+    #fechCreacionItir>b>em, #fechCreacionItir>p, #estadoItir>div>b>em, #estadoItir>div>p{
+       font-size: 0.65rem;
+       line-height: 0.2rem;
     }
     .seccionDatos p, .seccionDatos li, #fraseInicial, p.textoListadoEstaciones, p.tituloEstacion{
         font-size: 0.6rem;
@@ -2036,7 +2155,7 @@ button.botonBuscar{
        margin-top: 6px;
        height: 20px;
     }
-    div.blockquote>p, label.blockquote{
+    div.blockquote>p, div#estacionesItinerario, label.blockquote{
         font-size: 0.7rem;
     }
     #divLineas{
@@ -2052,7 +2171,7 @@ button.botonBuscar{
         padding-top: 0px;
     }
     /* Pagina de subir trabajo de dossier final (ESTUDIANTE) */
-    p.parrafos, a.textoBoton, #form_filtrado label, button#btnCrearItir, button#btnModificarItir{
+    p.parrafos, a.textoBoton, #form_filtrado label, button#btnCrearItir, button#btnModificarItir, button#btnConfirmarEvaluacion, button#btnNuevoComentario, p.txtInformativo{
         font-size: 0.6rem;
     }
     p.lead{
@@ -2075,8 +2194,8 @@ button.botonBuscar{
         width: 80%;
     }
     #tabla_rubrica{
-        font-size: 0.35rem;
-        margin-left: 3%;
+        font-size: 0.312rem;
+        margin-left: 6%;
     }
     #tabla_itinerario{
         font-size: 0.35rem;
@@ -2094,7 +2213,7 @@ button.botonBuscar{
         margin-bottom: 0px;
     }
     #cajaRubrica{
-        padding-left: 2px;
+        padding-left: 1px;
     }
     th.cajaBlancaRubrica{
         padding-left: 2px;
@@ -2102,6 +2221,18 @@ button.botonBuscar{
         width: 20px;
     }
     /* Página ver calificación de alumnado */
+    .divNotasParciales{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    hr#separadorNotasParciales{
+        size: 0;
+        width: 200px;
+        margin-bottom: 18px;
+        height: 1px;
+    }
     .divNotaTutorCentro{
         display: flex;
         justify-content: end;
@@ -2133,24 +2264,76 @@ button.botonBuscar{
         margin-left: 5px;
         font-size: 0.8rem;
     }
+    #cajaNotaFinal{
+        background-color: #990000;
+        width: 65%;
+        height: 53%;
+        margin-left: 18%!important;
+        border-radius: 20px;
+    }
+    #cajaNotaFinal>div>h4>i, p.especialidadNotaFinal{
+        color: white;
+    }
     #sinCompletarEvaluacion{
+        font-size: 0.6rem;
         margin-top: 0px;
-        font-size: 0.7rem;
     }
     form.formularioCalificacion{
         width: 338px;
         height: 250px;
-        margin-left: 35px;
+        margin-left: 10px;
     }
-    div.divNotasParciales{
-        flex-direction: column;
+    /* Elemento extras de página rúbrica para completarla por el profesorado */
+    #cajaDtosAlumRubrica>div>label{
+        font-size: 0.4rem;
+    }
+    #cajaDtosAlumRubrica>div>input{
+        width: 80px;
+        height: 16px;
+        font-size: 0.4rem;
+    }
+    #cajaDtosAlumRubrica{
+        margin-top: 0px!important;
+        margin-bottom: 5px!important;
+    }
+    #h2TituloPagRubrica{
+        margin-bottom: 3px!important;
     }
 }
+
+@media screen and (max-width: 376px){
+    #tabla_rubrica{
+        font-size: 0.312rem;
+        margin-left: 0%;
+    }
+    .iconoBuscar{
+        position: absolute;
+        top: 97px;
+        right: 43px;
+        font-size: 10px;
+    }
+}
+
 @media screen and (max-width: 320px){
+    #tabla_rubrica{
+        font-size: 0.25rem;
+        margin-left: 0%;
+    }
     .botonesDatos{
        width: 280px;
        padding-bottom: 2px!important;
        padding-top: 6px!important;
+    }
+    .iconoBuscar{
+        position: absolute;
+        top: 96px;
+        right: 35px;
+        font-size: 12px;
+    }
+    button.botonBuscar {
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
     }
 }
 
