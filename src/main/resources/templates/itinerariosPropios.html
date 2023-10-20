@@ -184,10 +184,10 @@
                       <td>Activo</td>
                       <td>
                           <a th:href="${estudiante==null}? @{/itinerariosPropios/consultarItinerario/{id}(id=${ultimoItinerario.id})} : @{/itinerariosAlumnado/consultarItinerario/{id}(id=${ultimoItinerario.id}+'-'+${estudiante.id})}" class="enlacesItinerario" title="Consultar itinerario">
-                              <span class="material-icons text-secondary iconos" aria-hidden="true">visibility</span>
+                              <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">visibility</span>
                           </a>
                           <a th:if="${estudiante==null}" th:href="@{/itinerariosPropios/modificarItinerario/{id}(id=${ultimoItinerario.id})}" class="enlacesItinerario" title="Modificar itinerario">
-                              <span class="material-icons text-secondary iconos" aria-hidden="true">edit_square</span>
+                              <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">edit_square</span>
                           </a>
                       </td>
                   </tr>
@@ -197,10 +197,10 @@
                       <td th:text="${ultimoItinerario == null} ? 'Activo' : 'Inactivo'"/>
                       <td>
                           <a th:href="${estudiante==null}? @{/itinerariosPropios/consultarItinerario/{id}(id=${primerItinerario.id})} : @{/itinerariosAlumnado/consultarItinerario/{id}(id=${primerItinerario.id}+'-'+${estudiante.id})}" class="enlacesItinerario" title="Consultar itinerario">
-                              <span class="material-icons text-secondary iconos" aria-hidden="true">visibility</span>
+                              <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">visibility</span>
                           </a>
                           <a th:if="${ultimoItinerario == null} and ${estudiante==null}" th:href="@{/itinerariosPropios/modificarItinerario/{id}(id=${primerItinerario.id})}" class="enlacesItinerario" title="Modificar itinerario">
-                              <span class="material-icons text-secondary iconos" aria-hidden="true">edit_square</span>
+                              <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">edit_square</span>
                           </a>
                       </td>
                   </tr>

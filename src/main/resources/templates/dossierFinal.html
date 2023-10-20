@@ -54,10 +54,8 @@
       </div>
     </div>
     <div class="row flex-nowrap flex-column align-items-center" th:if="${dossierFinal != null}">
-      <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center">
-        <div class="row flex-nowrap flex-column align-items-center">
-          <div class="row-auto">
-            <div class="d-flex justify-content-center align-items-center flex-row flex-nowrap">
+      <div class="col-11 justify-content-center align-items-center">
+          <div th:attr="class = ${urlFlecha} ? 'd-flex row-auto flex-nowrap justify-content-between align-items-center' : 'd-flex row-auto flex-nowrap justify-content-center align-items-center'">
               <div class="col-10 d-flex flex-column justify-content-center" id="contenedorTituloEntregaActividad">
                 <h2 th:if="${estudiante==null}" class="fw-bold my-3 mx-1 text-center" th:text="'Dossier final del prácticum'"></h2>
                 <h2 th:if="${estudiante!=null}" class="fw-bold my-3 mx-1 text-center" th:text="'Dossier final entregado por '+${estudiante.nombreCompletoOrdenado}"></h2>
@@ -66,18 +64,15 @@
               <div sec:authorize="hasAnyAuthority('ROL_TUTOR_UR', 'ROL_TUTOR_CENTRO')" class="col-1 d-flex justify-content-end">
                 <a th:href="@{${urlFlecha}}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
               </div>
-            </div>
           </div>
-          </div>
-          <div class="col-12">
-            <div class="d-flex row flex-nowrap container-fluid" id="cajaDtosEntrega">
-              <div class="col-7 my-2 cajaDocumento">
-                <embed th:attr="src=${rutaDocu}" type="application/pdf" width="105%" height="800px"/>
-                <p><i class="d-flex align-items-end fechEntregaDossier" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
+          <div class="d-flex row flex-nowrap container-fluid" id="cajaDtosEntrega">
+              <div class="col-8 my-2 cajaDocumento">
+                <embed id="embedDocumento" th:attr="src=${rutaDocu}" type="application/pdf"/>
+                <p><i class="d-flex align-items-end fechEntrega" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
               </div>
               <div class="col-5 d-flex flex-column justify-content-start cajaFeedback">
                 <div class="d-flex flex-row mx-2 my-2 flex-nowrap align-items-center justify-content-start">
-                  <h5><i>Feedback del tutor de UR:</i></h5>
+                  <h5><i id="txtFeedbackTutor">Feedback del tutor de UR:</i></h5>
                   <a href="/rubricaTutorUR" id="btnInfoConsultaDossier" class="nav-link px-1 ms-sm-1" title="Consulta rúbrica tutor UR">
                     <span class="material-icons text-secondary iconos iconosTabla" aria-hidden="true">info</span>
                   </a>
@@ -89,7 +84,7 @@
                         <textarea class="form-control mx-3" name="feedbackTutor" id="feedbackTutor" rows="4" th:text="${feedbackTutor}" placeholder="No hay ningún comentario registrado."></textarea>
                         <label class="mx-2 fechPublicacionComentario" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
                       </div>
-                      <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-1 d-sm-flex justify-content-sm-center">
+                      <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-1 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnNuevoComentario">Incluir comentario</button>
                         <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2 textoBoton" role="button">Cancelar</a>
                       </div>
@@ -98,7 +93,7 @@
                   <div th:if="${feedbackTutor!=null}" sec:authorize="hasAuthority('ROL_ESTUDIANTE')" class="d-flex flex-row">
                     <p class="mx-2 my-2 text-center txtInformativo">Subir nuevo documento: </p>
                     <form th:if="${feedbackTutor!=null}" method="post" enctype="multipart/form-data" th:action="@{dossierFinal/modificarDossier}">
-                      <div class="div_file">
+                      <div class="div_file" id="iconoSubidaDocu">
                         <a title="Modificar dossier final del prácticum" class="enlaceDossier">
                           <span class="material-icons iconosTabla" id="iconoSubirDocu" aria-hidden="true">upload</span>
                         </a>
@@ -115,7 +110,6 @@
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

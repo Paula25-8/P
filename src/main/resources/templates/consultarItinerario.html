@@ -37,7 +37,7 @@
       <div class="row-auto">
         <div class="d-flex justify-content-center align-items-center flex-row flex-nowrap">
           <div class="col-10 d-flex justify-content-center">
-            <h2 class="fw-bold my-4 mx-1 text-center" th:text="${estudiante==null}? 'Itinerario '+${caracterItinerario}+':' : 'Itinerario '+${caracterItinerario}+' de '+${estudiante.nombreCompletoOrdenado}+':'"></h2>
+            <h2 id="tituloConsultarItir" class="fw-bold my-4 mx-1 text-center" th:text="${estudiante==null}? 'Itinerario '+${caracterItinerario}+':' : 'Itinerario '+${caracterItinerario}+' de '+${estudiante.nombreCompletoOrdenado}+':'"></h2>
           </div>
           <div class="col-1">
             <a th:href="${estudiante==null}? @{/itinerariosPropios} : @{/itinerariosAlumnado/consultarPracticum/{id}(id=${estudiante.id})}"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
@@ -181,7 +181,7 @@
                   <form method="post" enctype="multipart/form-data" th:action="@{/itinerariosPropios/consultarItinerario/{id}(id=${estacion.id})}">
                     <div class="div_file">
                       <a title="Subir actividad de estación" th:attr="class=${entregas[iterador.index].nombreDocu!=null} ? 'enlacesEstacion text-secondary disabled' : 'enlacesEstacion'">
-                        <span class="material-icons" aria-hidden="true">upload</span>
+                        <span class="material-icons iconosTabla" aria-hidden="true">upload</span>
                       </a>
                       <input type="file" name="actividadEstacion" th:attr="disabled=${entregas[iterador.index].nombreDocu!=null} ? true : false" class="subidaActividadEstacion" accept="application/pdf">
                     </div>
@@ -190,12 +190,12 @@
                 </div>
                 <div class="col-1 d-flex flex-nowrap flex-row">
                 <a th:href="${estudiante==null}? @{/itinerariosPropios/consultarActividad/{id}(id=${entregas[iterador.index].id.id_Itinerario}+'-'+${entregas[iterador.index].id.id_Estacion})} : @{/itinerariosAlumnado/consultarActividad/{id}(id=${entregas[iterador.index].id.id_Itinerario}+'-'+${entregas[iterador.index].id.id_Estacion}+'-'+${estudiante.id})}" title="Revisión de actividad entregada" th:attr="class=${entregas[iterador.index].nombreDocu!=null} ? 'enlacesEstacion' : 'enlacesEstacion text-secondary disabled'">
-                  <span class="material-icons" aria-hidden="true">search</span>
+                  <span class="material-icons iconosTabla" aria-hidden="true">search</span>
                 </a>
                 </div>
                 <div th:if="${estudiante==null}" class="col-1 d-flex flex-nowrap flex-row">
                   <a th:href="@{/itinerariosPropios/eliminarActividad/{id}(id=${entregas[iterador.index].id.id_Itinerario}+'-'+${entregas[iterador.index].id.id_Estacion})}" title="Eliminación de actividad entregada" th:attr="class=${entregas[iterador.index].nombreDocu!=null} ? 'enlacesEstacion' : 'enlacesEstacion text-secondary disabled'">
-                    <span class="material-icons" aria-hidden="true">close</span>
+                    <span class="material-icons iconosTabla" aria-hidden="true">close</span>
                   </a>
                 </div>
               </div>

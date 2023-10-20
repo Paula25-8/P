@@ -118,6 +118,7 @@ public class ControladorDossierFinal {
                 dossier.setFechaEntrega(new Date());
                 dossier = dossierService.guardarDossier(dossier);
                 documentosService.eliminarDossier(docuAntiguo);
+                model.addAttribute("accion", "modificar");
                 return "cambioDossier";
             }
             return "redirect:/";

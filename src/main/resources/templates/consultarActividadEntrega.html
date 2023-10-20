@@ -33,8 +33,8 @@
     <div th:replace="~{general/sidebar :: menu-lateral}"></div>
     <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-10 justify-content-center">
         <div class="row flex-nowrap flex-column align-items-center">
-            <div class="row-auto">
-                <div class="d-flex justify-content-center align-items-center flex-row flex-nowrap">
+            <div class="col-11 justify-content-center align-items-center">
+                <div class="d-flex row-auto flex-nowrap justify-content-between align-items-center">
                     <div class="col-10 d-flex justify-content-center" id="contenedorTituloEntregaActividad">
                     <h2 th:if="${estudiante==null}" class="fw-bold my-3 mx-1 text-center" th:text="'Actividad entregada de estación «'+${estacion.titulo}+'»'"></h2>
                     <h2 th:if="${estudiante!=null}" class="fw-bold my-3 mx-1 text-center" th:text="'Actividad entregada de estación «'+${estacion.titulo}+'» por '+${estudiante.nombreCompletoOrdenado}"></h2>
@@ -43,34 +43,34 @@
                         <a href="javascript:history.back()"><span id="flechaAtras" class="material-icons text-dangerous" aria-hidden="true">keyboard_return</span></a>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="row flex-row flex-nowrap container-fluid">
-                    <div class="col-7 my-2 cajaDocumento">
-                        <embed th:attr="src=${rutaDocu}" type="application/pdf" width="105%" height="800px">
-                        <p><i class="d-flex align-items-end" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
+                <div class="d-flex row flex-nowrap container-fluid" id="cajaDtosEntrega">
+                    <div class="col-8 my-2 cajaDocumento">
+                        <embed id="embedDocumento" th:attr="src=${rutaDocu}" type="application/pdf">
+                        <p><i class="d-flex align-items-end fechEntrega" th:text="'Fecha de entrega: '+${fechaEntrega}"></i></p>
                     </div>
                     <div class="col-5 d-flex flex-column justify-content-start cajaFeedback">
                         <div class="d-flex flex-row mx-2 flex-nowrap align-items-center justify-content-start">
-                            <h5><i>Feedback del tutor de UR: </i></h5>
+                            <h5><i id="txtFeedbackTutor">Feedback del tutor de UR: </i></h5>
                             <button type="button" class="btn shadow-none" data-bs-toggle="modal" th:attr="data-bs-target='#modalSelloCalidad'" title="Información sello de calidad">
-                                <span class="material-icons" aria-hidden="true" id="infoSello">info</span>
+                                <span class="material-icons inconosTabla" aria-hidden="true" id="infoSello">info</span>
                             </button>
                         </div>
                         <div th:replace="~{popUps/popUps :: popUpSello}"></div>
-                        <div>
-                            <form method="post" th:action="@{/itinerariosAlumnado/consultarActividad/nuevoComentario/{id}(id=${idEstudiante})}">
-                                <div class="form-group">
-                                    <textarea class="form-control mx-3" name="feedbackTutor" id="feedbackTutor" rows="4" th:text="${feedbackTutor}" placeholder="No hay ningún comentario registrado."></textarea>
-                                    <label class="mx-2" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
-                                    <input type="hidden" th:value="${itinerario.id}" name="idItinerario">
-                                    <input type="hidden" th:value="${estacion.id}" name="idEstacion">
-                                </div>
-                                <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-4 d-sm-flex justify-content-sm-center">
-                                    <button type="submit" class="btn btn-primary mt-2 mb-2">Incluir comentario</button>
-                                    <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2" role="button">Cancelar</a>
-                                </div>
-                            </form>
+                        <div class="d-flex flex-column justify-content-center">
+                            <div>
+                                <form method="post" th:action="@{/itinerariosAlumnado/consultarActividad/nuevoComentario/{id}(id=${idEstudiante})}">
+                                    <div class="form-group">
+                                        <textarea class="form-control mx-3" name="feedbackTutor" id="feedbackTutor" rows="4" th:text="${feedbackTutor}" placeholder="No hay ningún comentario registrado."></textarea>
+                                        <label class="mx-2 fechPublicacionComentario" th:if="${feedbackTutor!=null}"><i th:text="'Fecha de publicación: '+${fechaFeedback}"></i></label>
+                                        <input type="hidden" th:value="${itinerario.id}" name="idItinerario">
+                                        <input type="hidden" th:value="${estacion.id}" name="idEstacion">
+                                    </div>
+                                    <div sec:authorize="hasAuthority('ROL_TUTOR_UR')" th:if="${feedbackTutor==null}" class=" gap-4 d-sm-flex justify-content-sm-center">
+                                        <button type="submit" class="btn btn-primary mt-2 mb-2" id="btnNuevoComentario">Incluir comentario</button>
+                                        <a href="javascript:history.back()" class="btn btn-outline-primary mt-2 mb-2 textoBoton" role="button">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

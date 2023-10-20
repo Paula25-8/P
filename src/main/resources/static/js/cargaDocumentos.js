@@ -14,5 +14,5 @@ window.addEventListener('load', function() {
     pruebaES5();
     var textoEspera = document.getElementById("textoEspera");
     textoEspera.innerHTML = '<i>Ya puede consultar el nuevo dossier final del prácticum. </i>';
-    boton.setAttribute("class", "btn btn-primary w-100");
+    boton.setAttribute("class", "btn btn-primary w-100 textoBoton");
  });

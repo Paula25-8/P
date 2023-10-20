@@ -34,14 +34,12 @@
                 <div class="row">
                     <div class="col-12 px-sm-2 px-2 d-flex flex-nowrap flex-column align-items-center">
                         <div class="row flex-nowrap flex-column container-fluid">
-                            <h2 class="fw-bold my-3 mx-1 text-center">Dossier final del prácticum</h2>
-                            <br>
+                            <h2 class="fw-bold my-3 mx-1 text-center" id="tituloCargaDocu">Dossier final del prácticum</h2>
                             <h4 class="text-center"><i th:text="${accion.equals('crear')} ? 'Su dossier ha sido creado con éxito.' : 'Su dossier ha sido modificado con éxito.'"></i></h4>
-                            <p class="text-center" id="textoEspera"><i>Espere unos segundos hasta que se complete la carga del nuevo documento.</i></p>
+                            <p class="text-center txtInformativo" id="textoEspera"><i>Espere unos segundos hasta que se complete la carga del nuevo documento.</i></p>
                         </div>
-                        <br>
-                        <div class="col-4">
-                            <a href="/dossierFinal" class="btn btn-secondary disabled w-100" role="button" th:text="${accion.equals('crear')} ? 'Ver dossier final' : 'Ver nuevo dossier final'"></a>
+                        <div class="col-6">
+                            <a href="/dossierFinal" class="btn btn-secondary disabled w-100 textoBoton" role="button" th:text="${accion.equals('crear')} ? 'Ver dossier final' : 'Ver nuevo dossier final'"></a>
                         </div>
                     </div>
                 </div>

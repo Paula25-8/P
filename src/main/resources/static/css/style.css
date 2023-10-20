@@ -126,8 +126,8 @@ h5{
     margin-bottom: 0px;
 }
 
-textarea#feedbackTutor{
-    width: 90%;
+.cajaFeedback textarea{
+    width: 100%;
     background-color: #eaebec;
 }
 
@@ -762,17 +762,6 @@ div.titulolinea4CreacionItir{
     margin: 5px 5px 5px 0;
 }
 
-/* ESTO HAY QUE PONERLO DESPUES RESPONSIVE */
-.cajaFeedback{
-    padding-top: 50px;
-    margin-left: 40px;
-}
-
-.cajaDocumento{
-    padding-bottom: 30px;
-}
-/*  ---------------------------------------  */
-
 button.botonBuscar{
    display: block;
    width: 35px;
@@ -1014,6 +1003,24 @@ button.botonBuscar{
         flex-direction: row;
         justify-content: center;
     }
+    /* Elementos de página visualización de documentos (entrega actividad y dossier) */
+    #embedDocumento{
+        width: 103%;
+        height: 800px;
+    }
+    div.cajaDocumento{
+        width: 600px;
+        height: 800px;
+        padding-bottom: 30px;
+    }
+    .cajaFeedback{
+        padding-top: 50px;
+        margin-left: 20px;
+    }
+    .cajaFeedback textarea{
+        height: 130px;
+        margin-bottom: 10px;
+    }
 
    /* Características de la parte de GESTIÓN Y ADMINISTRACIÓN */
     p.btnNuevo{
@@ -1158,7 +1165,7 @@ button.botonBuscar{
        min-width: 620px;
        height: 75px;
     }
-   /* hr{
+    /* hr{
        margin-top: 10px;
        margin-bottom: 10px;
     }*/
@@ -1236,6 +1243,11 @@ button.botonBuscar{
         width: 735px;
         height: 305px;
         margin-left: 52px;
+    }
+    /* Elementos de página visualización de documentos (entrega actividad y dossier) */
+    #embedDocumento{
+        width: 103%;
+        height: 800px;
     }
 }
 @media screen and (min-width: 769px) and (max-width: 1024px) {
@@ -1494,12 +1506,29 @@ button.botonBuscar{
     #cajaDtosAlumRubrica>div>input{
         font-size: 0.9rem;
     }
-    /* Página de visualización de dossier */
-    textarea#feedbackTutor{
-        font-size: 0.75rem;
-    }
-    .fechEntregaDossier, .fechPublicacionComentario{
+    /* Elementos de página visualización de documentos (entrega actividad y dossier) */
+    .fechEntrega, .fechPublicacionComentario{
         font-size: 0.7rem;
+    }
+    #embedDocumento{
+        width: 103%;
+        height: 610px;
+    }
+    div.cajaDocumento{
+        width: 400px;
+        height: 600px;
+        padding-bottom: 30px;
+    }
+    .cajaFeedback{
+        padding-top: 50px;
+        margin-left: 10px;
+    }
+    .cajaFeedback textarea{
+        font-size: 0.75rem;
+        height: 110px;
+        margin-bottom: 10px;
+        margin-right: 0px!important;
+        margin-left: 0px!important;
     }
 }
 
@@ -1844,18 +1873,48 @@ button.botonBuscar{
     #h2TituloPagRubrica{
         margin-bottom: 0px!important;
     }
-    /* Página de visualización de dossier */
-    textarea#feedbackTutor{
-        font-size: 0.65rem;
-    }
-    .fechEntregaDossier, .fechPublicacionComentario{
-        font-size: 0.6rem;
-    }
+    /* Elementos de página visualización de documentos (entrega actividad y dossier) */
     #cajaDtosEntrega{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    .fechEntrega, .fechPublicacionComentario{
+        font-size: 0.6rem;
+    }
+    #embedDocumento{
+        width: 103%;
+        height: 510px;
+    }
+    div.cajaDocumento{
+        width: 380px!important;
+        height: 510px;
+        margin-bottom: 0px!important;
+        padding-bottom: 0px!important;
+    }
+    .cajaFeedback{
+        width: 400px!important;
+        margin-left: 0px!important;
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+    .cajaFeedback>div{
+        margin-bottom: 0px!important;
+    }
+    .cajaFeedback textarea{
+        font-size: 0.65rem;
+        margin-left: 0px!important;
+        height: 100px;
+    }
+    div.cajaDocumento>p{
+        margin-bottom: 0px;
+    }
+    div#contenedorPosibleCalificacion>a{
+        padding-bottom: 15px;
+    }
+    div#iconoSubidaDocu{
+        margin-top: 3px;
     }
 }
 
@@ -2149,7 +2208,7 @@ button.botonBuscar{
         font-size: 0.5rem;
     }
     #flechaAtras{
-       font-size: 19px;
+       font-size: 16px;
     }
     .seccionFlecha{
        margin-top: 6px;
@@ -2298,6 +2357,63 @@ button.botonBuscar{
     }
     #h2TituloPagRubrica{
         margin-bottom: 3px!important;
+    }
+    /* Elementos de página visualización de documentos (entrega actividad y dossier) */
+    div#contenedorTituloEntregaActividad>h2{
+        margin-top: 10px!important;
+        margin-bottom: 5px!important;
+    }
+    #cajaDtosEntrega{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .fechEntrega, .fechPublicacionComentario{
+        font-size: 0.55rem;
+    }
+    #embedDocumento{
+        width: 103%;
+        height: 310px;
+    }
+    div.cajaDocumento{
+        width: 300px!important;
+        height: 310px;
+        margin-bottom: 0px!important;
+        padding-bottom: 0px!important;
+    }
+    .cajaFeedback{
+        width: 300px!important;
+        margin-left: 0px!important;
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+    .cajaFeedback>div{
+        margin-bottom: 0px!important;
+    }
+    .cajaFeedback textarea{
+        font-size: 0.55rem;
+        margin-left: 0px!important;
+        height: 90px;
+    }
+    h5 i#txtFeedbackTutor{
+        font-size: 0.6rem;
+    }
+    div.cajaDocumento>p{
+        margin-bottom: 0px;
+    }
+    div#contenedorPosibleCalificacion>a{
+        padding-bottom: 15px;
+    }
+    div#iconoSubidaDocu{
+        margin-top: 3px;
+    }
+    /* Página de carga de documentos entregados en API */
+    h2#tituloCargaDocu, #tituloVerCalif, #tituloConsultarItir{
+        margin-bottom: 10px!important;
+    }
+    #textoEspera{
+        margin-bottom: 10px;
     }
 }
 
