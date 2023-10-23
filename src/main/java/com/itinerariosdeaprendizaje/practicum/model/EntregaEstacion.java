@@ -7,9 +7,15 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * Entity que representa la Entrega de la actividad correspondiente a una estación de aprendizaje concreta.
+ * Modelados campos en el mismo orden en que aparecen en la tabla ENTREGA_ESTACION.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

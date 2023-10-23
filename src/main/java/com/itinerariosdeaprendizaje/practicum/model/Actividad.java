@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+/**
+ * Entity que representa una Actividad que forma parte de la información referente a una estación de aprendizaje concreta.
+ * Modelados campos en el mismo orden en que aparecen en la tabla ACTIVIDAD.
+ *
+ * @author patoledo
+ */
+
 @Entity
 @Data
 @Table(name = "ACTIVIDAD", schema = "USER_UR")

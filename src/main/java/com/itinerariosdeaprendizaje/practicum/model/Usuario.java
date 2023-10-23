@@ -4,8 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
 import java.util.List;
+
+/**
+ * Entity que representa un usuario cualquiera del sitio web.
+ * Modelados campos en el mismo orden en que aparecen en la tabla USUARIO.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

@@ -5,8 +5,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
+
+/**
+ * Entity que representa la relación entre un usuario de rol 'estudiante' y 'tutor de centro educativo'.
+ * Modelados campos en el mismo orden en que aparecen en la tabla ESTUD_TUTOR_CENTRO.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

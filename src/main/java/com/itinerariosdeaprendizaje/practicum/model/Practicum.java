@@ -3,14 +3,17 @@ package com.itinerariosdeaprendizaje.practicum.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
 import java.util.Date;
+
+/**
+ * Entity que representa un Practicum de un alumno concreto para un curso académico concreto.
+ * Modelados campos en el mismo orden en que aparecen en la tabla PRACTICUM.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data
-/*@Getter
-@Setter
-@ToString*/
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="PRACTICUM", schema="USER_UR")

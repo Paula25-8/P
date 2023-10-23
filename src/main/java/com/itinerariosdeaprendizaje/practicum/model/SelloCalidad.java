@@ -3,8 +3,14 @@ package com.itinerariosdeaprendizaje.practicum.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
 import java.util.List;
+
+/**
+ * Entity que representa el Sello de Calidad, elemento que recoge las características a seguir para realizar una buena entrega de trabajo.
+ * Modelados campos en el mismo orden en que aparecen en la tabla SELLO_CALIDAD.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

@@ -2,7 +2,11 @@ package com.itinerariosdeaprendizaje.practicum.model;
 
 import lombok.*;
 
-import java.util.Date;
+/**
+ * Clase creada para facilitar la impresión del listado de alumnos matriculados en la asignatura del prácticum.
+ *
+ * @author patoledo
+ */
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +19,5 @@ public class EstudianteTabla {
     private Integer numItinerarios;
     private Grado gradoActual;
     private Itinerario itinerarioActivo;
-    //private Dossier dossier; // lo cojo del PRACTICUM
-    //private Integer convocatoria; // lo cojo del PRACTICUM
     private boolean evaluado;
 }

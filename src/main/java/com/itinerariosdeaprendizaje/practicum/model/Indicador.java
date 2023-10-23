@@ -1,10 +1,16 @@
 package com.itinerariosdeaprendizaje.practicum.model;
 
 import com.itinerariosdeaprendizaje.practicum.utils.Nivelndicador;
-import com.itinerariosdeaprendizaje.practicum.utils.TipoActividad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+/**
+ * Entity que representa un Indicador de los cuatro que componen un criterio de una rúbrica de evaluación concreta.
+ * Modelados campos en el mismo orden en que aparecen en la tabla INDICADOR.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

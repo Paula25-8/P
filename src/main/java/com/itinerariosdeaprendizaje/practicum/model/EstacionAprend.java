@@ -6,6 +6,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.util.List;
 
+/**
+ * Entity que representa una Estación de Aprendizaje a través de la cual se propone una actividad que llevar a cabo en el centro educativo.
+ * Modelados campos en el mismo orden en que aparecen en la tabla ESTACION_APREND.
+ *
+ * @author patoledo
+ */
+
 @Entity
 @Data
 @Table(name="ESTACION_APREND", schema="USER_UR")
@@ -40,7 +47,7 @@ public class EstacionAprend {
             joinColumns = {
                     @JoinColumn(name="ID_ESTACION", referencedColumnName = "ID_ESTACION")},
             inverseJoinColumns = {
-                    @JoinColumn(name="COD_COMP", referencedColumnName = "CODIGO_CE")})
+                    @JoinColumn(name="ID_COMP", referencedColumnName = "ID_CE")})
     private List<CompEspecifica> competencias;
 
     @ManyToMany(mappedBy = "estaciones")

@@ -4,8 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
-
 import java.util.List;
+
+/**
+ * Entity que representa un usuario con rol de 'tutor de prácticas de la UR'.
+ * En él se recogen las principales características de dicho rol.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Getter

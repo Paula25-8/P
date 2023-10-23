@@ -3,8 +3,14 @@ package com.itinerariosdeaprendizaje.practicum.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
 import java.util.List;
+
+/**
+ * Entity que representa una Mención.
+ * Modelados campos en el mismo orden en que aparecen en la tabla MENCION.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

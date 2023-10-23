@@ -4,8 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
+
+/**
+ * Entity que representa un Itinerario realizado por un alumno.
+ * Modelados campos en el mismo orden en que aparecen en la tabla ITINERARIO.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

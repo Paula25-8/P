@@ -5,6 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * Entity que representa la Información Común que tienen las diferentes estaciones de aprendizaje propuestas.
+ * Modelados campos en el mismo orden en que aparecen en la tabla INFO_COMUN.
+ *
+ * @author patoledo
+ */
+
 @Entity
 @Data
 @Table(name="INFO_COMUN", schema="USER_UR")

@@ -4,9 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.id.IntegralDataTypeHolder;
-
 import java.io.Serializable;
+
+/**
+ * Entity que representa el peso que se le asocia a un criterio concreto dentro de una rúbrica específica.
+ * Modelados campos en el mismo orden en que aparecen en la tabla PESO_CRITERIO.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

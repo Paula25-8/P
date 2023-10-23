@@ -2,9 +2,13 @@ package com.itinerariosdeaprendizaje.practicum.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
+/**
+ * Entity que representa un usuario con rol 'estudiante' el cual está matriculado en la asignatura de prácticas de su grado correspondiente.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Getter

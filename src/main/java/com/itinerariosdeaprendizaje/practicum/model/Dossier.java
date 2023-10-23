@@ -2,17 +2,19 @@ package com.itinerariosdeaprendizaje.practicum.model;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
 import java.util.Date;
+
+/**
+ * Entity que representa el Dossier o Informe final elaborado por un alumno concreto.
+ * Modelados campos en el mismo orden en que aparecen en la tabla DOSSIER.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data
-/*@Getter
-@Setter
-@ToString*/
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="DOSSIER", schema="USER_UR")

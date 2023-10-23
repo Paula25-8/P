@@ -3,11 +3,10 @@ package com.itinerariosdeaprendizaje.practicum.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import oracle.sql.CLOB;
 
 /**
- * Entity que representa un Pregunta General. Modelados campos en el mismo orden
- * en que aparecen en la tabla PREGUNTA_GENERAL.
+ * Entity que representa una Pregunta General a través de la cual se transmitirá la información general de la API.
+ * Modelados campos en el mismo orden en que aparecen en la tabla PREGUNTA_GENERAL.
  *
  * @author patoledo
  */

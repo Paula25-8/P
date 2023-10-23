@@ -5,9 +5,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * Entity que representa la nota de un tutor de centro educativo a un prácticum concreto de un alumno.
+ * Modelados campos en el mismo orden en que aparecen en la tabla NOTA_TUTOR_CENTRO.
+ *
+ * @author patoledo
+ */
 
 @Entity
 @Data

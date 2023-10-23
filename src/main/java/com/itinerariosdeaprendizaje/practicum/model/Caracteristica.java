@@ -5,6 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+/**
+ * Entity que representa una Característica de las que conforman un sello de calidad.
+ * Modelados campos en el mismo orden en que aparecen en la tabla CARACTERISTICA.
+ *
+ * @author patoledo
+ */
+
 @Entity
 @Data
 @Table(name = "CARACTERISTICA", schema = "USER_UR")
